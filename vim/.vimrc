@@ -80,6 +80,7 @@ set termguicolors
 
 let g:tokyonight_style = 'storm'
 let g:airline_theme = 'tokyonight'
+let g:qs_highlight_on_keys = [ 'f', 'F', 't', 'T' ]
 
 colorscheme tokyonight
 
