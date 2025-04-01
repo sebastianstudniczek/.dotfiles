@@ -1,0 +1,31 @@
+# import local .gitconfig 
+[include]
+	path = ~/.gitconfig.local
+[init]
+	defaultBranch = main
+[core]
+	editor = vim
+	pager = delta
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true # use n and N to move between diff sections
+	dark = true
+[merge]
+	conflictstyle = zdiff3
+[alias]
+	l = log -20 --graph --pretty=format:'%C(yellow)%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	logline = log --graph --pretty=format:'%Cyellow%h%Creset -%C(red)%d%Creset %s %Cgreen(%cr) %C(bright blue)<%an>%Creset' --abbrev-commit
+	s = status
+	a = add
+	c = commit
+	w = worktree
+	amend = commit --amend --no-edit
+[pager]
+	log = true
+[pull]
+	rebase = true
+[rebase]
+	autosquash = true
+[color]
+	ui = true
