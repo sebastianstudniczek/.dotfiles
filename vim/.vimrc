@@ -59,7 +59,7 @@ Plug 'dbakker/vim-paragraph-motion'
 " Extended matching
 Plug 'chrisbra/matchit'
 
-Plug 'ghifarit53/tokyonight-vim'
+Plug 'joshdick/onedark.vim'
 
 " QuickScope
 Plug 'unblevable/quick-scope'
@@ -78,11 +78,10 @@ let mapleader=" "
 " but for Wezterm you need to set termguicolors and specific colorscheme
 set termguicolors
 
-let g:tokyonight_style = 'storm'
-let g:airline_theme = 'tokyonight'
-let g:qs_highlight_on_keys = [ 'f', 'F', 't', 'T' ]
+colorscheme onedark 
 
-colorscheme tokyonight
+let g:airline_theme = 'onedark'
+let g:qs_highlight_on_keys = [ 'f', 'F', 't', 'T' ]
 
 " Get the defaults that most users want.
 source $VIMRUNTIME/defaults.vim

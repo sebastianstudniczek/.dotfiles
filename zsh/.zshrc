@@ -71,8 +71,12 @@ export ZSH="$HOME/.oh-my-zsh"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
+
+
 export PATH=$PATH:~/.local/bin:~/go/bin
 export BROWSER="/mnt/c/Program\\ Files\\ (x86)/Microsoft/Edge/Application/msedge.exe"
+
+
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -105,11 +109,13 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias bat=batcat
 alias ls="eza --icons"
+alias d=dotnet
 # Windows aliases
 alias e="/mnt/c/Windows/explorer.exe"
 # $USERPROFILE variable comes from windows $WSLENV:USERPROFILE
 alias rd="$USERPROFILE/AppData/Local/Programs/Rider/bin/rider64.exe"
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh source ~/fzf-git.sh
+source ~/fzf-git.sh
+source ~/.fzf.zsh
 
 eval "$(oh-my-posh init zsh --config ~/montys_custom.omp.json)"
