@@ -72,6 +72,7 @@ set hlsearch
 set smartcase
 set ignorecase
 set clipboard+=unnamedplus
+set matchpairs+=<:>
 let mapleader=" "
 
 " Looks like Windows Terminal is pushing terminal colors to vim

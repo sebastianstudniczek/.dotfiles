@@ -11,6 +11,9 @@ source ~/_vimrc
 " text scroll if you mouse-click near the start or end of the window.
 set scrolloff=5
 
+" Smart line join
+set ideajoin
+
 " Don't use Ex mode, use Q for formatting.
 map Q gq
 
