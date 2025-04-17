@@ -66,9 +66,10 @@ Plug 'unblevable/quick-scope'
 
 Plug 'tpope/vim-sensible'
 
+Plug 'chaoren/vim-wordmotion'
+
 call plug#end()
 
-set hlsearch
 set smartcase
 set ignorecase
 set clipboard+=unnamedplus
@@ -83,6 +84,11 @@ colorscheme onedark
 
 let g:airline_theme = 'onedark'
 let g:qs_highlight_on_keys = [ 'f', 'F', 't', 'T' ]
+
+" Mappings
+
+" Remove search higlight
+noremap <Esc> :nohlsearch<cr>
 
 " Get the defaults that most users want.
 source $VIMRUNTIME/defaults.vim
