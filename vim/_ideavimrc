@@ -6,6 +6,11 @@
 " Source your _vimrc
 source ~/_vimrc
 
+" There is some problem with using tpope/vim-sensible from _vimrc
+" thus setting it explicitly
+set incsearch
+set hlsearch
+
 "" -- Suggested options --
 " Show a few lines of context around the cursor. Note that this makes the
 " text scroll if you mouse-click near the start or end of the window.
@@ -17,15 +22,24 @@ set ideajoin
 " Don't use Ex mode, use Q for formatting.
 map Q gq
 
-"" Map rt to run unit test
 " Consider camelCase, PascalCase and snake_case words 
 map w [w
 map e ]w
 map b [b
 map ge [b
 
+" Create splits
+map <leader>wv <Action>(SplitVertically)
+map <leader>wh <Action>(SplitHorizontally)
+map <leader>wc <Action>(Unsplit)
+map <leader>wa <Action>(UnsplitAll)
+
+" Run unit tests
 nmap <leader>rt <Action>(RiderUnitTestRunContextAction)
 nmap <leader>dt <Action>(RiderUnitTestDebugContextAction)
+
+" Navigation
+map <leader>gt <Action>(GotoTest)
 
 " Harpoon
 nmap <M-j> <action>(HarpoonerOpenFile0)
