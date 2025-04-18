@@ -15,7 +15,7 @@ oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH\montys_custom.omp.json" | I
 Invoke-Expression (& { (zoxide init powershell | Out-String) })
 
 # Import local config
-$localConfigPath = $HOME\Documents\PowerShell\Microsoft.PowerShell_profile.local.ps1  
+$localConfigPath = "$HOME\Documents\PowerShell\Microsoft.PowerShell_profile.local.ps1"
 if (Test-Path $localConfigPath) {
     . $localConfigPath
 }
