@@ -22,12 +22,6 @@ set ideajoin
 " Don't use Ex mode, use Q for formatting.
 map Q gq
 
-" Consider camelCase, PascalCase and snake_case words 
-map w [w
-map e ]w
-map b [b
-map ge [b
-
 " Create splits
 map <leader>wv <Action>(SplitVertically)
 map <leader>wh <Action>(SplitHorizontally)
