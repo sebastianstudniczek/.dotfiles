@@ -12,6 +12,7 @@ if ($host.Name -eq 'ConsoleHost') {
 }
 
 oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH\montys_custom.omp.json" | Invoke-Expression
+Invoke-Expression (& { (zoxide init powershell | Out-String) })
 
 # Import local config
 $localConfigPath = $HOME\Documents\PowerShell\Microsoft.PowerShell_profile.local.ps1  
@@ -118,7 +119,7 @@ Function Change-Branch {
 }
 
 Function Change-Worktree {
-    git worktree list | Invoke-Fzf | ForEach-Object { $_.Split(" ")[0] } | Set-Location
+    git worktree list | Invoke-Fzf -Layout reverse -Height 50% | ForEach-Object { $_.Split(" ")[0] } | Set-Location
     # Get-ChildItem | Where-Object { $_.Name -like '*.sln' } | ForEach-Object { start $_.Name }
 }
 
