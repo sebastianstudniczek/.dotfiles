@@ -80,11 +80,9 @@ set clipboard+=unnamedplus
 set matchpairs+=<:>
 let mapleader=" "
 
-" Looks like Windows Terminal is pushing terminal colors to vim
-" but for Wezterm you need to set termguicolors and specific colorscheme
+" Required for Windows Terminal to properly display colors
+" causes problems in wezterm and Mica is not working
 set termguicolors
-
-colorscheme onedark 
 
 let g:airline_theme = 'onedark'
 let g:qs_highlight_on_keys = [ 'f', 'F', 't', 'T' ]
