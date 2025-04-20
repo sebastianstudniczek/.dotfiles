@@ -73,7 +73,7 @@ export ZSH="$HOME/.oh-my-zsh"
 plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
 
 
-export PATH=$PATH:~/.local/bin:~/go/bin
+export PATH=$PATH:~/.local/bin:~/go/bin:~/.dotnet/tools
 export BROWSER="/mnt/c/Program\\ Files\\ (x86)/Microsoft/Edge/Application/msedge.exe"
 
 
