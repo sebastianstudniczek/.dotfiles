@@ -11,7 +11,7 @@ if ($host.Name -eq 'ConsoleHost') {
     Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
 }
 
-oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH\montys_custom.omp.json" | Invoke-Expression
+oh-my-posh init pwsh --config "$HOME\.config\oh-my-posh\montys_custom.omp.json" | Invoke-Expression
 Invoke-Expression (& { (zoxide init powershell | Out-String) })
 
 # Import local config
