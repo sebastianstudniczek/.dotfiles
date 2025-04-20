@@ -11,6 +11,7 @@
 "	      for Haiku:  ~/config/settings/vim/vimrc
 "	    for OpenVMS:  sys$login:.vimrc
 
+" Display different cursors for different mode
 let &t_SI = "\<Esc>[6 q"
 let &t_SR = "\<Esc>[4 q"
 let &t_EI = "\<Esc>[2 q"
@@ -19,6 +20,9 @@ let &t_EI = "\<Esc>[2 q"
 if v:progname =~? "evim"
   finish
 endif
+
+set langmenu=en_US
+let $LANG = 'en_US'
 
 call plug#begin()
 
