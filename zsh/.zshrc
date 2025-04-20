@@ -118,4 +118,4 @@ alias rd="$USERPROFILE/AppData/Local/Programs/Rider/bin/rider64.exe"
 source ~/fzf-git.sh
 source ~/.fzf.zsh
 
-eval "$(oh-my-posh init zsh --config ~/montys_custom.omp.json)"
+eval "$(oh-my-posh init zsh --config ~/.config/oh-my-posh/montys_custom.omp.json)"
