@@ -92,7 +92,7 @@ let g:qs_highlight_on_keys = [ 'f', 'F', 't', 'T' ]
 " Mappings
 
 " Remove search higlight
-noremap <Esc> :nohlsearch<cr>
+nnoremap <Esc> :nohlsearch<cr>
 
 " Get the defaults that most users want.
 source $VIMRUNTIME/defaults.vim
