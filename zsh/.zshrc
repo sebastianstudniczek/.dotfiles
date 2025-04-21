@@ -18,7 +18,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # much, much faster.
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting fzf-tab)
 
 export PATH=$PATH:~/.local/bin:~/go/bin:~/.dotnet/tools
 export BROWSER="/mnt/c/Program\\ Files\\ (x86)/Microsoft/Edge/Application/msedge.exe"
