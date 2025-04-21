@@ -115,7 +115,19 @@ alias e="/mnt/c/Windows/explorer.exe"
 # $USERPROFILE variable comes from windows $WSLENV:USERPROFILE
 alias rd="$USERPROFILE/AppData/Local/Programs/Rider/bin/rider64.exe"
 
+# source ~/.antidote/antidote.zsh
+# Initialize plugins statically with ~/.zsh_plugins.txt
+# antidote load
+# zstyle ':autocomplete:*' default-context history-incremental-search-backward
+# zstyle ':autocomplete:history-incremental-search-backward:*' min-input 1
+# zstyle ':autocomplete:*' min-input 2
+# zstyle ':autocomplete:history-incremental-search-backward:*' list-lines 10
+
 source ~/fzf-git.sh
 source ~/.fzf.zsh
+
+
+bindkey '^I' complete-word # tab | complete
+# bindkey '^[[Z' autosuggest-accept # shift + tab | autosuggest
 
 eval "$(oh-my-posh init zsh --config ~/.config/oh-my-posh/montys_custom.omp.json)"
