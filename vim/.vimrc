@@ -86,11 +86,22 @@ set termguicolors
 
 let g:airline_theme = 'onedark'
 let g:qs_highlight_on_keys = [ 'f', 'F', 't', 'T' ]
+let g:wordmotion_prefix = ','
 
 " Mappings
 
 " Remove search higlight
 nnoremap <Esc> :nohlsearch<cr>
+
+" Move lines up and down
+nnoremap <A-j> :m .+1<CR>==
+nnoremap <A-k> :m .-2<CR>==
+inoremap <A-j> <Esc>:m .+1<CR>==gi
+inoremap <A-j> <Esc>:m .-2<CR>==gi
+" '> - selection end
+" '< - selection start
+vnoremap <A-j> :m '>+1<CR>gv=gv
+vnoremap <A-k> :m '<-2<CR>gv=gv
 
 " Get the defaults that most users want.
 source $VIMRUNTIME/defaults.vim

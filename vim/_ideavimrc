@@ -35,6 +35,12 @@ nmap <leader>dt <Action>(RiderUnitTestDebugContextAction)
 " Navigation
 map <leader>gt <Action>(GotoTest)
 
+" Consider camelCase, PascalCase and snake_case words 
+nmap ,w [w
+nmap ,e ]w
+nmap ,b [b
+nmap ,ge [b
+
 " Harpoon
 nmap <M-j> <action>(HarpoonerOpenFile0)
 nmap <M-k> <action>(HarpoonerOpenFile1)
