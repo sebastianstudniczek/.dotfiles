@@ -32,10 +32,6 @@ Plug 'machakann/vim-highlightedyank'
 " Commentary plugin
 Plug 'tpope/vim-commentary'
 
-" Status bar plugin
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-
 " FZF
 Plug 'junegunn/fzf'
 
@@ -72,7 +68,15 @@ Plug 'tpope/vim-sensible'
 
 Plug 'chaoren/vim-wordmotion'
 
+Plug 'rose-pine/vim'
+
+" Status bar plugin
+Plug 'itchyny/lightline.vim'
+
 call plug#end()
+
+" Get the defaults that most users want.
+source $VIMRUNTIME/defaults.vim
 
 set smartcase
 set ignorecase
@@ -84,12 +88,14 @@ let mapleader=" "
 " causes problems in wezterm and Mica is not working
 set termguicolors
 
-let g:airline_theme = 'onedark'
+let g:lightline = { 'colorscheme': 'rosepine_moon' }
 let g:qs_highlight_on_keys = [ 'f', 'F', 't', 'T' ]
 let g:wordmotion_prefix = ','
 
-" Mappings
+colorscheme rosepine_moon
+hi Normal ctermbg=NONE guibg=NONE
 
+" Mappings
 " Remove search higlight
 nnoremap <Esc> :nohlsearch<cr>
 
@@ -103,9 +109,6 @@ inoremap <A-j> <Esc>:m .-2<CR>==gi
 vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
 
-" Get the defaults that most users want.
-source $VIMRUNTIME/defaults.vim
-
 if has("vms")
   set nobackup		" do not keep a backup file, use versions instead
 else
@@ -113,11 +116,6 @@ else
   if has('persistent_undo')
     set undofile	" keep an undo file (undo changes after closing)
   endif
-endif
-
-if &t_Co > 2 || has("gui_running")
-  " Switch on highlighting the last used search pattern.
-  set hlsearch
 endif
 
 " Put these in an autocmd group, so that we can delete them easily.
