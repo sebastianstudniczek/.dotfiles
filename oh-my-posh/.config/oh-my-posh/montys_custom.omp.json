@@ -40,9 +40,10 @@
           "properties": {
             "fetch_stash_count": true,
             "fetch_status": true,
-            "fetch_upstream_icon": true
+            "fetch_upstream_icon": true,
+            "fetch_bare_info": true
           },
-          "template": "{{ if .UpstreamURL }}{{ url .UpstreamIcon .UpstreamURL }}{{ end }} {{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if .Staging.Changed }} \uf046 {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }} \uf692 {{ .StashCount }}{{ end }}",
+          "template": "{{ if .UpstreamURL }}{{ url .UpstreamIcon .UpstreamURL }}{{ end }} {{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if .Staging.Changed }} \uf046 {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }} \uf0c7 {{ .StashCount }}{{ end }}",
           "foreground": "black",
           "powerline_symbol": "\ue0b0",
           "background": "#FCA17D",
