@@ -78,6 +78,7 @@ call plug#end()
 " Get the defaults that most users want.
 source $VIMRUNTIME/defaults.vim
 
+set hlsearch
 set smartcase
 set ignorecase
 set clipboard+=unnamedplus
