@@ -21,6 +21,7 @@ if (Test-Path $localConfigPath) {
 }
 
 Set-Alias ls GetChildItemsSortByNames
+Set-Alias lg lazygit
 Set-Alias g git
 Set-Alias d dotnet
 Set-Alias e explorer
