@@ -20,6 +20,8 @@
 	c = commit
 	w = worktree
 	amend = commit --amend --no-edit
+	pf = push origin --force
+	rc = rebase --continue
 [pager]
 	log = true
 [pull]
