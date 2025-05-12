@@ -83,6 +83,7 @@ set smartcase
 set ignorecase
 set clipboard+=unnamedplus
 set matchpairs+=<:>
+set ts=4 sw=4
 let mapleader=" "
 
 " Required for Windows Terminal to properly display colors
