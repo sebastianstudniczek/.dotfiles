@@ -88,13 +88,13 @@ let mapleader=" "
 
 " Required for Windows Terminal to properly display colors
 " causes problems in wezterm and Mica is not working
-set termguicolors
+" set termguicolors
+" colorscheme rosepine_moon
 
 let g:lightline = { 'colorscheme': 'rosepine_moon' }
 let g:qs_highlight_on_keys = [ 'f', 'F', 't', 'T' ]
 let g:wordmotion_prefix = ','
 
-colorscheme rosepine_moon
 hi Normal ctermbg=NONE guibg=NONE
 
 " Mappings
