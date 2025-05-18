@@ -33,7 +33,7 @@ Plug 'machakann/vim-highlightedyank'
 Plug 'tpope/vim-commentary'
 
 " FZF
-Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
 
 " Sneak
 Plug 'justinmk/vim-sneak'
