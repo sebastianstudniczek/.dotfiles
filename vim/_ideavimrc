@@ -34,6 +34,10 @@ nmap <leader>dt <Action>(RiderUnitTestDebugContextAction)
 
 " Navigation
 map <leader>gt <Action>(GotoTest)
+map <leader>sh <Action>(ShowHoverInfo)
+
+" Refactors
+map <leader>sw <Action>(SurroundWith)
 
 " Consider camelCase, PascalCase and snake_case words 
 nmap ,w [w
