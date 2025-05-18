@@ -106,6 +106,7 @@ Function Get-ExecutablePath($executable) {
 Function Fix-Commit {
     git commit --fixup $(Invoke-PsFzfGitHashes)
 }
+$env:XDG_CONFIG_HOME = "$HOME\.config"
 
 Function Rebase-Commit {
     git rebase --interactive $(Invoke-PsFzfGitHashes)
