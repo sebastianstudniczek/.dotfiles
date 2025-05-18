@@ -89,6 +89,8 @@ set clipboard+=unnamedplus
 set matchpairs+=<:>
 set ts=4 sw=4
 let mapleader=" "
+set number
+set relativenumber
 
 " Required for Windows Terminal to properly display colors
 " causes problems in wezterm and Mica is not working
