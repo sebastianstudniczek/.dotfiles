@@ -31,6 +31,7 @@ Set-Alias ga GitFuzzyAdd
 Set-Alias cf FuzzyGoTo
 Set-Alias which Get-ExecutablePath
 Set-Alias zl Invoke-ZLocation
+Set-Alias cw Create-Worktree
 
 # FZF - Git 
 Set-Alias fgs Invoke-FuzzyGitStatus
@@ -40,6 +41,8 @@ Set-Alias fgf Fix-Commit
 Set-Alias fgr Rebase-Commit
 Set-Alias fgt Reset-Commit
 Set-Alias fgw Change-Worktree
+Set-Alias op Open-Project
+Set-Alias os Open-Solution
 
 $PsReadLineOptions = @{
     PredictionSource    = "History"
@@ -50,6 +53,21 @@ Set-PSReadLineOption @PsReadLineOptions
 
 # Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
 # Set-PSFzfOption -TabExpansion
+$env:_PSFZF_FZF_DEFAULT_OPTS = '--height 50%'
+# Set shell to fzf uses pwsh instead of cmd
+$env:SHELL = 'pwsh'
+
+<#
+	.DESCRIPTION
+	Assumes creating worktree with new branch
+#>
+Function Create-Worktree([String]$branchName) {
+	$worktreeFolderName = $branchName.Split('/')[1]
+	git worktree add -b $branchName $worktreeFolderName master
+	zoxide add $(Join-Path -Path $(Get-Location) -ChildPath $worktreeFolderName)
+}
+
+Set-PSReadLineKeyHandler -Chord Ctrl+Shift+O -ScriptBlock { Open-Project }
 
 Function y {
     $tmp = [System.IO.Path]::GetTempFileName()
@@ -59,6 +77,10 @@ Function y {
         Set-Location -LiteralPath ([System.IO.Path]::GetFullPath($cwd))
     }
     Remove-Item -Path $tmp
+}
+
+Function Open-Solution {
+	start $(Get-ChildItem -Filter *.sln -File | Select -First 1)
 }
 
 # Assumes ticket number in branch name (eg. SEB-125-new-feature)
@@ -87,13 +109,12 @@ Function CreatePR {
     $featureName = $featurePart.Substring(0, 1).ToUpper() + $featurePart.Substring(1)
     $prTitle = '[' + $ticket + '] ' + $featureName
     Write-Host "Pushing branch: $(git branch --show-current)" -ForegroundColor Green
-    try {
-        git push -u origin HEAD
-    }
-    catch {
-        Write-Host "Failed to push branch" -ForegroundColor Red
-        return
-    }
+
+	git push -u origin HEAD
+	if ($? -ne $true) {
+		Write-Host "Failed to push branch" -ForegroundColor Red
+		return
+	}
 
     Write-Host "Creating PR: $prTitle..." -ForegroundColor Green
     gh pr create --body $finalContent --title $prTitle --web
@@ -123,6 +144,21 @@ Function Change-Branch {
 Function Change-Worktree {
     git worktree list | Invoke-Fzf -Layout reverse -Height 50% | ForEach-Object { $_.Split(" ")[0] } | Set-Location
     # Get-ChildItem | Where-Object { $_.Name -like '*.sln' } | ForEach-Object { start $_.Name }
+}
+
+# Required for glow to show properly in fzf preview
+$env:COLORTERM='truecolor'
+$env:CLICOLOR_FORCE=1
+
+Function Open-Project {
+	Get-ChildItem -Dept 2 -Path D:\ *.sln `
+	| Select -ExpandProperty DirectoryName `
+	| fzf `
+		--layout reverse `
+		--header " ^r rider ^v vscode" `
+		--preview 'glow -p -s dark $(Get-ChildItem -Path {} -File README.md | Select-Object -First 1)' `
+		--bind 'ctrl-r:execute(Start-Process $(Get-ChildItem -Path {} -Filter *.sln | Select--Object -First 1))+abort' `
+		--bind 'ctrl-v:execute(code {})+abort'
 }
 
 Function Change-Commit {

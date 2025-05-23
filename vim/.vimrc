@@ -23,6 +23,7 @@ endif
 
 set langmenu=en_US
 let $LANG = 'en_US'
+set nocompatible
 
 call plug#begin()
 
@@ -73,10 +74,14 @@ Plug 'rose-pine/vim'
 " Status bar plugin
 Plug 'itchyny/lightline.vim'
 
+" Lsp
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
+
+Plug 'sheerun/vim-polyglot'
+
 call plug#end()
 
 " Get the defaults that most users want.
@@ -85,9 +90,11 @@ source $VIMRUNTIME/defaults.vim
 set hlsearch
 set smartcase
 set ignorecase
-set clipboard+=unnamedplus
+set clipboard+=unnamed
 set matchpairs+=<:>
 set ts=4 sw=4
+set relativenumber
+set number
 let mapleader=" "
 set number
 set relativenumber

@@ -26,15 +26,16 @@ config.window_frame = {
 	active_titlebar_bg = 'rgba(0, 0, 0, 0)'
 }
 
+-- FG color to match rose pine theme
 config.colors = {
 	tab_bar = {
 		inactive_tab = {
 			bg_color = 'rgba(0, 0, 0, 0.26)',
-			fg_color = '#e0def4'
+			fg_color = '#aa92ca'
 		},
 		active_tab = {
 			bg_color = 'rgba(0, 0, 0, 0)',
-			fg_color = '#e0def4'
+			fg_color = '#f6c177'
 		},
 		background = 'rgba(0, 0, 0, 0.26)'
 	}
@@ -42,15 +43,20 @@ config.colors = {
 
 -- print the workspace name at the upper right
 wezterm.on("update-right-status", function(window, pane)
-	window:set_right_status(window:active_workspace())
+	window:set_right_status(wezterm.format({
+		{ Foreground = { Color = "#aa92ca" } },
+		{ Text = window:active_workspace() }
+	}))
+end)
 end)
 
--- load plugin
+-- Workspace switcher
 local workspace_switcher = wezterm.plugin.require("https://github.com/MLFlexer/smart_workspace_switcher.wezterm")
 
 -- keymaps
 -- timeout_milliseconds defaults to 1000 and can be omitted
 -- mimic tmux
+config.default_workspace = "~"
 config.leader = { key = 'a', mods = 'CTRL', timeout_milliseconds = 1000 }
 
 table.insert(keys, { key = "s", mods = "LEADER", action = workspace_switcher.switch_workspace() })
