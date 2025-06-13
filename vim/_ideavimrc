@@ -1,17 +1,14 @@
-" .ideavimrc is a configuration file for IdeaVim plugin. It uses
-"   the same commands as the original .vimrc configuration.
 " You can find a list of commands here: https://jb.gg/h38q75
 " Find more examples here: https://jb.gg/share-ideavimrc
 
-" Source your _vimrc
 source ~/_vimrc
+
 
 " There is some problem with using tpope/vim-sensible from _vimrc
 " thus setting it explicitly
 set incsearch
 set hlsearch
 
-"" -- Suggested options --
 " Show a few lines of context around the cursor. Note that this makes the
 " text scroll if you mouse-click near the start or end of the window.
 set scrolloff=5
@@ -19,25 +16,78 @@ set scrolloff=5
 " Smart line join
 set ideajoin
 
+"" Which key
+set which-key
+set notimeout
+let g:WhichKey_ShowTypedSequence = "true"
+let g:WhichKeyDesc_easy_motion = "<Space><Space> Easy Motion"
+let g:WhichKeyDesc_nerd_tree = "<Space>n Open Nerd Tree"
+
 " Don't use Ex mode, use Q for formatting.
 map Q gq
 
-" Create splits
-map <leader>wv <Action>(SplitVertically)
-map <leader>wh <Action>(SplitHorizontally)
-map <leader>wc <Action>(Unsplit)
-map <leader>wa <Action>(UnsplitAll)
+"" Config
+let g:WhichKeyDesc_config_edit = "<Space>cc Edit"
+map <leader>cc :edit ~/.ideavimrc<cr>
 
-" Run unit tests
-nmap <leader>rt <Action>(RiderUnitTestRunContextAction)
-nmap <leader>dt <Action>(RiderUnitTestDebugContextAction)
+let g:WhichKeyDesc_config_source = "<Space>cs Source"
+map <leader>cs :source ~/.ideavimrc<cr>
+
+"" Create splits
+let g:WhichKeyDesc_windows = "<Space>w Windows"
+
+let g:WhichKeyDesc_windows_split_vertically = "<Space>wv Split vertically"
+map <leader>wv <Action>(SplitVertically)
+
+let g:WhichKeyDesc_windows_split_horizontally = "<Space>wh Split horizontally"
+map <leader>wh <Action>(SplitHorizontally)
+
+let g:WhichKeyDesc_windows_unsplit = "<Space>wu Unsplit"
+let g:WhichKeyDesc_windows_unsplit_current = "<Space>wuc Current"
+map <leader>wuc <Action>(Unsplit)
+
+let g:WhichKeyDesc_windows_unsplit_all = "<Space>wua All"
+map <leader>wua <Action>(UnsplitAll)
+
+"" Unit tests
+let g:WhichKeyDesc_unit_test = "<Space>u UnitTests"
+
+let g:WhichKeyDesc_unit_test_run = "<Space>ur Run"
+nmap <leader>ur <Action>(RiderUnitTestRunContextAction)
+
+let g:WhichKeyDesc_unit_test_debug = "<Space>ud Debug"
+nmap <leader>ud <Action>(RiderUnitTestDebugContextAction)
 
 " Navigation
 map <leader>gt <Action>(GotoTest)
 map <leader>sh <Action>(ShowHoverInfo)
+map <leader>en <Action>(GotoNextError)
+map <leader>ep <Action>(GotoPreviousError)
+map <leader>lc <Action>(JumpToLastChange)
+map <leader>ll <Action>(RecentLocations)
+map <C-;> <Action>(RecentFiles)
+map <leader>tn <Action>(NextTab)
+map <leader>tp <Action>(PreviousTab)
+
+"" File management
+map <leader>fsn <Action>(NewScratchFile)
+map <leader>fqc <Action>(CloseContent)
+map <leader>fqa <Action>(CloseAllEditors)
+map <leader>fn <Action>(NewFile)
+" Show currently opened file in explorer
+map <leader>fsc <Action>(SelectInProjectView)
+map <leader>dn <Action>(NewDir)
+map <leader>fr <Action>(RenameFile)
 
 " Refactors
 map <leader>sw <Action>(SurroundWith)
+map <S-k> <Action>(EditorDuplicateLines)
+map <leader>ct <Action>(EditorCompleteStatement)
+map <leader>oi <Action>(OptimizeImports)
+
+" Moving code
+map <C-M-j> <Action>(MoveStatementDown)
+map <C-M-k> <Action>(MoveStatementUp)
 
 " Consider camelCase, PascalCase and snake_case words 
 nmap ,w [w
@@ -45,16 +95,24 @@ nmap ,e ]w
 nmap ,b [b
 nmap ,ge [b
 
-" Harpoon
+"" Harpoon
 nmap <M-j> <action>(HarpoonerOpenFile0)
 nmap <M-k> <action>(HarpoonerOpenFile1)
 nmap <M-l> <action>(HarpoonerOpenFile2)
 nmap <M-;> <action>(HarpoonerOpenFile3)
 
+let g:WhichKeyDesc_harpoon = "<Space>h Harpoon"
+
+let g:WhichKeyDesc_harpoon_quick_menu = "<Space>hm Quick Menu"
 nmap <leader>hm <action>(HarpoonerQuickMenu)
+
+let g:WhichKeyDesc_harpoon_add_file = "<Space>ha Add File"
 nmap <leader>ha <action>(HarpoonerAddFile)
 
+let g:WhichKeyDesc_harpoon_next_file = "<Space>hn Next File"
 nmap <leader>hn <action>(HarpoonerNextFileAction)
+
+let g:WhichKeyDesc_harpoon_previous_file = "<Space>hp Previous File"
 nmap <leader>hp <action>(HarpoonerPreviousFileAction)
 
 " Move lines up and down
@@ -63,14 +121,12 @@ vmap K <action>(MoveLineUp)
 nmap <C-j> <action>(MoveLineDown)
 nmap <C-k> <action>(MoveLineUp)
 
-" --- Enable IdeaVim plugins https://jb.gg/ideavim-plugins
+" -- Map IDE actions to IdeaVim -- https://jb.gg/abva4t
+" Map \r to the Reformat Code action
+map \r <Action>(ReformatCode)
 
-"" -- Map IDE actions to IdeaVim -- https://jb.gg/abva4t
-"" Map \r to the Reformat Code action
-"map \r <Action>(ReformatCode)
+" Map <leader>d to start debug
+map <leader>rd <Action>(Debug)
 
-"" Map <leader>d to start debug
-"map <leader>d <Action>(Debug)
-
-"" Map \b to toggle the breakpoint on the current line
-"map \b <Action>(ToggleLineBreakpoint)
+" Map \b to toggle the breakpoint on the current line
+map \b <Action>(ToggleLineBreakpoint)
