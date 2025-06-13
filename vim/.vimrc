@@ -34,6 +34,7 @@ Plug 'machakann/vim-highlightedyank'
 Plug 'tpope/vim-commentary'
 
 " FZF
+Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 
 " Sneak
@@ -80,7 +81,9 @@ Plug 'mattn/vim-lsp-settings'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
-Plug 'sheerun/vim-polyglot'
+Plug 'preservim/nerdtree'
+Plug 'easymotion/vim-easymotion'
+Plug 'liuchengxu/vim-which-key'
 
 call plug#end()
 
@@ -124,7 +127,7 @@ augroup END
 
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
+" inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
 
 " Mappings
 " Remove search higlight
@@ -139,6 +142,20 @@ inoremap <A-j> <Esc>:m .-2<CR>==gi
 " '< - selection start
 vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
+
+" Nerdtree
+nnoremap <leader>n :NERDTreeFocus<CR>
+nnoremap <C-n> :NERDTree<CR>
+nnoremap <C-t> :NERDTreeToggle<CR>
+nnoremap <C-f> :NERDTreeFind<CR>
+
+" WhichKey
+nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
+
+" Fzf
+nmap <leader><tab> <plug>(fzf-maps-n)
+xmap <leader><tab> <plug>(fzf-map-x)
+omap <leader><tab> <plug>(fzf-map-o)
 
 if has("vms")
   set nobackup		" do not keep a backup file, use versions instead
