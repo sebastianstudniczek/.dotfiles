@@ -18,7 +18,12 @@ config = {
 	tab_bar_at_bottom = true,
 	tab_max_width = 500,
 	win32_system_backdrop = 'Mica',
-	window_background_opacity = 0.0
+	window_background_opacity = 0.0,
+	-- Run as WT so PSFzf is treating wezterm as capable terminal
+	-- to display colorfull output and to properly use git helpers
+	set_environment_variables = {
+		WT_Session = 'Fake-Session'
+	}
 }
 
 -- Match Mica effect
@@ -47,7 +52,6 @@ wezterm.on("update-right-status", function(window, pane)
 		{ Foreground = { Color = "#aa92ca" } },
 		{ Text = window:active_workspace() }
 	}))
-end)
 end)
 
 -- Workspace switcher

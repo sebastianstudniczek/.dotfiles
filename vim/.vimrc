@@ -129,7 +129,7 @@ inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 " inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
 
-" Mappings
+"" Mappings
 " Remove search higlight
 nnoremap <Esc> :nohlsearch<cr>
 
@@ -156,6 +156,7 @@ nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
 nmap <leader><tab> <plug>(fzf-maps-n)
 xmap <leader><tab> <plug>(fzf-map-x)
 omap <leader><tab> <plug>(fzf-map-o)
+nmap <leader>fc :Files ~\.dotfiles<CR>
 
 if has("vms")
   set nobackup		" do not keep a backup file, use versions instead
