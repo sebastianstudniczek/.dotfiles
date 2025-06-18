@@ -3,7 +3,6 @@
 
 source ~/_vimrc
 
-
 " There is some problem with using tpope/vim-sensible from _vimrc
 " thus setting it explicitly
 set incsearch
@@ -55,8 +54,8 @@ map <leader>wv <Action>(MoveTabRight)
 
 let g:WhichKeyDesc_windows_split_horizontally = "<Space>wh Split horizontally"
 map <leader>wh <Action>(MoveTabDown)
-let g:WhichKeyDesc_windows_unsplit = "<Space>wu Unsplit"
-let g:WhichKeyDesc_windows_unsplit_current = "<Space>wu Current"
+
+let g:WhichKeyDesc_windows_unsplit_current = "<Space>wu Unsplit current"
 map <leader>wu <Action>(Unsplit)
 "let g:WhichKeyDesc_windows_unsplit_all = "<Space>wua All"
 "map <leader>wua <Action>(UnsplitAll)
@@ -95,17 +94,32 @@ map <leader>tn <Action>(NextTab)
 let g:WhichKeyDesc_tabs_next = "<Space>tp Previous"
 map <leader>tp <Action>(PreviousTab)
 
-let g:WhichKeyDesc_tabs_next = "<Space>tq Close"
-map <leader>tq <Action>(CloseContent)
-" map <leader>fqa <Action>(CloseAllEditors)
 
 "" File management
+let g:WhichKeyDesc_file = "<Space>f File"
+
+let g:WhichKeyDesc_file_new_scratch = "<Space>fsn Create scratch"
 map <leader>fsn <Action>(NewScratchFile)
+
+let g:WhichKeyDesc_file_new_file = "<Space>fn Create"
 map <leader>fn <Action>(NewFile)
+
+" map <leader>fqa <Action>(CloseAllEditors)
+let g:WhichKeyDesc_file_close = "<Space>fq Close"
+map <leader>fq <Action>(CloseContent)
+
 " Show currently opened file in explorer
+let g:WhichKeyDesc_file_show_current = "<Space>fsc Show in explorer"
 map <leader>fsc <Action>(SelectInProjectView)
-map <leader>dn <Action>(NewDir)
+
+let g:WhichKeyDesc_file_close = "<Space>fq Close"
 map <leader>fr <Action>(RenameFile)
+
+"" Dir management
+let g:WhichKeyDesc_dir = "<Space>d Directory"
+
+let g:WhichKeyDesc_dir_new = "<Space>dn New"
+map <leader>dn <Action>(NewDir)
 
 " Refactors
 map <leader>sw <Action>(SurroundWith)
@@ -117,11 +131,21 @@ map <leader>oi <Action>(OptimizeImports)
 map <C-M-j> <Action>(MoveStatementDown)
 map <C-M-k> <Action>(MoveStatementUp)
 
-" Consider camelCase, PascalCase and snake_case words 
+" Consider camelCase, PascalCase and snake_case words
+let g:WhichKeyDesc_word = ", Word (respect case)"
+
+let g:WhichKeyDesc_word_next = ",w Next"
 nmap ,w [w
+
+let g:WhichKeyDesc_word_current_end = ",e Current's end"
 nmap ,e ]w
+
+let g:WhichKeyDesc_word_previous = ",b Previous"
 nmap ,b [b
-nmap ,ge [b
+
+let g:WhichKeyDesc_word_current = ",g Current "
+let g:WhichKeyDesc_word_current_start = ",ge Start"
+nmap ,ge ]b
 
 "" Harpoon
 nmap <M-j> <action>(HarpoonerOpenFile0)

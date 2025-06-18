@@ -19,7 +19,7 @@
 ========                                                     ========
 =====================================================================
 =====================================================================
-
+== 
 What is Kickstart?
 
   Kickstart.nvim is *not* a distribution.
@@ -535,7 +535,12 @@ require("lazy").setup({
 					},
 				},
 			},
-			"mason-org/mason-lspconfig.nvim",
+			{
+				"mason-org/mason-lspconfig.nvim",
+				opts = {
+					ensure_installed = { "csharpier", "netcoredbg" },
+				},
+			},
 			"WhoIsSethDaniel/mason-tool-installer.nvim",
 
 			-- Useful status updates for LSP.
@@ -1040,6 +1045,7 @@ require("lazy").setup({
 				"query",
 				"vim",
 				"vimdoc",
+				"c_sharp",
 			},
 			-- Autoinstall languages that are not installed
 			auto_install = true,

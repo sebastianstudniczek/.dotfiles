@@ -1,9 +1,8 @@
-using namespace System.Management.Automation
+
 using namespace System.Management.Automation.Language
 
 Import-Module Terminal-Icons
-# Until will be fixed - causing misalignment right now
-# Import-Module PSFzf
+Import-Module PSFzf
 
 if ($host.Name -eq 'ConsoleHost') {
 	#Binding  for moving through history by prefix
@@ -19,13 +18,6 @@ $localConfigPath = "$HOME\Documents\PowerShell\Microsoft.PowerShell_profile.loca
 if (Test-Path $localConfigPath) {
 	. $localConfigPath
 }
-
-Get-Module PsFzf | Remove-Module
-if ([string]::IsNullOrEmpty($env:GOPATH)) {
-	$env:GOPATH = "c:\ADirectoryThatShouldNotExist\"
-}
-
-Import-Module D:\PSFzf\PSFzf.psd1 -Force
 
 Set-Alias ls GetChildItemsSortByNames
 Set-Alias lg lazygit
@@ -61,13 +53,13 @@ Set-PSReadLineOption @PsReadLineOptions
 
 Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
 Set-PSFzfOption -TabExpansion -GitKeyBindings
-$env:_PSFZF_FZF_DEFAULT_OPTS = '--height 50%'
+# $env:_PSFZF_FZF_DEFAULT_OPTS = '--height 50%'
 # Set shell to fzf uses pwsh instead of cmd
 # TODO: Fuzzy finding files withing with with plugin does not work
 $env:SHELL = 'pwsh'
 
 # Overwrites the preview-window options using `bind='start:'`
-$env:_PSFZF_FZF_DEFAULT_OPTS = "$env:FZF_DEFAULT_OPTS --bind='start:change-preview-window(hidden)'"
+$env:_PSFZF_FZF_DEFAULT_OPTS = "$env:FZF_DEFAULT_OPTS --bind='start:change-preview-window(hidden)' --height 50%"
 
 <#
 	.DESCRIPTION
@@ -148,7 +140,7 @@ Function CreatePR {
 		$branchParts = (git branch --show-current).Split('/')[1].Split('-')
 	}
  catch {
-		Write-Host "Not a git repo!" -ForegroundColor Red
+		Write-Host "Not a git repo or invalid branch name!" -ForegroundColor Red
 		return
 	}
 	$ticket = $branchParts[0..1] | Join-String -Separator '-'
