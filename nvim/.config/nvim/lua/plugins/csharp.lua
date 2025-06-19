@@ -43,6 +43,14 @@ return {
     end,
   },
   {
+    "neovim/nvim-lspconfig",
+    opts = {
+      codelens = {
+        enabled = true,
+      },
+    },
+  },
+  {
     "seblyng/roslyn.nvim",
     ft = "cs",
     ---@module 'roslyn.config'
