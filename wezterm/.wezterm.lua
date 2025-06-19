@@ -58,48 +58,47 @@ wezterm.on("update-right-status", function(window, pane)
 	}))
 end)
 
-function basename(s)
-	local programName = string.gsub(s, '(.*[/\\])(.*)(.exe)', '%2')
-	return programName:gsub('.exe', '')
+local sessionizer = wezterm.plugin.require("https://github.com/mikkasendke/sessionizer.wezterm")
+local sessionizer_zoxide = wezterm.plugin.require("https://github.com/mikkasendke/sessionizer-zoxide")
+
+local PredefinedEntries = function()
+	return function()
+		return {
+			{ label = "Dotfiles", id = wezterm.home_dir .. "\\.dotfiles" },
+		}
+	end
 end
 
--- wezterm.on("update-right-status", function(window, pane)
--- 	wezterm.log_info(pane:get_foreground_process_info())
--- 	window:set_right_status(basename(pane:get_foreground_process_name()))
--- end)
+local sessionizer_schema = {
+	options = {
+		prompt = "Workspace to switch: ",
+	},
+	{
+		sessionizer.AllActiveWorkspaces({ filter_current = false, filter_default = false }),
+		processing = sessionizer.for_each_entry(function(entry)
+			entry.label = "🪟 " .. entry.label
+		end),
+	},
+
+	{
+		PredefinedEntries(),
+		processing = sessionizer.for_each_entry(function(entry)
+			entry.label = "⚙️ " .. entry.label
+		end),
+	},
+	{
+		sessionizer_zoxide.Zoxide({}),
+		processing = sessionizer.for_each_entry(function(entry)
+			entry.label = "📁 " .. entry.label
+		end),
+	},
+	processing = sessionizer.for_each_entry(function(entry)
+		entry.label = entry.label:gsub(wezterm.home_dir, "~")
+	end),
+}
 
 
-wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
-	wezterm.log_info(tab.tab_title)
-	local pane = tab.active_pane
-	local program = pane:get_foreground_process_info()
-	local title = basename(pane.foreground_process_name)
-
-	return {
-		{Text = " " .. tab.tab_id + 1 .. ":" .. title .. " "}
-	}
-end)
-
--- Workspace switcher
-local workspace_switcher = wezterm.plugin.require("https://github.com/MLFlexer/smart_workspace_switcher.wezterm")
-
--- keymaps
--- timeout_milliseconds defaults to 1000 and can be omitted
--- mimic tmux
-config.default_workspace = "~"
-config.leader = { key = 'a', mods = 'CTRL', timeout_milliseconds = 1000 }
-
-table.insert(keys, { key = "$", mods = "LEADER", action = wezterm.action.PromptInputLine({
-	description = "Enter new name for workspace",
-	action = wezterm.action_callback(function(window, pane, line)
-			if line then 
-				wezterm.mux.rename_workspace(wezterm.mux.get_active_workspace(), line)
-			end
-	end)
-	})
-})
-
-table.insert(keys, { key = "k", mods = "CTRL", action = workspace_switcher.switch_workspace() })
+table.insert(keys, { key = "k", mods = "CTRL", action = sessionizer.show(sessionizer_schema)})
 table.insert(keys, { key = "t", mods = "CTRL", action = act.SpawnTab("CurrentPaneDomain") })
 table.insert(keys, { key = "w", mods = "CTRL", action = act.CloseCurrentTab { confirm = false }})
 
@@ -138,12 +137,6 @@ wezterm.on("gui-startup", function(cmd)
 	mux.set_active_workspace("dotfiles")
 	window:gui_window():maximize()
 end)
-
-
--- wezterm.on("gui-startup", function()
--- 	local _, _, window = mux.spawn_window({})
--- 	window:gui_window():maximize()
--- end)
 
 config.keys = keys;
 return config;
