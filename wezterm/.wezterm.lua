@@ -110,13 +110,6 @@ for i = 1, 9 do
 	})
 end
 
-workspace_switcher.workspace_formatter = function(label)
-  return wezterm.format({
-    { Foreground = { Color = "#f6c177" } },
-    { Text = "󱂬: " .. label },
-  })
-end
-
 config.default_prog = { 'pwsh.exe' }
 
 wezterm.on("gui-startup", function(cmd)
