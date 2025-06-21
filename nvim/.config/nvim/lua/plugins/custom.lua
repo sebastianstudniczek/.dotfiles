@@ -42,4 +42,18 @@ return {
       },
     },
   },
+  {
+    "folke/snacks.nvim",
+    opts = {
+      dashboard = {
+        sections = {
+          { section = "header" },
+          { section = "keys", indent = 1, padding = 1 },
+          { section = "projects", icon = " ", title = "Projects", indent = 2, padding = 1 },
+          { section = "recent_files", icon = " ", title = "Recent Files", indent = 3, padding = 2 },
+          { section = "startup" },
+        },
+      },
+    },
+  },
 }
