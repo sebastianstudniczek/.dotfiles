@@ -3,7 +3,7 @@
 -- Add any additional options here
 
 -- Setup pwsh for command line actions
-if vim.fn.has("win32") then
+if vim.fn.has("win32") == 1 then
   vim.opt.shell = "pwsh"
   vim.opt.shellcmdflag = "-NoLogo -NonInteractive -NoProfile -ExecutionPolicy RemoteSigned -Command "
   vim.opt.shellpipe = '2>&1 | ForEach-Object { "$_" } | Out-File -Encoding UTF8 -FilePath %s; exit $LastExitCode'
