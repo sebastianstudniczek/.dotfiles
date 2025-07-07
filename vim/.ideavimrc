@@ -31,8 +31,11 @@ map Q gq
 "" Git
 let g:WhichKeyDesc_git = "<Space>g Git"
 
-let g:WhichKeyDesc_git_blame = "<Space>ga Blame"
+let g:WhichKeyDesc_git_blame = "<Space>gb Blame"
 map <leader>gb <Action>(Annotate)
+
+let g:WhichKeyDesc_git_show_history = "<Space>gh Show history for selection"
+map <leader>gh <Action>(Vcs.ShowHistoryForBlock)
 
 "" Config
 let g:WhichKeyDesc_config = "<Space>c Ideavim Config"
@@ -44,6 +47,8 @@ let g:WhichKeyDesc_config_source = "<Space>cs Source"
 map <leader>cs :source ~/.ideavimrc<cr>
 
 "" Copilot
+let g:WhichKeyDesc_ai = "<Space>a AI"
+let g:WhichKeyDesc_ai_open = "<Space>ao Chat"
 map <leader>ao <Action>(ActivateGitHubCopilotChatToolWindow)
 
 "" Create splits
@@ -104,9 +109,13 @@ map <leader>fsn <Action>(NewScratchFile)
 let g:WhichKeyDesc_file_new_file = "<Space>fn Create"
 map <leader>fn <Action>(NewFile)
 
+let g:WhichKeyDesc_file_close_all_but_active = "<Space>fqa Close all but active"
+map <leader>fqa <Action>(CloseAllEditorsButActive)
+
 " map <leader>fqa <Action>(CloseAllEditors)
-let g:WhichKeyDesc_file_close = "<Space>fq Close"
-map <leader>fq <Action>(CloseContent)
+
+let g:WhichKeyDesc_file_close_current = "<Space>fqc Close current"
+map <leader>fqc <Action>(CloseContent)
 
 " Show currently opened file in explorer
 let g:WhichKeyDesc_file_show_current = "<Space>fsc Show in explorer"
