@@ -80,52 +80,6 @@ Function y {
 	Remove-Item -Path $tmp
 }
 
-function Get-GitFzfArguments() {
-	# take from https://github.com/junegunn/fzf-git.sh/blob/f72ebd823152fa1e9b000b96b71dd28717bc0293/fzf-git.sh#L89
-	return @{
-		Ansi          = $true
-		Layout        = "reverse"
-		Multi         = $true
-		Height        = '50%'
-		MinHeight     = 20
-		Border        = $true
-		Color         = 'header:italic:underline'
-		PreviewWindow = 'right,50%,border-left'
-		Bind          = @('ctrl-/:change-preview-window(down,50%,border-top|hidden|)')
-	}
-}
-
-function Get-ColorAlways($setting = ' --color=always') {
-	# if ($RunningInWindowsTerminal -or -not $IsWindowsCheck) {
-	#     return $setting
-	# }
-	# else {
-	return ''
-	# }
-}
-
-function Invoke-PsFzfGitHashesV2() {
-	# $previewCmd = "${script:bashPath} \""" + $(Join-Path $PsScriptRoot 'helpers/PsFzfGitHashes-Preview.sh') + "\"" {}" + $(Get-ColorAlways) + " \""$pwd\"""
-	$result = @()
-
-	$fzfArguments = Get-GitFzfArguments
-	$gitLogCmd = 'git log --date=short --format="%C(green)%C(bold)%cd %C(auto)%h%d %s (%an)" ' + $(Get-ColorAlways).Trim() + " --graph"
-	echo $gitLogCmd
-	& $gitLogCmd
-	# & git log --date=short --format="%C(green)%C(bold)%cd %C(auto)%h%d %s (%an)" $(Get-ColorAlways).Trim() --graph | `
-	return;
-	Invoke-Expression "& $gitLogCmd" | `
-		Invoke-Fzf @fzfArguments -NoSort
-	# -BorderLabel "$script:hashesString" `
-	# -Preview "$previewCmd" | ForEach-Object {
-	# if ($_ -match '\d\d-\d\d-\d\d\s+([a-f0-9]+)\s+') {
-	#     $result += $Matches.1
-	# }
-	# }
-
-	$result
-}
-
 Function Open-Solution {
 	start $(Get-ChildItem -Filter *.sln -File | Select -First 1)
 }
