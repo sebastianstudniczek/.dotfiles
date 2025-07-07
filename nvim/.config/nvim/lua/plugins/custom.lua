@@ -2,7 +2,16 @@ return {
   -- Mason 2.0 conatins braking changes, currently sticking with 1.*
   { "mason-org/mason.nvim", version = "^1.0.0" },
   { "mason-org/mason-lspconfig.nvim", version = "^1.0.0" },
-
+  {
+    "folke/flash.nvim",
+    opts = {
+      modes = {
+        search = {
+          enabled = true,
+        },
+      },
+    },
+  },
   -- Use mini icons in completions
   {
     "saghen/blink.cmp",
