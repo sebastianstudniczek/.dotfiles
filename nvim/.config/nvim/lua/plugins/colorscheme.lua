@@ -6,6 +6,9 @@ return {
       styles = {
         sidebars = "transparent",
         floats = "transparent",
+        keywords = {
+          italic = false,
+        },
       },
     },
   },
