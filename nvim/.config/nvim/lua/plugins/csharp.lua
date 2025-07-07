@@ -43,14 +43,6 @@ return {
     end,
   },
   {
-    "neovim/nvim-lspconfig",
-    opts = {
-      codelens = {
-        enabled = true,
-      },
-    },
-  },
-  {
     "seblyng/roslyn.nvim",
     ft = "cs",
     ---@module 'roslyn.config'
@@ -67,6 +59,7 @@ return {
       ensure_installed = {
         "csharpier",
         "netcoredbg",
+        "roslyn",
       },
       registries = {
         "github:mason-org/mason-registry",

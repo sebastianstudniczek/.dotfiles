@@ -3,6 +3,23 @@ return {
   { "mason-org/mason.nvim", version = "^1.0.0" },
   { "mason-org/mason-lspconfig.nvim", version = "^1.0.0" },
   {
+    "nmac427/guess-indent.nvim",
+    opts = {},
+  },
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      codelens = {
+        enabled = true,
+      },
+      servers = {
+        bashls = {
+          filetypes = { "sh", "zsh" },
+        },
+      },
+    },
+  },
+  {
     "folke/flash.nvim",
     opts = {
       modes = {
