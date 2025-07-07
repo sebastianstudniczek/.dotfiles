@@ -4,12 +4,6 @@ using namespace System.Management.Automation.Language
 Import-Module Terminal-Icons
 Import-Module PSFzf
 
-if ($host.Name -eq 'ConsoleHost') {
-	#Binding  for moving through history by prefix
-	Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
-	Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
-}
-
 oh-my-posh init pwsh --config "$HOME\.config\oh-my-posh\montys_custom.omp.json" | Invoke-Expression
 Invoke-Expression (& { (zoxide init powershell | Out-String) })
 
@@ -52,6 +46,9 @@ $PsReadLineOptions = @{
 Set-PSReadLineOption @PsReadLineOptions
 
 Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
+Set-PSReadLineKeyHandler -Chord Ctrl+p -Function HistorySearchBackward
+Set-PSReadLineKeyHandler -Chord Ctrl+n -Function HistorySearchForward
+
 Set-PSFzfOption -TabExpansion -GitKeyBindings
 # $env:_PSFZF_FZF_DEFAULT_OPTS = '--height 50%'
 # Set shell to fzf uses pwsh instead of cmd
