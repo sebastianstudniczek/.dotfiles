@@ -35,9 +35,9 @@ return {
         picker = "snacks",
 
         vim.keymap.set("n", "<leader>cb", function()
-          dotnet.build_solution()
+          dotnet.build_solution_quickfix()
         end, {
-          desc = "Build soltion",
+          desc = "Build solution",
         }),
       })
     end,
@@ -47,7 +47,6 @@ return {
     ft = "cs",
     ---@module 'roslyn.config'
     ---@type RoslynNvimConfig
-    config = true,
     opts = {
       -- your configuration comes here; leave empty for default settings
       -- NOTE: You must configure `cmd` in `config.cmd` unless you have installed via mason
