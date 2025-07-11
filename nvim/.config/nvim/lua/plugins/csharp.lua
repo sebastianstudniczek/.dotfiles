@@ -43,6 +43,38 @@ return {
     end,
   },
   {
+    "folke/snacks.nvim",
+    ---@type snacks.Config
+    opts = {
+      picker = {
+        sources = {
+          explorer = {
+            win = {
+              list = {
+                keys = {
+                  ["zr"] = "test_function",
+                },
+              },
+            },
+            actions = {
+              test_function = function(picker)
+                local actions = require("snacks.explorer.actions")
+                local tree = require("snacks.explorer.tree")
+
+                local path = picker:dir()
+                require("easy-dotnet").create_new_item(path, function()
+                  tree:open(path)
+                  tree:refresh(path)
+                  actions.update(picker, { target = path })
+                end)
+              end,
+            },
+          },
+        },
+      },
+    },
+  },
+  {
     "seblyng/roslyn.nvim",
     ft = "cs",
     ---@module 'roslyn.config'
