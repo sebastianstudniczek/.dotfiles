@@ -29,6 +29,24 @@ source ~/.zshrc.local
 
 # Disable sound notifications
 unsetopt BEEP 
+# Sesh
+function sesh-sessions() {
+  {
+    #exec </dev/tty and exec <&1: These lines are a bit of a workaround often used in Zsh widgets or functions that interact with interactive tools like fzf.
+    exec </dev/tty # Redirects the standard input (stdin) of the current shell to /dev/tty. This ensures that fzf receives input directly from the terminal, even if the script is run in a context where stdin might be redirected (e.g., in a script that's part of a larger pipeline).
+    exec <&1       # Redirects stdin to whatever standard output (stdout) was originally connected to. This effectively restores stdin to its previous state after fzf finishes, which is important for the shell's normal operation.
+    local session
+    session=$(sesh list -t -c | fzf --height 40% --reverse --border-label ' sesh ' --border --prompt '⚡  ')
+    zle reset-prompt >/dev/null 2>&1 || true
+    [[ -z "$session" ]] && return
+    sesh connect $session
+  }
+}
+
+zle -N sesh-sessions                 # statemnt for allowing `sesh-sessions` function be bind to keybind
+bindkey -M emacs '\es' sesh-sessions #\es -> Alt-s
+bindkey -M vicmd '\es' sesh-sessions
+bindkey -M viins '\es' sesh-sessions
 
 # User configuration
 
