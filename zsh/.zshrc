@@ -28,7 +28,8 @@ source $ZSH/oh-my-zsh.sh
 source ~/.zshrc.local
 
 # Disable sound notifications
-unsetopt BEEP 
+unsetopt BEEP
+
 # Sesh
 function sesh-sessions() {
   {
