@@ -33,11 +33,32 @@ return {
 
       dotnet.setup({
         picker = "snacks",
+        ---@type TestRunnerOptions
+        test_runner = {
+          viewmode = "float",
+          mapping = {
+            run_test_from_buffer = { lhs = "<leader>tr", desc = "Run test from buffer" },
+            run_test = { lhs = "<leader>tr", desc = "Run test" },
+            peek_stracktrace = { lhs = "<leader>tp" },
+          },
+        },
 
         vim.keymap.set("n", "<leader>cb", function()
           dotnet.build_solution_quickfix()
         end, {
           desc = "Build solution",
+        }),
+
+        vim.keymap.set("n", "<leader>ts", function()
+          dotnet.testrunner()
+        end, {
+          desc = "Show test runner",
+        }),
+
+        vim.keymap.set("n", "<leader>tb", function()
+          dotnet.testrunner_refresh()
+        end, {
+          desc = "Refresh test runner",
         }),
       })
     end,
@@ -52,21 +73,14 @@ return {
             win = {
               list = {
                 keys = {
-                  ["zr"] = "test_function",
+                  ["A"] = "explorer_add_dotnet",
                 },
               },
             },
             actions = {
-              test_function = function(picker)
-                local actions = require("snacks.explorer.actions")
-                local tree = require("snacks.explorer.tree")
-
-                local path = picker:dir()
-                require("easy-dotnet").create_new_item(path, function()
-                  tree:open(path)
-                  tree:refresh(path)
-                  actions.update(picker, { target = path })
-                end)
+              explorer_add_dotnet = function(picker)
+                local dir = picker:dir()
+                require("easy-dotnet").create_new_item(dir)
               end,
             },
           },
@@ -133,9 +147,11 @@ return {
   },
   {
     "nsidorenco/neotest-vstest",
+    enabled = false,
   },
   {
     "nvim-neotest/neotest",
+    enabled = false,
     dependencies = {
       "neotest-vstest",
     },
