@@ -20,6 +20,14 @@ vim.lsp.config("roslyn", {
     ["csharp|completion"] = {
       dotnet_show_completion_items_from_unimported_namespaces = true,
       dotnet_show_name_completion_suggestions = true,
+      dotnet_provide_regex_completions = true,
+    },
+    ["csharp|background_analysis"] = {
+      dotnet_analyzer_diagnostics_scope = "fullSolution",
+      dotnet_compiler_diagnostics_scope = "fullSolution",
+    },
+    ["csharp|symbol_search"] = {
+      dotnet_search_reference_assemblies = true,
     },
   },
 })
