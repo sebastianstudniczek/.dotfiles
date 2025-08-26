@@ -5,8 +5,7 @@ return {
       codelens = {
         enabled = true,
       },
-      -- LSP Server Settings
-      ---@type lspconfig.options
+      inlay_hints = { enable = false },
       servers = {
         bashls = {
           filetypes = { "sh", "zsh" },
