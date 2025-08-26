@@ -5,7 +5,7 @@ return {
       codelens = {
         enabled = true,
       },
-      inlay_hints = { enable = false },
+      inlay_hints = { enabled = false },
       servers = {
         bashls = {
           filetypes = { "sh", "zsh" },
