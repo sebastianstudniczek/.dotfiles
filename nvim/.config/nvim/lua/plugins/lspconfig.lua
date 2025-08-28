@@ -13,9 +13,12 @@ return {
         lua_ls = {
           settings = {
             Lua = {
+              workspace = {
+                -- Make neovim aware of runtime files
+                library = vim.api.nvim_get_runtime_file("", true),
+              },
               diagnostics = {
-                -- TODO: Kinda hack, not really solving the issue but ignores it. But currently reading VIMRUNTIME does not work properyly
-                globals = { "vim" },
+                -- globals = { "vim" },
               },
             },
           },
