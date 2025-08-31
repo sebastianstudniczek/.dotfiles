@@ -1,3 +1,31 @@
+local get_windows_del_cmd = function(path)
+  local function_name
+  if vim.loop.fs_stat(path).type == "directory" then
+    function_name = "DeleteDirectory"
+  else
+    function_name = "DeleteFile"
+  end
+
+  return {
+    "powershell.exe",
+    "-Command",
+    string.format(
+      "Add-Type -AssemblyName Microsoft.VisualBasic; [Microsoft.VisualBasic.FileIO.FileSystem]::%s('%s', 'OnlyErrorDialogs', 'SendToRecycleBin')",
+      function_name,
+      path
+    ),
+  }
+end
+
+local get_unix_del_cmd = function(path)
+  if vim.fn.executable("trash") == 1 then
+    return { "trash", path }
+  else
+    Snacks.notify.error("Missing `trash` CLI on this system")
+    return nil
+  end
+end
+
 return {
   {
     "folke/snacks.nvim",
@@ -25,24 +53,29 @@ return {
             actions = {
               explorer_add_dotnet = function(picker)
                 local dir = picker:dir()
-                local tree = require("snacks.explorer.tree")
-                local actions = require("snacks.explorer.actions")
                 local easydotnet = require("easy-dotnet")
 
                 easydotnet.create_new_item(dir, function(item_path)
+                  local tree = require("snacks.explorer.tree")
+                  local actions = require("snacks.explorer.actions")
                   tree:open(dir)
                   tree:refresh(dir)
                   actions.update(picker, { target = item_path })
+                  picker:focus()
                 end)
               end,
               -- Overide default behvaior so that deleted files are moved to trash instead of deleted permanently
               explorer_del = function(picker) --[[Override]]
                 local actions = require("snacks.explorer.actions")
-                local Tree = require("snacks.explorer.tree")
+                local tree = require("snacks.explorer.tree")
                 local paths = vim.tbl_map(Snacks.picker.util.path, picker:selected({ fallback = true }))
                 if #paths == 0 then
                   return
                 end
+
+                -- :p → make it a full (absolute) path.
+                -- :~ → replace the home directory with ~.
+                -- :. → make it relative to the current directory if possible.
                 local what = #paths == 1 and vim.fn.fnamemodify(paths[1], ":p:~:.") or #paths .. " files"
                 actions.confirm("Put to the trash " .. what .. "?", function()
                   for _, path in ipairs(paths) do
@@ -50,43 +83,27 @@ return {
                     local is_windows = vim.fn.has("win32") == 1
 
                     if is_windows then
-                      local function_name
-                      if vim.loop.fs_stat(path).type == "directory" then
-                        function_name = "DeleteDirectory"
-                      else
-                        function_name = "DeleteFile"
-                      end
-
-                      cmd = {
-                        "powershell.exe",
-                        "-Command",
-                        string.format(
-                          "Add-Type -AssemblyName Microsoft.VisualBasic; [Microsoft.VisualBasic.FileIO.FileSystem]::%s('%s', 'OnlyErrorDialogs', 'SendToRecycleBin')",
-                          function_name,
-                          path
-                        ),
-                      }
+                      cmd = get_windows_del_cmd(path)
                     else
-                      if vim.fn.executable("trash") == 1 then
-                        cmd = { "trash", path }
-                      else
-                        Snacks.notify.error("Missing `trash` CLI on this system")
-                        return
-                      end
+                      cmd = get_unix_del_cmd(path)
                     end
 
-                    local ok, result = pcall(function()
-                      return vim.system(cmd, { text = true })
+                    if not cmd then
+                      return
+                    end
+
+                    vim.system(cmd, { text = true }, function(result)
+                      vim.schedule(function()
+                        if result.code == 0 then
+                          Snacks.bufdelete({ file = path, force = true })
+                        else
+                          Snacks.notify.error("Failed to delete `" .. path .. "`:\n- " .. result)
+                        end
+                        tree:refresh(vim.fs.dirname(path))
+                      end)
                     end)
-
-                    if ok then
-                      Snacks.bufdelete({ file = path, force = true })
-                    else
-                      Snacks.notify.error("Failed to delete `" .. path .. "`:\n- " .. result)
-                    end
-                    Tree:refresh(vim.fs.dirname(path))
                   end
-                  picker.list:set_selected()
+                  picker.list:set_selected() -- clear selection
                   actions.update(picker)
                 end)
               end,
