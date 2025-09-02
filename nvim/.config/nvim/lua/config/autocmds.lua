@@ -8,9 +8,13 @@
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 
 -- Disable autoformat for C# files
+-- Set tab width
 vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = { "cs" },
   callback = function()
     vim.b.autoformat = false
+    vim.bo.tabstop = 4
+    vim.bo.shiftwidth = 4
+    vim.bo.softtabstop = 4
   end,
 })
