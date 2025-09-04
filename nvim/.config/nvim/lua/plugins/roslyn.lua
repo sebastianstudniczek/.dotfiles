@@ -1,23 +1,3 @@
--- Refresh diagnostics
-vim.api.nvim_create_autocmd({ "InsertLeave" }, {
-  pattern = "*",
-  callback = function()
-    local clients = vim.lsp.get_clients({ name = "roslyn" })
-    if not clients or #clients == 0 then
-      return
-    end
-
-    local client = assert(clients[1])
-    local buffers = vim.lsp.get_buffers_by_client_id(client.id)
-    for _, buf in ipairs(buffers) do
-      local params = {
-        textDocument = vim.lsp.util.make_text_document_params(buf),
-      }
-      client:request(vim.lsp.protocol.Methods.textDocument_diagnostic, params, nil, buf)
-    end
-  end,
-})
-
 -- Fix usings
 vim.api.nvim_create_user_command("CSFixUsings", function()
   local bufnr = vim.api.nvim_get_current_buf()

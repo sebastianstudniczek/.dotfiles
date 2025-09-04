@@ -8,8 +8,9 @@ return {
       dotnet.setup({
         picker = "snacks",
         test_runner = {
-          viewmode = "float",
-          mapping = {
+          viewmode = "vsplit",
+          vsplit_widht = 70,
+          mappings = {
             run_test_from_buffer = { lhs = "<leader>tr", desc = "Run test from buffer" },
             run_test = { lhs = "<leader>tr", desc = "Run test" },
             peek_stracktrace = { lhs = "<leader>tp" },
