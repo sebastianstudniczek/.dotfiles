@@ -9,7 +9,7 @@ return {
         picker = "snacks",
         test_runner = {
           viewmode = "vsplit",
-          vsplit_widht = 70,
+          vsplit_width = 70,
           mappings = {
             run_test_from_buffer = { lhs = "<leader>tr", desc = "Run test from buffer" },
             run_test = { lhs = "<leader>tr", desc = "Run test" },
