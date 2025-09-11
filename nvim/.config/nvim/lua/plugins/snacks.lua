@@ -8,9 +8,11 @@ local get_windows_del_cmd = function(path)
 
   return {
     "powershell.exe",
+    "-NoProfile",
+    "-NonInteractive",
     "-Command",
     string.format(
-      "Add-Type -AssemblyName Microsoft.VisualBasic; [Microsoft.VisualBasic.FileIO.FileSystem]::%s('%s', 'OnlyErrorDialogs', 'SendToRecycleBin')",
+      [[Add-Type -AssemblyName Microsoft.VisualBasic; [Microsoft.VisualBasic.FileIO.FileSystem]::%s('%s', 'OnlyErrorDialogs', 'SendToRecycleBin')]],
       function_name,
       path
     ),
@@ -97,7 +99,7 @@ return {
                         if result.code == 0 then
                           Snacks.bufdelete({ file = path, force = true })
                         else
-                          Snacks.notify.error("Failed to delete `" .. path .. "`:\n- " .. result)
+                          Snacks.notify.error("Failed to delete `" .. path .. "`:\n- " .. result.stderr)
                         end
                         tree:refresh(vim.fs.dirname(path))
                       end)
