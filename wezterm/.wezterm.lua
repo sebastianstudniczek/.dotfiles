@@ -1,55 +1,54 @@
-local wezterm = require("wezterm");
-local config = wezterm.config_builder();
-local act = wezterm.action;
+local wezterm = require("wezterm")
+local config = wezterm.config_builder()
+local act = wezterm.action
 local mux = wezterm.mux
 
 local keys = {}
 
--- local gpus = wezterm.gui.enumerate_gpus()
--- wezterm.log_info(gpus[1])
--- config.webgpu_preferred_adapter = gpus[1]
+local gpus = wezterm.gui.enumerate_gpus()
 
 config = {
+	-- webgpu_preferred_adapter = gpus[3],
 	adjust_window_size_when_changing_font_size = false,
 	window_close_confirmation = "NeverPrompt",
 	window_decorations = "RESIZE",
 	font_size = 9,
-	front_end = 'WebGpu',
+	front_end = "WebGpu",
 	color_scheme = "Tokyo Night",
 	font = wezterm.font("JetBrains Mono"),
 	hide_tab_bar_if_only_one_tab = false,
 	use_fancy_tab_bar = false,
 	tab_bar_at_bottom = true,
 	tab_max_width = 500,
-	win32_system_backdrop = 'Mica',
+	win32_system_backdrop = "Mica",
 	window_background_opacity = 0.0,
 }
 
 -- Match Mica effect
 config.window_frame = {
-	active_titlebar_bg = 'rgba(0, 0, 0, 0)'
+	active_titlebar_bg = "rgba(0, 0, 0, 0)",
 }
 
 -- FG color to match rose pine theme
 config.colors = {
 	tab_bar = {
 		inactive_tab = {
-			bg_color = 'rgba(0, 0, 0, 0.26)',
-			fg_color = '#aa92ca'
+			bg_color = "rgba(0, 0, 0, 0.26)",
+			fg_color = "#aa92ca",
 		},
 		active_tab = {
-			bg_color = 'rgba(0, 0, 0, 0)',
-			fg_color = '#f6c177'
+			bg_color = "rgba(0, 0, 0, 0)",
+			fg_color = "#f6c177",
 		},
-		background = 'rgba(0, 0, 0, 0.26)'
-	}
+		background = "rgba(0, 0, 0, 0.26)",
+	},
 }
 
 -- print the workspace name at the upper right
 wezterm.on("update-right-status", function(window, pane)
 	window:set_right_status(wezterm.format({
 		{ Foreground = { Color = "#aa92ca" } },
-		{ Text = window:active_workspace() }
+		{ Text = window:active_workspace() },
 	}))
 end)
 
@@ -103,11 +102,11 @@ for i = 1, 9 do
 	table.insert(keys, {
 		key = tostring(i),
 		mods = "CTRL",
-		action = act.ActivateTab(i - 1)
+		action = act.ActivateTab(i - 1),
 	})
 end
 
-config.default_prog = { 'pwsh.exe' }
+config.default_prog = { "pwsh.exe" }
 
 wezterm.on("gui-startup", function(cmd)
 	local args = {}
@@ -122,11 +121,11 @@ wezterm.on("gui-startup", function(cmd)
 		args = args,
 	})
 	build_pane:send_text("lazygit\n\r")
-	local _, second_pane, _ = window:spawn_tab {}
+	local _, second_pane, _ = window:spawn_tab({})
 
 	mux.set_active_workspace("dotfiles")
 	window:gui_window():maximize()
 end)
 
-config.keys = keys;
-return config;
+config.keys = keys
+return config
