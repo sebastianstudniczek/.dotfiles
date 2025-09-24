@@ -122,11 +122,14 @@ vim.lsp.config("roslyn", {
       dotnet_provide_regex_completions = true,
     },
     ["csharp|background_analysis"] = {
-      dotnet_analyzer_diagnostics_scope = "fullSolution",
-      dotnet_compiler_diagnostics_scope = "fullSolution",
+      dotnet_analyzer_diagnostics_scope = "default",
+      dotnet_compiler_diagnostics_scope = "default",
     },
     ["csharp|symbol_search"] = {
       dotnet_search_reference_assemblies = true,
+    },
+    ["cshrp|formatting"] = {
+      dotnet_organize_imports_on_format = true,
     },
   },
 })
