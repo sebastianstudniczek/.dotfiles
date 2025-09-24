@@ -1,79 +1,40 @@
-local function rebuild_project(co, path)
-  local spinner = require("easy-dotnet.ui-modules.spinner").new()
-  spinner:start_spinner("Building")
-  vim.fn.jobstart(string.format("dotnet build %s", path), {
-    on_exit = function(_, return_code)
-      if return_code == 0 then
-        spinner:stop_spinner("Built successfully")
-      else
-        spinner:stop_spinner("Build failed with exit code " .. return_code, vim.log.levels.ERROR)
-        error("Build failed")
-      end
-      coroutine.resume(co)
-    end,
-  })
-  coroutine.yield()
-end
-
 return {
   {
+    "jay-babu/mason-nvim-dap.nvim",
+    opts = {
+      handlers = {
+        coreclr = {}, -- Don't setup netcoredbg adapter, use easy-dotnet.nvim instead
+      },
+    },
+  },
+  {
     "mfussenegger/nvim-dap",
-    opts = function()
-      local dap = require("dap")
-      local dotnet = require("easy-dotnet")
-      dap.set_log_level("TRACE")
-
-      local function file_exists(path)
-        local stat = vim.loop.fs_stat(path)
-        return stat and stat.type == "file"
+    config = function()
+      -- INFO: Copied from LazyVim in order to register easy-dotnet variable viewer
+      -- load mason-nvim-dap here, after all adapters have been setup
+      if LazyVim.has("mason-nvim-dap.nvim") then
+        require("mason-nvim-dap").setup(LazyVim.opts("mason-nvim-dap.nvim"))
       end
 
-      local debug_dll = nil
+      vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
 
-      local function ensure_dll()
-        if debug_dll ~= nil then
-          return debug_dll
-        end
-        local dll = dotnet.get_debug_dll()
-        debug_dll = dll
-        return dll
+      for name, sign in pairs(LazyVim.config.icons.dap) do
+        sign = type(sign) == "table" and sign or { sign }
+        vim.fn.sign_define(
+          "Dap" .. name,
+          { text = sign[1], texthl = sign[2] or "DiagnosticInfo", linehl = sign[3], numhl = sign[3] }
+        )
       end
 
-      dap.configurations["cs"] = {
-        {
-          type = "coreclr",
-          name = "NetCoreDbg: Launch (easy-dotnet)",
-          request = "launch",
-          env = function()
-            local dll = ensure_dll()
-            local vars = dotnet.get_environment_variables(dll.project_name, dll.absolute_project_path)
-            return vars or nil
-          end,
-          program = function()
-            local dll = ensure_dll()
-            local co = coroutine.running()
-            rebuild_project(co, dll.project_path)
-            if not file_exists(dll.target_path) then
-              error("Project has not been built, path: " .. dll.target_path)
-            end
-            return dll.target_path
-          end,
-          cwd = function()
-            local dll = ensure_dll()
-            return dll.absolute_project_path
-          end,
-        },
-      }
-
-      dap.listeners.before["event_terminated"]["easy-dotnet"] = function()
-        debug_dll = nil
+      -- setup dap config by VsCode launch.json file
+      local vscode = require("dap.ext.vscode")
+      local json = require("plenary.json")
+      vscode.json_decode = function(str)
+        return vim.json.decode(json.json_strip_comments(str))
       end
 
-      dap.adapters["coreclr"] = {
-        type = "executable",
-        command = vim.fn.exepath("netcoredbg"),
-        args = { "--interpreter=vscode" },
-      }
+      -- Custom
+      require("easy-dotnet.netcoredbg").register_dap_variables_viewer() -- special variables viewer for .NET
     end,
   },
 }

@@ -5,6 +5,8 @@ return {
     config = function()
       local dotnet = require("easy-dotnet")
 
+      local netcoreDbgExec = vim.fn.has("win32") == 1 and "netcoredbg.cmd" or "netcoredbg"
+
       dotnet.setup({
         picker = "snacks",
         test_runner = {
@@ -16,6 +18,13 @@ return {
             peek_stracktrace = { lhs = "<leader>tp" },
           },
         },
+        debugger = {
+          bin_path = netcoreDbgExec,
+          mappings = {
+            open_variable_viewer = { lhs = "<leader>df", desc = "open variable viewer" },
+          },
+        },
+      })
 
         vim.keymap.set("n", "<leader>cb", function()
           dotnet.build_solution_quickfix()
