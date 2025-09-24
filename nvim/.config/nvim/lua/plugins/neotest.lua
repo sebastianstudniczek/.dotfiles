@@ -5,6 +5,9 @@ return {
       adapters = {
         ["neotest-vstest"] = {},
       },
+      floating = {
+        border = "rounded",
+      },
     },
   },
 }

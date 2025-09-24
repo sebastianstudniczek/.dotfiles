@@ -11,6 +11,9 @@ return {
           enabled = false,
         },
       },
+      notify = {
+        view = "mini",
+      },
     },
   },
 }
