@@ -22,7 +22,7 @@
 	amend = commit --amend --no-edit
 	pf = push origin --force
 	rc = rebase --continue
-	wip = comiit -m "WIP"
+	wip = commit -m "WIP"
 [pager]
 	log = true
 [pull]
