@@ -18,9 +18,15 @@ set ideajoin
 "" Which key
 set which-key
 set notimeout
+let g:argtextobj_pairs="[:],(:),<:>"
 let g:WhichKey_ShowTypedSequence = "true"
-let g:WhichKeyDesc_easy_motion = "<Space><Space> Easy Motion"
-let g:WhichKeyDesc_nerd_tree = "<Space>n Open Nerd Tree"
+let g:WhichKey_FontFamily = "JetBrains Mono"
+let g:WhichKey_CommandColor = "C191FF"
+let g:WhichKey_SortOrder = "by_key_prefix_last"
+let g:WhichKey_ShowVimActions = "true"
+
+let g:WhichKeyDesc_easy_motion = "<leader><leader> Easy Motion"
+let g:WhichKeyDesc_nerd_tree = "<leader>e Open Nerd Tree"
 
 " Don't use Ex mode, use Q for formatting.
 map Q gq
@@ -28,119 +34,149 @@ map Q gq
 """"""""""""""""""""""""""""
 """""""" KEY MAPPINGS """"""
 """"""""""""""""""""""""""""
-"" Git
-let g:WhichKeyDesc_git = "<Space>g Git"
 
-let g:WhichKeyDesc_git_blame = "<Space>gb Blame"
+"" Git
+let g:WhichKeyDesc_git = "<leader>g +git"
+
+let g:WhichKeyDesc_git_blame = "<leader>gb Blame"
 map <leader>gb <Action>(Annotate)
 
-let g:WhichKeyDesc_git_show_history = "<Space>gh Show history for selection"
+let g:WhichKeyDesc_git_show_history = "<leader>gh Show history for selection"
 map <leader>gh <Action>(Vcs.ShowHistoryForBlock)
 
-"" Config
-let g:WhichKeyDesc_config = "<Space>c Ideavim Config"
+"let g:WhichKeyDesc_git_show_file_history = "<leader>gf Show file history"
+"map <leader>gf <Action>(Vcs.ShowTabbedFileHistory)
 
-let g:WhichKeyDesc_config_edit = "<Space>cc Edit"
+let g:WhichKeyDesc_git_open = "<leader>gg Open commit window"
+map <leader>gg <Action>(ActivateCommitToolWindow)
+
+"" Config
+let g:WhichKeyDesc_code = "<leader>c +code/config"
+
+let g:WhichKeyDesc_code_edit = "<leader>cc Edit"
 map <leader>cc :edit ~/.ideavimrc<cr>
 
-let g:WhichKeyDesc_config_source = "<Space>cs Source"
+let g:WhichKeyDesc_code_source = "<leader>cs Source"
 map <leader>cs :source ~/.ideavimrc<cr>
 
-"" Copilot
-let g:WhichKeyDesc_ai = "<Space>a AI"
-let g:WhichKeyDesc_ai_open = "<Space>ao Chat"
-map <leader>ao <Action>(ActivateGitHubCopilotChatToolWindow)
+let g:WhichKeyDesc_code_format = "<leader>cf Format"
+"nmap <leader>cf <Action>(SilentCodeCleanup)
+nmap <leader>cf <Action>(CodeCleanup)
+
+"" AI
+let g:WhichKeyDesc_ai = "<leader>a +ai"
+let g:WhichKeyDesc_ai_open = "<leader>aa Chat"
+map <leader>aa <Action>(ActivateGitHubCopilotChatToolWindow)
 
 "" Create splits
-let g:WhichKeyDesc_windows = "<Space>w Windows"
+let g:WhichKeyDesc_windows = "<leader>w Windows"
 
-let g:WhichKeyDesc_windows_split_vertically = "<Space>wv Split vertically"
+let g:WhichKeyDesc_windows_split_vertically = "<leader>wv Split vertically"
 map <leader>wv <Action>(MoveTabRight)
 
-let g:WhichKeyDesc_windows_split_horizontally = "<Space>wh Split horizontally"
+let g:WhichKeyDesc_windows_split_horizontally = "<leader>wh Split horizontally"
 map <leader>wh <Action>(MoveTabDown)
 
-let g:WhichKeyDesc_windows_unsplit_current = "<Space>wu Unsplit current"
+let g:WhichKeyDesc_windows_unsplit_current = "<leader>wu Unsplit current"
 map <leader>wu <Action>(Unsplit)
-"let g:WhichKeyDesc_windows_unsplit_all = "<Space>wua All"
+"let g:WhichKeyDesc_windows_unsplit_all = "<leader>wua All"
 "map <leader>wua <Action>(UnsplitAll)
 
-map <C-j> <Action>(Tree-selectNext)
-map <C-k> <Action>(Tree-selectPrevious)
-map <leader>gi <Action>(Vcs.Diff.IncludeWholeChangedLinesIntoCommit)
+"""""""""""""""""""""""""
+"""" Buffer navigation ""
+"""""""""""""""""""""""""
+let g:WhichKeyDesc_buffer = "<leader>b +buffer"
 
-"" Unit tests
-let g:WhichKeyDesc_unit_test = "<Space>u UnitTests"
+let g:WhichKeyDesc_buffer_delete = "<leader>bd Delete"
+map <leader>bd <Action>(CloseContent)
 
-let g:WhichKeyDesc_unit_test_run = "<Space>ur Run"
-nmap <leader>ur <Action>(RiderUnitTestRunContextAction)
+nmap <S-l> <Action>(NextTab)
+nmap <S-h> <Action>(PreviousTab)
 
-let g:WhichKeyDesc_unit_test_debug = "<Space>ud Debug"
-nmap <leader>ud <Action>(RiderUnitTestDebugContextAction)
+" Window navigation
+" Use Ctrl-hjkl to navigate between splits
+nmap <C-h> <C-w>h
+nmap <C-l> <C-w>l
+nmap <C-j> <C-w>j
+nmap <C-k> <C-w>k
 
-let g:WhichKeyDesc_unit_test_explorer = "<Space>ue Explorer"
-nmap <leader>ue <Action>(RiderUnitTestFocusExplorerAction)
+"" Search
+let g:WhichKeyDesc_search = "<leader>s +search"
+
+let g:WhichKeyDesc_search_grep = "<leader>sg grep"
+map <Leader>sg <action>(com.mituuz.fuzzier.FuzzyGrep)
+"map <Leader>mf <action>(com.mituuz.fuzzier.FuzzyMover)
+
+"" Find
+let g:WhichKeyDesc_find_file = "<leader>ff Find files"
+"map <Leader>ff <action>(com.mituuz.fuzzier.Fuzzier)
+map <Leader>ff <action>(com.mituuz.fuzzier.FuzzierVCS)
+
+"""""""""""""""""""
+"""" Unit tests """
+"""""""""""""""""""
+let g:WhichKeyDesc_test = "<leader>t +tests"
+
+let g:WhichKeyDesc_test_run = "<leader>tr Run nearest"
+nmap <leader>tr <Action>(RiderUnitTestRunContextAction)
+
+let g:WhichKeyDesc_test_run_file = "<leader>tt Run file"
+nmap <leader>tt gg<Action>(RiderUnitTestRunContextAction)<C-o>
+
+let g:WhichKeyDesc_test_debug = "<leader>td Debug nearest"
+nmap <leader>td <Action>(RiderUnitTestDebugContextAction)
+
+let g:WhichKeyDesc_test_explorer = "<leader>ts Summary"
+nmap <leader>ts <Action>(RiderUnitTestFocusExplorerAction)
 
 " Navigation
-map <leader>gt <Action>(GotoTest)
-map <leader>sh <Action>(ShowHoverInfo)
-" map <leader>en <Action>(GotoNextError)
-"map <leader>ep <Action>(GotoPreviousError)
-map <leader>en <Action>(ReSharperGotoNextErrorInSolution)
-map <leader>ep <Action>(ReSharperGotoPreviousErrorInSolution)
+
+" For some reason can't override <S-k>
+" sethandler <S-k> n:vim i:ide
+map <C-S-k> <Action>(ShowHoverInfo)
+
+let g:WhichKeyDesc_next_err = "]e Next error"
+map ]e <Action>(ReSharperGotoNextErrorInSolution)
+
+let g:WhichKeyDesc_prev_err = "[e Previous error"
+map [e <Action>(ReSharperGotoPreviousErrorInSolution)
 map <leader>lc <Action>(JumpToLastChange)
 map <leader>ll <Action>(RecentLocations)
 map <C-;> <Action>(RecentFiles)
 
-" Tabs
-let g:WhichKeyDesc_tabs = "<Space>t Tabs"
-
-let g:WhichKeyDesc_tabs_next = "<Space>tn Next"
-map <leader>tn <Action>(NextTab)
-
-let g:WhichKeyDesc_tabs_next = "<Space>tp Previous"
-map <leader>tp <Action>(PreviousTab)
-
-
 "" File management
-let g:WhichKeyDesc_file = "<Space>f File"
+let g:WhichKeyDesc_file = "<leader>f +file"
 
-let g:WhichKeyDesc_file_new_scratch = "<Space>fsn Create scratch"
+let g:WhichKeyDesc_file_new_scratch = "<leader>fsn Create scratch"
 map <leader>fsn <Action>(NewScratchFile)
 
-let g:WhichKeyDesc_file_new_file = "<Space>fn Create"
+let g:WhichKeyDesc_file_new_file = "<leader>fn Create"
 map <leader>fn <Action>(NewFile)
 
-let g:WhichKeyDesc_file_close_all_but_active = "<Space>fqa Close all but active"
+let g:WhichKeyDesc_file_close_all_but_active = "<leader>fqa Close all but active"
 map <leader>fqa <Action>(CloseAllEditorsButActive)
+
 
 " map <leader>fqa <Action>(CloseAllEditors)
 
-let g:WhichKeyDesc_file_close_current = "<Space>fqc Close current"
+let g:WhichKeyDesc_file_close_current = "<leader>fqc Close current"
 map <leader>fqc <Action>(CloseContent)
 
 " Show currently opened file in explorer
-let g:WhichKeyDesc_file_show_current = "<Space>fsc Show in explorer"
+let g:WhichKeyDesc_file_show_current = "<leader>fsc Show in explorer"
 map <leader>fsc <Action>(SelectInProjectView)
 
-let g:WhichKeyDesc_file_close = "<Space>fq Close"
+let g:WhichKeyDesc_file_close = "<leader>fq Close"
 map <leader>fr <Action>(RenameFile)
 
-"" Dir management
-let g:WhichKeyDesc_dir = "<Space>d Directory"
-
-let g:WhichKeyDesc_dir_new = "<Space>dn New"
-map <leader>dn <Action>(NewDir)
+let g:WhichKeyDesc_file_previous = "<leader>` Previous buffer"
+map <leader>` :edit#<cr>
 
 " Refactors
 map <leader>sw <Action>(SurroundWith)
 map <S-k> <Action>(EditorDuplicateLines)
 map <leader>ct <Action>(EditorCompleteStatement)
-map <leader>oi <Action>(OptimizeImports)
-
-" Moving code
-map <C-M-j> <Action>(MoveStatementDown)
-map <C-M-k> <Action>(MoveStatementUp)
+map <leader>oi <Action>(OptimizeImports) " Is this the same as format or combine it with it
 
 " Consider camelCase, PascalCase and snake_case words
 let g:WhichKeyDesc_word = ", Word (respect case)"
@@ -159,41 +195,43 @@ let g:WhichKeyDesc_word_current_start = ",ge Start"
 nmap ,ge ]b
 
 "" Harpoon
-nmap <M-j> <action>(HarpoonerOpenFile0)
-nmap <M-k> <action>(HarpoonerOpenFile1)
-nmap <M-l> <action>(HarpoonerOpenFile2)
-nmap <M-;> <action>(HarpoonerOpenFile3)
+let g:WhichKeyDesc_harpoon_menu = "<leader>h Harpoon quick menu"
+nmap <leader>h <action>(HarpoonerQuickMenu)
 
-let g:WhichKeyDesc_harpoon = "<Space>h Harpoon"
+let g:WhichKeyDesc_harpoon_add_file = "<leader>H Harpoon file"
+nmap <leader>H <action>(HarpoonerAddFile)
 
-let g:WhichKeyDesc_harpoon_quick_menu = "<Space>hm Quick Menu"
-nmap <leader>hm <action>(HarpoonerQuickMenu)
+let g:WhichKeyDesc_harpoon_go1 = "<leader>1 Harpoon to file 1"
+nmap <leader>1 <action>(HarpoonerOpenFile0)
 
-let g:WhichKeyDesc_harpoon_add_file = "<Space>ha Add File"
-nmap <leader>ha <action>(HarpoonerAddFile)
+let g:WhichKeyDesc_harpoon_go2 = "<leader>2 Harpoon to file 2"
+nmap <leader>2 <action>(HarpoonerOpenFile1)
 
-let g:WhichKeyDesc_harpoon_next_file = "<Space>hn Next File"
-nmap <leader>hn <action>(HarpoonerNextFileAction)
+let g:WhichKeyDesc_harpoon_go3 = "<leader>3 Harpoon to file 3"
+nmap <leader>3 <action>(HarpoonerOpenFile2)
 
-let g:WhichKeyDesc_harpoon_previous_file = "<Space>hp Previous File"
-nmap <leader>hp <action>(HarpoonerPreviousFileAction)
+let g:WhichKeyDesc_harpoon_go4 = "<leader>4 Harpoon to file 4"
+nmap <leader>4 <action>(HarpoonerOpenFile3)
+
+"let g:WhichKeyDesc_harpoon_next_file = "<leader>hn Next File"
+"nmap <leader>hn <action>(HarpoonerNextFileAction)
+
+"let g:WhichKeyDesc_harpoon_previous_file = "<leader>hp Previous File"
+"nmap <leader>hp <action>(HarpoonerPreviousFileAction)
 
 " Move lines up and down
 vmap J <action>(MoveLineDown)
 vmap K <action>(MoveLineUp)
-nmap <C-j> <action>(MoveLineDown)
-nmap <C-k> <action>(MoveLineUp)
+nmap <A-j> <action>(MoveLineDown)
+nmap <A-k> <action>(MoveLineUp)
 
 " Enable repetable indenation
 vnoremap < <gv
 vnoremap > >gv
 
-" -- Map IDE actions to IdeaVim -- https://jb.gg/abva4t
-" Map \r to the Reformat Code action
-map \r <Action>(ReformatCode)
+let g:WhichKeyDesc_debug = "<leader>d +debug"
+let g:WhichKeyDesc_debug_continue = "<leader>dc Continue"
+map <leader>dc <Action>(Debug)
 
-" Map <leader>d to start debug
-map <leader>rd <Action>(Debug)
-
-" Map \b to toggle the breakpoint on the current line
-map \b <Action>(ToggleLineBreakpoint)
+let g:WhichKeyDesc_debug_breakpoint = "<leader>db Toggle breakpoint"
+map <leader>db <Action>(ToggleLineBreakpoint)
