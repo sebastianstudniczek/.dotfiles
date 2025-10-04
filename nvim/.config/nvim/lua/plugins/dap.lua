@@ -3,7 +3,7 @@ return {
     "jay-babu/mason-nvim-dap.nvim",
     opts = {
       handlers = {
-        coreclr = {}, -- Don't setup netcoredbg adapter, use easy-dotnet.nvim instead
+        coreclr = function() end, -- Don't setup netcoredbg adapter, use easy-dotnet.nvim instead
       },
     },
   },

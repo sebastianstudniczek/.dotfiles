@@ -8,6 +8,10 @@ return {
       local netcoreDbgExec = vim.fn.has("win32") == 1 and "netcoredbg.cmd" or "netcoredbg"
 
       dotnet.setup({
+        lsp = {
+          -- Use roslyn.nvim
+          enabled = false,
+        },
         picker = "snacks",
         test_runner = {
           viewmode = "vsplit",
