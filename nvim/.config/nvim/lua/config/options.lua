@@ -4,6 +4,9 @@
 
 -- Disable ai completions in autosuggestions popup
 vim.g.ai_cmp = false
+-- https://github.com/nvim-neotest/neotest/pull/521
+-- Not playing well right now, check on nvim 12, mainly set cause of neotest floating window
+-- vim.o.winborder = "rounded"
 
 -- Setup pwsh for command line actions
 if vim.fn.has("win32") == 1 then

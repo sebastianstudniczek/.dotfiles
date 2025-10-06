@@ -1,6 +1,5 @@
 return {
   "folke/sidekick.nvim",
-  enabled = false,
   keys = {
     { "<leader>aa", false }, -- Use for copilot chat
     {
