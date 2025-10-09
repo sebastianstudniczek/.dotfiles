@@ -9,5 +9,12 @@ return {
       end,
       desc = "Sidekick Copilot Toggle",
     },
+    {
+      "<leader>ag",
+      function()
+        require("sidekick.cli").toggle({ name = "gemini", focus = true })
+      end,
+      desc = "Sidekick Gemini Toggle",
+    },
   },
 }
