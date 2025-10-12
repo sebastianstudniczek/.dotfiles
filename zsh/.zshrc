@@ -18,7 +18,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # much, much faster.
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting fzf-tab)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting fzf-tab zsh-vi-mode)
 
 export PATH=$PATH:~/.local/bin:~/go/bin:~/.dotnet/tools:/snap/bin:/opt/nvim-linux-x86_64/bin:~/.local/share/JetBrains/Toolbox/apps/rider/bin
 export BROWSER="/mnt/c/Program\\ Files\\ (x86)/Microsoft/Edge/Application/msedge.exe"
@@ -65,6 +65,7 @@ bindkey -M viins '\es' sesh-sessions
 alias bat=batcat
 alias ls="eza --icons"
 alias d=dotnet
+alias lg=lazygit
 
 # Windows aliases
 alias e="/mnt/c/Windows/explorer.exe"
