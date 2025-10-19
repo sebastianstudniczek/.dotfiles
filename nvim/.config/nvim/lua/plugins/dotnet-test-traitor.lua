@@ -2,7 +2,11 @@ return {
   {
     "sebastianstudniczek/dotnet-test-traitor.nvim",
     ft = "cs",
-    dependencies = { "folke/snacks.nvim" },
+    dependencies = {
+      "folke/snacks.nvim",
+      "folke/trouble.nvim",
+      "seblj/roslyn.nvim",
+    },
     --- @type dotnet-test-traitor.Configuration
     opts = {
       filters = {
@@ -13,6 +17,9 @@ return {
         { name = "Integration", value = "Category=Integration" },
         { name = "E2E Tests", value = "Category=E2E" },
       },
+    },
+    keys = {
+      { "<leader>tc", "<Plug>(DotnetTestTraitorRun)", mode = "n", desc = "Run Test Category (Dotnet)" },
     },
   },
 }
