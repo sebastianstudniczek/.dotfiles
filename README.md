@@ -2,6 +2,16 @@
 
 - Add mason bin folder to path (used by easy-dotnet for invoking `netcoredbg` debugger)
 
+# Windows
+
+## AHK
+
+For hyper key setup (`CTRL+SHIFT+ALT+LWIN`) disable office key shortcut which opens browser by adding the following registry entry
+
+```
+REG ADD HKCU\Software\Classes\ms-officeapp\Shell\Open\Command /t REG_SZ /d rundll32
+```
+
 # WSL
 
 ## Path
