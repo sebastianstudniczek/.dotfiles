@@ -8,6 +8,8 @@
 
 For hyper key setup (`CTRL+SHIFT+ALT+LWIN`) disable office key shortcut which opens browser by adding the following registry entry
 
+[Microsoft Q&A](https://learn.microsoft.com/en-us/answers/questions/4331341/disabling-the-office-hotkey-in-windows-10)
+
 ```
 REG ADD HKCU\Software\Classes\ms-officeapp\Shell\Open\Command /t REG_SZ /d rundll32
 ```
