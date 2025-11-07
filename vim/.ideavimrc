@@ -34,6 +34,8 @@ map Q gq
 """"""""""""""""""""""""""""
 """""""" KEY MAPPINGS """"""
 """"""""""""""""""""""""""""
+nmap s <Action>(flash.search)
+xmap s <Action>(flash.search)
 
 "" Git
 let g:WhichKeyDesc_git = "<leader>g +git"
