@@ -1,0 +1,20 @@
+(defcfg
+  process-unmapped-keys yes
+  windows-altgr cancel-lctl-press
+)
+
+(defsrc
+  caps
+  lctl rctl
+)
+
+;; Use f13 as hyper key
+(deflayer default
+  @escctl
+  @hyper  @hyper
+)
+
+(defalias
+  escctl (tap-hold-press 200 200 esc lctl)
+  hyper f13
+)
