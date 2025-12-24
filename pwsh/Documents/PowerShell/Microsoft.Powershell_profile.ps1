@@ -81,11 +81,23 @@ Function y {
 }
 
 Function Open-Solution {
-	start $(Get-ChildItem -Filter *.sln -File | Select -First 1)
+	$solutionFile = Get-ChildItem -Filter *.sln -File | Select-Object -First 1
+	if ($solutionFile) {
+		# Script from Jetbrains Toolbox
+		Rider $solutionFile.FullName
+	} else {
+		Write-Warning "No solution file (.sln) found in current directory"
+	}
 }
 
 # Assumes ticket number in branch name (eg. SEB-125-new-feature)
 Function CreatePR {
+	param (
+		[Parameter(Mandatory = $false, Position = 0, ValueFromRemainingArguments = $true)]
+		[string[]]
+		$args
+	)
+
 	$branchParts
 	try {
 		$branchParts = (git branch --show-current).Split('/')[1].Split('-')
@@ -111,7 +123,7 @@ Function CreatePR {
 	$prTitle = '[' + $ticket + '] ' + $featureName
 	Write-Host "Pushing branch: $(git branch --show-current)" -ForegroundColor Green
 
-		git push -u origin HEAD
+	git push -u origin HEAD $args
 	if ($? -ne $true) {
 		Write-Host "Failed to push branch" -ForegroundColor Red
 		return
