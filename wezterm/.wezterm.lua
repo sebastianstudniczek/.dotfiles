@@ -91,17 +91,18 @@ local sessionizer_schema = {
 	end),
 }
 
+config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 }
 -- Workaround for blink completion, for some reason it does not work properly on windows
 table.insert(keys, { key = " ", mods = "CTRL", action = wezterm.action.SendKey({ key = " ", mods = "CTRL" }) })
 
-table.insert(keys, { key = "k", mods = "CTRL|SHIFT", action = sessionizer.show(sessionizer_schema) })
-table.insert(keys, { key = "t", mods = "CTRL|SHIFT", action = act.SpawnTab("CurrentPaneDomain") })
-table.insert(keys, { key = "w", mods = "CTRL|SHIFT", action = act.CloseCurrentTab({ confirm = false }) })
+table.insert(keys, { key = "k", mods = "LEADER", action = sessionizer.show(sessionizer_schema) })
+table.insert(keys, { key = "t", mods = "LEADER", action = act.SpawnTab("CurrentPaneDomain") })
+table.insert(keys, { key = "w", mods = "LEADER", action = act.CloseCurrentTab({ confirm = false }) })
 
 for i = 1, 9 do
 	table.insert(keys, {
 		key = tostring(i),
-		mods = "CTRL",
+		mods = "LEADER",
 		action = act.ActivateTab(i - 1),
 	})
 end
