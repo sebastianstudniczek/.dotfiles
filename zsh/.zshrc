@@ -11,7 +11,7 @@ plugins=(
 )
 
 export PATH=$PATH:~/.local/bin:~/go/bin:~/.dotnet/tools:/snap/bin:/opt/nvim-linux-x86_64/bin:~/.local/share/JetBrains/Toolbox/apps/rider/bin
-# export BROWSER="/mnt/c/Program\\ Files\\ (x86)/Microsoft/Edge/Application/msedge.exe"
+export BROWSER="/mnt/c/Program\\ Files\\ (x86)/Microsoft/Edge/Application/msedge.exe"
 export MESA_D3D12_DEFAULT_ADAPTER_NAME="NVIDIA"
 
 fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
@@ -58,7 +58,7 @@ _dotnet_zsh_complete()
     return
   fi
   # This is not a variable assignment, don't remove spaces!
-  _values = "${(ps:\n:)completions}"
+  _values="${(ps:\n:)completions}"
 }
 
 compdef _dotnet_zsh_complete dotnet
@@ -85,3 +85,7 @@ eval "$(oh-my-posh init zsh --config ~/.config/oh-my-posh/montys_custom.omp.json
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+
+if [ -z "$TMUX" ]; then
+    tmux attach || sesh connect Dotfiles
+fi

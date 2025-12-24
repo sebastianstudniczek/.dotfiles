@@ -1,2 +1,5 @@
 gui:
   language: 'en'
+
+os:
+  editPreset: 'nvim'
