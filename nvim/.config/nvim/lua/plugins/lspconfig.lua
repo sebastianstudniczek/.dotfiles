@@ -7,6 +7,13 @@ return {
       },
       inlay_hints = { enabled = false },
       servers = {
+        ["*"] = {
+          keys = {
+            { "<leader>ca", false },
+            -- HACK: Needed to remap key in terminal or os since by default terminals can't recognize such sequence
+            { "<C-.>", vim.lsp.buf.code_action, desc = "Code Action", mode = { "n", "x" }, has = "codeAction" },
+          },
+        },
         bashls = {
           filetypes = { "sh", "zsh" },
         },

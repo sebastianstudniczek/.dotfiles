@@ -18,3 +18,22 @@ shell = { program = "ubuntu.exe" }
 
 [colors.primary]
 background = "#232326"
+# background = "#212121"
+# background = "#1a1a1a"
+
+# \u001b - This is the ESC character (ASCII 27), written in Unicode escape notation. It starts most terminal escape sequences.
+# [ - This is the CSI (Control Sequence Introducer) that begins a control sequence.
+# 44 - This is the key code for the Space key in the enhanced keyboard protocol.
+# 46 - This is the key code for the Period (.) key in the enhanced keyboard protocol.
+# ;5 - This represents the modifier keys:
+# 1 = Shift
+# 2 = Alt
+# 4 = Ctrl
+# 5 = 1 + 4 = Shift + Ctrl (but in practice here it's just indicating Ctrl)
+
+[keyboard]
+bindings = [
+  { key = "Period", mods = "Control", chars = "\u001b[46;5u" },
+  { key = "Space", mods = "Control", chars = "\u001b[32;5u" },
+  { key = "/", mods = "Control", chars = "\u001b[47;5u" },
+]
