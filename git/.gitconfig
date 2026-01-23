@@ -5,6 +5,7 @@
 	defaultBranch = main
 [core]
 	pager = delta
+	editor = nvim
 [interactive]
 	diffFilter = delta --color-only
 [delta]

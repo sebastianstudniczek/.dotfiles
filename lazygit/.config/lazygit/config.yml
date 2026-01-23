@@ -3,3 +3,7 @@ gui:
 
 os:
   editPreset: 'nvim'
+
+git:
+  pagers:
+    - pager: delta --dark --paging=never
