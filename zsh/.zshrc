@@ -65,11 +65,36 @@ compdef _dotnet_zsh_complete dotnet
 
 # User configuration
 
+
+fuzzy_commits() {
+  local target
+  target=$(_fzf_git_hashes)
+
+  if [[ -z "$target" ]]; then
+    return
+  fi
+
+  git switch --detach "$target"
+}
+
+fuzzy_git_branches() {
+  local target
+  target=$(_fzf_git_branches)
+
+  if [[ -z "$target" ]]; then
+    return
+  fi
+
+  git switch "$target"
+}
+
 alias zshconfig="nvim ~/.zshrc"
 alias bat=batcat
 alias ls="eza --icons"
 alias d=dotnet
 alias lg=lazygit
+alias fgc=fuzzy_commits
+alias fgb=fuzzy_git_branches
 
 # Windows aliases
 alias e="/mnt/c/Windows/explorer.exe"
