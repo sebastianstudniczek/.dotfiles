@@ -1,0 +1,20 @@
+[general]
+import = [
+  "./schemes/rose_pine.toml"
+]
+
+[window]
+decorations = "None"
+padding = { x = 10, y = 10 }
+blur = true
+startup_mode = "Maximized"
+
+[font]
+size = 10
+normal = { family = "JetBrainsMono Nerd Font", style = "Medium" }
+
+[terminal]
+shell = { program = "ubuntu.exe" }
+
+[colors.primary]
+background = "#232326"
