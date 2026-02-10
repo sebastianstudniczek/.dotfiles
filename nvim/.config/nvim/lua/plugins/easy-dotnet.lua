@@ -28,9 +28,11 @@ return {
         ---@type easy-dotnet.Notifications
         notifications = {
           handler = function(start_event)
+            local is_project_loading = start_event.job.name:find("^Loading") ~= nil
+            local title = is_project_loading and "Loading project..." or start_event.job.name
             local fidget_handler = require("fidget.progress").handle.create({
-              title = start_event.job.name,
-              message = start_event.job.name,
+              title = title,
+              message = title,
               lsp_client = {
                 name = "easy-dotnet",
               },
@@ -39,9 +41,10 @@ return {
             ---@param finished_event easy-dotnet.Job.Event
             return function(finished_event)
               if finished_event.success then
-                fidget_handler.message = finished_event.job.on_success_text
+                fidget_handler.message = is_project_loading and "Project loaded" or finished_event.job.on_success_text
               else
-                fidget_handler.message = finished_event.job.on_error_text
+                fidget_handler.message = is_project_loading and "Project loading failed"
+                  or finished_event.job.on_error_text
               end
               fidget_handler:finish()
             end
