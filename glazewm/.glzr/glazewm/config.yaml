@@ -140,6 +140,9 @@ window_rules:
       - window_process: { equals: 'Lively' }
         window_class: { regex: 'HwndWrapper' }
 
+      - window_process: { equals: 'rider64'}
+        window_class: { regex: 'SunAwtDialog'}
+
 binding_modes:
   # When enabled, the focused window can be resized via arrow keys or HJKL.
   - name: 'resize'
