@@ -1,200 +1,22 @@
 " You can find a list of commands here: https://jb.gg/h38q75
 " Find more examples here: https://jb.gg/share-ideavimrc
 
-source ~/_vimrc
+source ~/.lazy-idea/lazy-idea.vim
 
-" There is some problem with using tpope/vim-sensible from _vimrc
-" thus setting it explicitly
-set incsearch
-set hlsearch
-
-" Show a few lines of context around the cursor. Note that this makes the
-" text scroll if you mouse-click near the start or end of the window.
-set scrolloff=5
-
-" Smart line join
-set ideajoin
-
-"" Which key
-set which-key
-set notimeout
-let g:argtextobj_pairs="[:],(:),<:>"
 let g:WhichKey_ShowTypedSequence = "true"
 let g:WhichKey_FontFamily = "JetBrains Mono"
 let g:WhichKey_CommandColor = "C191FF"
 let g:WhichKey_SortOrder = "by_key_prefix_last"
 let g:WhichKey_ShowVimActions = "true"
 
-let g:WhichKeyDesc_easy_motion = "<leader><leader> Easy Motion"
-let g:WhichKeyDesc_nerd_tree = "<leader>e Open Nerd Tree"
-
-" Don't use Ex mode, use Q for formatting.
-map Q gq
-
-""""""""""""""""""""""""""""
-"""""""" KEY MAPPINGS """"""
-""""""""""""""""""""""""""""
+"" Flash
 nmap s <Action>(flash.search)
 xmap s <Action>(flash.search)
-
-"" Git
-let g:WhichKeyDesc_git = "<leader>g +git"
-
-let g:WhichKeyDesc_git_blame = "<leader>gb Blame"
-map <leader>gb <Action>(Annotate)
-
-let g:WhichKeyDesc_git_show_history = "<leader>gh Show history for selection"
-map <leader>gh <Action>(Vcs.ShowHistoryForBlock)
-
-"let g:WhichKeyDesc_git_show_file_history = "<leader>gf Show file history"
-"map <leader>gf <Action>(Vcs.ShowTabbedFileHistory)
-
-let g:WhichKeyDesc_git_open = "<leader>gg Open commit window"
-map <leader>gg <Action>(ActivateCommitToolWindow)
-
-"" Config
-let g:WhichKeyDesc_code = "<leader>c +code/config"
-
-let g:WhichKeyDesc_code_edit = "<leader>cc Edit"
-map <leader>cc :edit ~/.ideavimrc<cr>
-
-let g:WhichKeyDesc_code_source = "<leader>cs Source"
-map <leader>cs :source ~/.ideavimrc<cr>
-
-let g:WhichKeyDesc_code_format = "<leader>cf Format"
-"nmap <leader>cf <Action>(SilentCodeCleanup)
-nmap <leader>cf <Action>(CodeCleanup)
 
 "" AI
 let g:WhichKeyDesc_ai = "<leader>a +ai"
 let g:WhichKeyDesc_ai_open = "<leader>aa Chat"
 map <leader>aa <Action>(ActivateGitHubCopilotChatToolWindow)
-
-"" Create splits
-let g:WhichKeyDesc_windows = "<leader>w Windows"
-
-let g:WhichKeyDesc_windows_split_vertically = "<leader>wv Split vertically"
-map <leader>wv <Action>(MoveTabRight)
-
-let g:WhichKeyDesc_windows_split_horizontally = "<leader>wh Split horizontally"
-map <leader>wh <Action>(MoveTabDown)
-
-let g:WhichKeyDesc_windows_unsplit_current = "<leader>wu Unsplit current"
-map <leader>wu <Action>(Unsplit)
-"let g:WhichKeyDesc_windows_unsplit_all = "<leader>wua All"
-"map <leader>wua <Action>(UnsplitAll)
-
-"""""""""""""""""""""""""
-"""" Buffer navigation ""
-"""""""""""""""""""""""""
-let g:WhichKeyDesc_buffer = "<leader>b +buffer"
-
-let g:WhichKeyDesc_buffer_delete = "<leader>bd Delete"
-map <leader>bd <Action>(CloseContent)
-
-nmap <S-l> <Action>(NextTab)
-nmap <S-h> <Action>(PreviousTab)
-
-" Window navigation
-" Use Ctrl-hjkl to navigate between splits
-nmap <C-h> <C-w>h
-nmap <C-l> <C-w>l
-nmap <C-j> <C-w>j
-nmap <C-k> <C-w>k
-
-"" Search
-let g:WhichKeyDesc_search = "<leader>s +search"
-
-let g:WhichKeyDesc_search_grep = "<leader>sg grep"
-map <Leader>sg <action>(com.mituuz.fuzzier.FuzzyGrep)
-"map <Leader>mf <action>(com.mituuz.fuzzier.FuzzyMover)
-
-"" Find
-let g:WhichKeyDesc_find_file = "<leader>ff Find files"
-"map <Leader>ff <action>(com.mituuz.fuzzier.Fuzzier)
-map <Leader>ff <action>(com.mituuz.fuzzier.FuzzierVCS)
-
-"""""""""""""""""""
-"""" Unit tests """
-"""""""""""""""""""
-let g:WhichKeyDesc_test = "<leader>t +tests"
-
-let g:WhichKeyDesc_test_run = "<leader>tr Run nearest"
-nmap <leader>tr <Action>(RiderUnitTestRunContextAction)
-
-let g:WhichKeyDesc_test_run_file = "<leader>tt Run file"
-nmap <leader>tt gg<Action>(RiderUnitTestRunContextAction)<C-o>
-
-let g:WhichKeyDesc_test_debug = "<leader>td Debug nearest"
-nmap <leader>td <Action>(RiderUnitTestDebugContextAction)
-
-let g:WhichKeyDesc_test_explorer = "<leader>ts Summary"
-nmap <leader>ts <Action>(RiderUnitTestFocusExplorerAction)
-
-" Navigation
-
-" For some reason can't override <S-k>
-" sethandler <S-k> n:vim i:ide
-map <C-S-k> <Action>(ShowHoverInfo)
-
-let g:WhichKeyDesc_next_err = "]e Next error"
-map ]e <Action>(ReSharperGotoNextErrorInSolution)
-
-let g:WhichKeyDesc_prev_err = "[e Previous error"
-map [e <Action>(ReSharperGotoPreviousErrorInSolution)
-map <leader>lc <Action>(JumpToLastChange)
-map <leader>ll <Action>(RecentLocations)
-map <C-;> <Action>(RecentFiles)
-
-"" File management
-let g:WhichKeyDesc_file = "<leader>f +file"
-
-let g:WhichKeyDesc_file_new_scratch = "<leader>fsn Create scratch"
-map <leader>fsn <Action>(NewScratchFile)
-
-let g:WhichKeyDesc_file_new_file = "<leader>fn Create"
-map <leader>fn <Action>(NewFile)
-
-let g:WhichKeyDesc_file_close_all_but_active = "<leader>fqa Close all but active"
-map <leader>fqa <Action>(CloseAllEditorsButActive)
-
-
-" map <leader>fqa <Action>(CloseAllEditors)
-
-let g:WhichKeyDesc_file_close_current = "<leader>fqc Close current"
-map <leader>fqc <Action>(CloseContent)
-
-" Show currently opened file in explorer
-let g:WhichKeyDesc_file_show_current = "<leader>fsc Show in explorer"
-map <leader>fsc <Action>(SelectInProjectView)
-
-let g:WhichKeyDesc_file_close = "<leader>fq Close"
-map <leader>fr <Action>(RenameFile)
-
-let g:WhichKeyDesc_file_previous = "<leader>` Previous buffer"
-map <leader>` :edit#<cr>
-
-" Refactors
-map <leader>sw <Action>(SurroundWith)
-map <S-k> <Action>(EditorDuplicateLines)
-map <leader>ct <Action>(EditorCompleteStatement)
-map <leader>oi <Action>(OptimizeImports) " Is this the same as format or combine it with it
-
-" Consider camelCase, PascalCase and snake_case words
-let g:WhichKeyDesc_word = ", Word (respect case)"
-
-let g:WhichKeyDesc_word_next = ",w Next"
-nmap ,w [w
-
-let g:WhichKeyDesc_word_current_end = ",e Current's end"
-nmap ,e ]w
-
-let g:WhichKeyDesc_word_previous = ",b Previous"
-nmap ,b [b
-
-let g:WhichKeyDesc_word_current = ",g Current "
-let g:WhichKeyDesc_word_current_start = ",ge Start"
-nmap ,ge ]b
 
 "" Harpoon
 let g:WhichKeyDesc_harpoon_menu = "<leader>h Harpoon quick menu"
@@ -215,25 +37,5 @@ nmap <leader>3 <action>(HarpoonerOpenFile2)
 let g:WhichKeyDesc_harpoon_go4 = "<leader>4 Harpoon to file 4"
 nmap <leader>4 <action>(HarpoonerOpenFile3)
 
-"let g:WhichKeyDesc_harpoon_next_file = "<leader>hn Next File"
-"nmap <leader>hn <action>(HarpoonerNextFileAction)
-
-"let g:WhichKeyDesc_harpoon_previous_file = "<leader>hp Previous File"
-"nmap <leader>hp <action>(HarpoonerPreviousFileAction)
-
-" Move lines up and down
-vmap J <action>(MoveLineDown)
-vmap K <action>(MoveLineUp)
-nmap <A-j> <action>(MoveLineDown)
-nmap <A-k> <action>(MoveLineUp)
-
-" Enable repetable indenation
-vnoremap < <gv
-vnoremap > >gv
-
-let g:WhichKeyDesc_debug = "<leader>d +debug"
-let g:WhichKeyDesc_debug_continue = "<leader>dc Continue"
-map <leader>dc <Action>(Debug)
-
-let g:WhichKeyDesc_debug_breakpoint = "<leader>db Toggle breakpoint"
-map <leader>db <Action>(ToggleLineBreakpoint)
+let g:WhichKeyDesc_harpoon_go4 = "<leader>5 Harpoon to file 5"
+nmap <leader>5 <action>(HarpoonerOpenFile4)
