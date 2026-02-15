@@ -28,11 +28,12 @@ return {
       },
       adapters = {
         ["neotest-vstest"] = {},
-      icons = {
-        running_animated = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" },
-      },
-      floating = {
-        border = "rounded",
+        icons = {
+          running_animated = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" },
+        },
+        floating = {
+          border = "rounded",
+        },
       },
     },
   },

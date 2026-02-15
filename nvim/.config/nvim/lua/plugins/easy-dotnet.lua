@@ -7,7 +7,7 @@ return {
 
       local netcoreDbgExec = vim.fn.has("win32") == 1 and "netcoredbg.cmd" or "netcoredbg"
 
-      dotnet.setup({
+      local cfg = {
         lsp = {
           -- Use roslyn.nvim
           enabled = false,
@@ -50,7 +50,22 @@ return {
             end
           end,
         },
-      })
+      }
+
+      if not vim.g.neotest_vstest_enabled then
+        vim.keymap.set("n", "<leader>ts", "<cmd>Dotnet testrunner<CR>", {
+          desc = "open testrunner (easy-dotnet)",
+        })
+
+        cfg.test_runner.mappings = vim.tbl_extend("force", cfg.test_runner.mappings or {}, {
+          run_test_from_buffer = { lhs = "<leader>tr", desc = "Run nearest (easy-dotnet)" },
+          debug_test_from_buffer = { lhs = "<leader>td", desc = "Debug nearest (easy-dotnet)" },
+          run_all_tests_from_buffer = { lhs = "<leader>tt", desc = "Run File (easy-dotnet)" },
+          peek_stack_trace_from_buffer = { lhs = "<leader>to", desc = "Show output (easy-dotnet)" },
+        })
+      end
+
+      dotnet.setup(cfg)
 
       vim.keymap.set("n", "<leader>cb", function()
         dotnet.build_solution_quickfix()
