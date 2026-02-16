@@ -141,6 +141,7 @@ Function Fix-Commit {
 	git commit --fixup $(Invoke-PsFzfGitHashes)
 }
 $env:XDG_CONFIG_HOME = "$HOME\.config"
+$env:GLAZEWM_CONFIG_PATH = "$HOME\.glzr\galzewm\config.yaml"
 
 Function Rebase-Commit {
 	git rebase --interactive $(Invoke-PsFzfGitHashes)

@@ -125,7 +125,6 @@ wezterm.on("gui-startup", function(cmd)
 	local _, second_pane, _ = window:spawn_tab({})
 
 	mux.set_active_workspace("dotfiles")
-	window:gui_window():maximize()
 end)
 
 config.keys = keys

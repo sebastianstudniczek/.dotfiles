@@ -111,12 +111,19 @@ window_behavior:
       # Whether to show fullscreen windows as always on top.
       shown_on_top: false
 
+# 0 -> Leftmost
+# 1 -> to the right etc.
 workspaces:
   - name: '1'
+    bind_to_monitor: 1
   - name: '2'
+    bind_to_monitor: 1
   - name: '3'
+    bind_to_monitor: 1
   - name: '4'
+    bind_to_monitor: 1
   - name: '5'
+    bind_to_monitor: 1
   - name: '6'
   - name: '7'
   - name: '8'
@@ -139,9 +146,22 @@ window_rules:
         window_title: { regex: '.*? - Peek' }
       - window_process: { equals: 'Lively' }
         window_class: { regex: 'HwndWrapper' }
-
       - window_process: { equals: 'rider64'}
         window_class: { regex: 'SunAwtDialog'}
+      - window_process: { equals: 'DDPM.Subagent.User'}
+
+  - commands: ['move --workspace 1']
+    match: 
+      - window_process: { regex: 'msedge|chrome' }
+
+  - commands: ['move --workspace 2']
+    match:
+      - window_process: { equals: 'slack' }
+
+  - commands: ['move --workspace 3']
+    match:
+      # Move terminals to workspace 3
+      - window_process: { regex: 'wezterm_gui|alacritty|WindowsTerminal' }
 
 binding_modes:
   # When enabled, the focused window can be resized via arrow keys or HJKL.
