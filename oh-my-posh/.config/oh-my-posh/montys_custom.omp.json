@@ -27,8 +27,7 @@
           "properties": {
             "home_icon": "~",
             "style": "mixed",
-	    "mapped_locations": {
-	    }
+            "mapped_locations": {}
           },
           "foreground": "black",
           "powerline_symbol": "\ue0b0",
@@ -43,30 +42,11 @@
             "fetch_upstream_icon": true,
             "fetch_bare_info": true
           },
-          "template": "{{ if .UpstreamURL }}{{ url .UpstreamIcon .UpstreamURL }}{{ end }} {{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if .Staging.Changed }} \uf046 {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }} \uf0c7 {{ .StashCount }}{{ end }}",
+          "template": "{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if .Staging.Changed }} \uf046 {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }} \uf0c7 {{ .StashCount }}{{ end }}",
           "foreground": "black",
           "powerline_symbol": "\ue0b0",
           "background": "#FCA17D",
           "type": "git",
-          "style": "powerline"
-        },
-        {
-          "template": " \ue718 {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }} ",
-          "foreground": "#ffffff",
-          "powerline_symbol": "\ue0b0",
-          "background": "#76b367",
-          "type": "node",
-          "style": "powerline"
-        },
-        {
-          "properties": {
-            "time_format": "3:04 PM"
-          },
-          "template": " \uf017 {{ .CurrentDate | date .Format }} ",
-          "foreground": "#ffffff",
-          "powerline_symbol": "\ue0b0",
-          "background": "#33658A",
-          "type": "time",
           "style": "powerline"
         },
         {

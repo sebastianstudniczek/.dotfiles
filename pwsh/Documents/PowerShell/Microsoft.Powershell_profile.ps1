@@ -1,7 +1,6 @@
 
 using namespace System.Management.Automation.Language
 
-Import-Module Terminal-Icons
 Import-Module PSFzf
 
 oh-my-posh init pwsh --config "$HOME\.config\oh-my-posh\montys_custom.omp.json" | Invoke-Expression
@@ -9,22 +8,15 @@ Invoke-Expression (& { (zoxide init powershell | Out-String) })
 
 # Import local config
 $localConfigPath = "$HOME\Documents\PowerShell\Microsoft.PowerShell_profile.local.ps1"
-if (Test-Path $localConfigPath) {
+if (Test-Path $localConfigPath)
+{
 	. $localConfigPath
 }
 
-Set-Alias ls GetChildItemsSortByNames
-Set-Alias lg lazygit
 Set-Alias g git
 Set-Alias d dotnet
-Set-Alias e explorer
-Set-Alias grep Select-String
-Set-Alias gmain Update-BasedOnMain
-Set-Alias ga GitFuzzyAdd
-Set-Alias cf FuzzyGoTo
 Set-Alias which Get-ExecutablePath
-Set-Alias zl Invoke-ZLocation
-Set-Alias cw Create-Worktree
+Set-Alias ls eza
 
 # FZF - Git
 Set-Alias fgs Invoke-FuzzyGitStatus
@@ -54,6 +46,11 @@ Set-PSFzfOption -TabExpansion -GitKeyBindings
 # Set shell to fzf uses pwsh instead of cmd
 # TODO: Fuzzy finding files withing with with plugin does not work
 $env:SHELL = 'pwsh'
+$env:XDG_CONFIG_HOME = "$HOME\.config"
+$env:GLAZEWM_CONFIG_PATH = "$HOME\.glzr\galzewm\config.yaml"
+# Required for glow to show properly in fzf preview
+$env:COLORTERM = 'truecolor'
+$env:CLICOLOR_FORCE = 1
 
 # Overwrites the preview-window options using `bind='start:'`
 $env:_PSFZF_FZF_DEFAULT_OPTS = "$env:FZF_DEFAULT_OPTS --bind='start:change-preview-window(hidden)' --height 50%"
@@ -62,7 +59,8 @@ $env:_PSFZF_FZF_DEFAULT_OPTS = "$env:FZF_DEFAULT_OPTS --bind='start:change-previ
 	.DESCRIPTION
 	Assumes creating worktree with new branch
 #>
-Function Create-Worktree([String]$branchName) {
+Function Create-Worktree([String]$branchName)
+{
 	$worktreeFolderName = $branchName.Split('/')[1]
 	git worktree add -b $branchName $worktreeFolderName master
 	zoxide add $(Join-Path -Path $(Get-Location) -ChildPath $worktreeFolderName)
@@ -70,28 +68,34 @@ Function Create-Worktree([String]$branchName) {
 
 Set-PSReadLineKeyHandler -Chord Ctrl+Shift+O -ScriptBlock { Open-Project }
 
-Function y {
+Function y
+{
 	$tmp = [System.IO.Path]::GetTempFileName()
 	yazi $args --cwd-file="$tmp"
 	$cwd = Get-Content -Path $tmp -Encoding UTF8
-	if (-not [String]::IsNullOrEmpty($cwd) -and $cwd -ne $PWD.Path) {
+	if (-not [String]::IsNullOrEmpty($cwd) -and $cwd -ne $PWD.Path)
+	{
 		Set-Location -LiteralPath ([System.IO.Path]::GetFullPath($cwd))
 	}
 	Remove-Item -Path $tmp
 }
 
-Function Open-Solution {
+Function Open-Solution
+{
 	$solutionFile = Get-ChildItem -Filter *.sln -File | Select-Object -First 1
-	if ($solutionFile) {
+	if ($solutionFile)
+	{
 		# Script from Jetbrains Toolbox
 		Rider $solutionFile.FullName
-	} else {
+	} else
+	{
 		Write-Warning "No solution file (.sln) found in current directory"
 	}
 }
 
 # Assumes ticket number in branch name (eg. SEB-125-new-feature)
-Function CreatePR {
+Function CreatePR
+{
 	param (
 		[Parameter(Mandatory = $false, Position = 0, ValueFromRemainingArguments = $true)]
 		[string[]]
@@ -99,10 +103,11 @@ Function CreatePR {
 	)
 
 	$branchParts
-	try {
+	try
+	{
 		$branchParts = (git branch --show-current).Split('/')[1].Split('-')
-	}
- catch {
+	} catch
+	{
 		Write-Host "Not a git repo or invalid branch name!" -ForegroundColor Red
 		return
 	}
@@ -112,7 +117,8 @@ Function CreatePR {
 	$prContent = $prTemplate.Replace('$ticket', $ticket)
 	$commitMessages = $(git log --pretty='* %s' master..HEAD --no-merges)
 	$sb = [System.Text.StringBuilder]::new()
-	foreach ($commitMessage in $commitMessages) {
+	foreach ($commitMessage in $commitMessages)
+	{
 		$sb.AppendLine($commitMessage)
 	}
 	$sb.AppendLine()
@@ -124,7 +130,8 @@ Function CreatePR {
 	Write-Host "Pushing branch: $(git branch --show-current)" -ForegroundColor Green
 
 	git push -u origin HEAD $args
-	if ($? -ne $true) {
+	if ($? -ne $true)
+	{
 		Write-Host "Failed to push branch" -ForegroundColor Red
 		return
 	}
@@ -133,45 +140,48 @@ Function CreatePR {
 	gh pr create --body $finalContent --title $prTitle --web
 }
 
-Function Get-ExecutablePath($executable) {
+Function Get-ExecutablePath($executable)
+{
 	(Get-Command $executable).Path
 }
 
-Function Fix-Commit {
+Function Fix-Commit
+{
 	git commit --fixup $(Invoke-PsFzfGitHashes)
 }
-$env:XDG_CONFIG_HOME = "$HOME\.config"
-$env:GLAZEWM_CONFIG_PATH = "$HOME\.glzr\galzewm\config.yaml"
 
-Function Rebase-Commit {
+Function Rebase-Commit
+{
 	git rebase --interactive $(Invoke-PsFzfGitHashes)
 }
 
-Function Reset-Commit {
+Function Reset-Commit
+{
 	git reset $(Invoke-PsFzfGitHashes)
 }
 
-Function Change-Branch {
+Function Change-Branch
+{
 	git switch $(Invoke-PsFzfGitBranches)
 }
 
-Function Change-Worktree {
+Function Change-Worktree
+{
 	git worktree list | Invoke-Fzf -Layout reverse -Height 50% | ForEach-Object { $_.Split(" ")[0] } | Set-Location
 	# Get-ChildItem | Where-Object { $_.Name -like '*.sln' } | ForEach-Object { start $_.Name }
 }
 
-# Required for glow to show properly in fzf preview
-$env:COLORTERM = 'truecolor'
-$env:CLICOLOR_FORCE = 1
 
-Function Open-Config {
+Function Open-Config
+{
 	Get-ChildItem -Path ~/.dotfiles -File -Recurse `
 	| Select -ExpandProperty FullName `
 	| Where-Object { $_ -notmatch '~|.gitignore' } `
 	| fzf --preview='bat {} --color=always'
 }
 
-Function Open-Project {
+Function Open-Project
+{
 	Get-ChildItem -Dept 2 -Path D:\ *.sln `
 	| Select -ExpandProperty DirectoryName `
 	| fzf `
@@ -182,11 +192,13 @@ Function Open-Project {
 		--bind 'ctrl-v:execute(code {})+abort'
 }
 
-Function Change-Commit {
+Function Change-Commit
+{
 	git switch --detach $(Invoke-PsFzfGitHashes)
 }
 
-Function GitFuzzyAdd($arg) {
+Function GitFuzzyAdd($arg)
+{
 	# "&" Invocation operator and script block
 	& {
 		# Get untracked files
@@ -203,11 +215,13 @@ Function GitFuzzyAdd($arg) {
 	| ForEach-Object { git add $_ -$arg }
 }
 
-Function GetChildItemsSortByNames {
+Function GetChildItemsSortByNames
+{
 	Get-ChildItem -Force | Format-Wide
 }
 
-Function FuzzyGoTo {
+Function FuzzyGoTo
+{
 	Get-ChildItem -Directory -Recurse | Invoke-Fzf | ForEach-Object { cd $_ }
 }
 
@@ -229,10 +243,4 @@ Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock {
 		[System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
 	}
 }
-
-#f45873b3-b655-43a6-b217-97c00aa0db58 PowerToys CommandNotFound module
-
-Import-Module -Name Microsoft.WinGet.CommandNotFound
-#f45873b3-b655-43a6-b217-97c00aa0db58
-
 
