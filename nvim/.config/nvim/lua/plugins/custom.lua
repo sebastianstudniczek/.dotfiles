@@ -21,4 +21,29 @@ return {
     "fei6409/log-highlight.nvim",
     opts = {},
   },
+  {
+    "stevearc/quicker.nvim",
+    ft = "qf",
+    ---@module "quicker"
+    ---@type quicker.SetupOptions
+    opts = {},
+  },
+  {
+    "rmagatti/auto-session",
+    lazy = false,
+    ---enables autocomplete for opts
+    ---@module "auto-session"
+    ---@type AutoSession.Config
+    opts = {},
+  },
+  {
+    "rmagatti/goto-preview",
+    dependencies = { "rmagatti/logger.nvim" },
+    event = "BufEnter",
+    config = function()
+      require("goto-preview").setup({
+        default_mappings = true,
+      })
+    end,
+  },
 }
