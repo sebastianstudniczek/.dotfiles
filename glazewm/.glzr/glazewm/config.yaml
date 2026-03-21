@@ -146,8 +146,16 @@ window_rules:
         window_title: { regex: '.*? - Peek' }
       - window_process: { equals: 'Lively' }
         window_class: { regex: 'HwndWrapper' }
+
+      # Ignore Microsoft Remote Desktop windows (WSLG).
+      # TODO: Waiting until this will be fixed glazewm issue #977
+      - window_process: { equals: 'msrdc' }
+      - window_process: { equals: 'SystemSettingsAdvanced' }
+
       - window_process: { equals: 'rider64'}
         window_class: { regex: 'SunAwtDialog'}
+
+      - window_process: { equals: 'SnippingTool'}
       - window_process: { equals: 'DDPM.Subagent.User'}
 
   - commands: ['move --workspace 1']
@@ -156,12 +164,16 @@ window_rules:
 
   - commands: ['move --workspace 2']
     match:
-      - window_process: { equals: 'slack' }
+      - window_process: { equals: 'Slack' }
 
   - commands: ['move --workspace 3']
     match:
       # Move terminals to workspace 3
-      - window_process: { regex: 'wezterm_gui|alacritty|WindowsTerminal' }
+      - window_process: { regex: 'wezterm-gui|alacritty|WindowsTerminal' }
+
+  - commands: ['move --workspace 4']
+    match:
+      - window_process: { equals: 'rider64' }
 
 binding_modes:
   # When enabled, the focused window can be resized via arrow keys or HJKL.
@@ -182,149 +194,148 @@ binding_modes:
 keybindings:
   # Shift focus in a given direction.
   - commands: ['focus --direction left']
-    bindings: ['f13+h', 'alt+left']
+    bindings: ['f24+h', 'alt+left']
   - commands: ['focus --direction right']
-    bindings: ['f13+l', 'alt+right']
+    bindings: ['f24+l', 'alt+right']
   - commands: ['focus --direction up']
-    bindings: ['f13+k', 'alt+up']
+    bindings: ['f24+up']
   - commands: ['focus --direction down']
-    bindings: ['f13+j', 'alt+down']
+    bindings: ['f24+down']
 
   # Move focused window in a given direction.
   - commands: ['move --direction left']
-    bindings: ['f13+shift+h', 'alt+shift+left']
+    bindings: ['f24+shift+h', 'alt+shift+left']
   - commands: ['move --direction right']
-    bindings: ['f13+shift+l', 'alt+shift+right']
+    bindings: ['f24+shift+l', 'alt+shift+right']
   - commands: ['move --direction up']
-    bindings: ['f13+shift+k', 'alt+shift+up']
+    bindings: ['f24+shift+k', 'alt+shift+up']
   - commands: ['move --direction down']
-    bindings: ['f13+shift+j', 'alt+shift+down']
+    bindings: ['f24+shift+j', 'alt+shift+down']
 
   # Resize focused window by a percentage or pixel amount.
   - commands: ['resize --width -2%']
-    bindings: ['f13+u']
+    bindings: ['f24+u']
   - commands: ['resize --width +2%']
-    bindings: ['f13+p']
+    bindings: ['f24+p']
   - commands: ['resize --height +2%']
-    bindings: ['f13+o']
+    bindings: ['f24+o']
   - commands: ['resize --height -2%']
-    bindings: ['f13+i']
+    bindings: ['f24+i']
 
   # As an alternative to the resize keybindings above, resize mode enables
   # resizing via arrow keys or HJKL. The binding mode is defined above with
   # the name 'resize'.
   - commands: ['wm-enable-binding-mode --name resize']
-    bindings: ['f13+r']
+    bindings: ['f24+r']
 
   # Disables window management and all other keybindings until alt+shift+p
   # is pressed again.
   - commands: ['wm-toggle-pause']
-    bindings: ['alt+shift+p']
+    bindings: ['f24+shift+p']
 
   # Change tiling direction. This determines where new tiling windows will
   # be inserted.
   - commands: ['toggle-tiling-direction']
-    bindings: ['f13+v']
+    bindings: ['f24+v']
 
   # Change focus from tiling windows -> floating -> fullscreen.
   - commands: ['wm-cycle-focus']
-    bindings: ['f13+space']
+    bindings: ['f24+space']
 
   # Change the focused window to be floating.
   - commands: ['toggle-floating --centered']
-    bindings: ['f13+shift+space']
+    bindings: ['f24+shift+space']
 
   # Change the focused window to be tiling.
   - commands: ['toggle-tiling']
-    bindings: ['f13+t']
+    bindings: ['f24+t']
 
   # Change the focused window to be fullscreen.
   - commands: ['toggle-fullscreen']
-    bindings: ['f13+f']
+    bindings: ['f24+f']
 
   # Minimize focused window.
   - commands: ['toggle-minimized']
-    bindings: ['f13+m']
+    bindings: ['f24+m']
 
   # Close focused window.
   - commands: ['close']
-    bindings: ['f13+shift+q']
+    bindings: ['f24+shift+q']
 
   # Kill GlazeWM process safely.
   - commands: ['wm-exit']
-    bindings: ['f13+shift+e']
+    bindings: ['f24+shift+e']
 
   # Re-evaluate configuration file.
   - commands: ['wm-reload-config']
-    bindings: ['f13+shift+r']
+    bindings: ['f24+shift+r']
 
   # Redraw all windows.
   - commands: ['wm-redraw']
-    bindings: ['f13+shift+w']
+    bindings: ['f24+shift+w']
 
   # Launch CMD terminal. Alternatively, use `shell-exec wt` or
   # `shell-exec %ProgramFiles%/Git/git-bash.exe` to start Windows
   # Terminal and Git Bash respectively.
   - commands: ['shell-exec wt']
-    bindings: ['alt+enter']
+    bindings: ['f24+enter']
 
   # Focus the next/previous active workspace defined in `workspaces` config.
   - commands: ['focus --next-active-workspace']
-    bindings: ['f13+s']
+    bindings: ['f24+s']
   - commands: ['focus --prev-active-workspace']
-    bindings: ['f13+a']
+    bindings: ['f24+a']
 
   # Focus the workspace that last had focus.
   - commands: ['focus --recent-workspace']
-    bindings: ['f13+d']
+    bindings: ['f24+d']
 
   # Change focus to a workspace defined in `workspaces` config.
   - commands: ['focus --workspace 1']
-    bindings: ['f13+1']
+    bindings: ['f24+1']
   - commands: ['focus --workspace 2']
-    bindings: ['f13+2']
+    bindings: ['f24+2']
   - commands: ['focus --workspace 3']
-    bindings: ['f13+3']
+    bindings: ['f24+3']
   - commands: ['focus --workspace 4']
-    bindings: ['f13+4']
+    bindings: ['f24+4']
   - commands: ['focus --workspace 5']
-    bindings: ['f13+5']
+    bindings: ['f24+5']
   - commands: ['focus --workspace 6']
-    bindings: ['f13+6']
+    bindings: ['f24+6']
   - commands: ['focus --workspace 7']
-    bindings: ['f13+7']
+    bindings: ['f24+7']
   - commands: ['focus --workspace 8']
-    bindings: ['f13+8']
+    bindings: ['f24+8']
   - commands: ['focus --workspace 9']
-    bindings: ['f13+9']
-
+    bindings: ['f24+9']
   # Move the focused window's parent workspace to a monitor in a given
   # direction.
   - commands: ['move-workspace --direction left']
-    bindings: ['f13+shift+a']
+    bindings: ['f24+shift+a']
   - commands: ['move-workspace --direction right']
-    bindings: ['f13+shift+f']
+    bindings: ['f24+shift+f']
   - commands: ['move-workspace --direction up']
-    bindings: ['f13+shift+d']
+    bindings: ['f24+shift+d']
   - commands: ['move-workspace --direction down']
-    bindings: ['f13+shift+s']
+    bindings: ['f24+shift+s']
 
   # Move focused window to a workspace defined in `workspaces` config.
   - commands: ['move --workspace 1', 'focus --workspace 1']
-    bindings: ['f13+shift+1']
+    bindings: ['f24+shift+1']
   - commands: ['move --workspace 2', 'focus --workspace 2']
-    bindings: ['f13+shift+2']
+    bindings: ['f24+shift+2']
   - commands: ['move --workspace 3', 'focus --workspace 3']
-    bindings: ['f13+shift+3']
+    bindings: ['f24+shift+3']
   - commands: ['move --workspace 4', 'focus --workspace 4']
-    bindings: ['f13+shift+4']
+    bindings: ['f24+shift+4']
   - commands: ['move --workspace 5', 'focus --workspace 5']
-    bindings: ['f13+shift+5']
+    bindings: ['f24+shift+5']
   - commands: ['move --workspace 6', 'focus --workspace 6']
-    bindings: ['f13+shift+6']
+    bindings: ['f24+shift+6']
   - commands: ['move --workspace 7', 'focus --workspace 7']
-    bindings: ['f13+shift+7']
+    bindings: ['f24+shift+7']
   - commands: ['move --workspace 8', 'focus --workspace 8']
-    bindings: ['f13+shift+8']
+    bindings: ['f24+shift+8']
   - commands: ['move --workspace 9', 'focus --workspace 9']
-    bindings: ['f13+shift+9']
+    bindings: ['f24+shift+9']

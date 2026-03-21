@@ -8,13 +8,13 @@
   lctl rctl
 )
 
-;; Use f13 as hyper key
+;; Use f24 as hyper key
 (deflayer default
   @escctl
   @hyper  @hyper
 )
 
 (defalias
-  escctl (tap-hold-press 200 200 esc lctl)
-  hyper f13
+  escctl (tap-hold-press 150 350 esc lctl)
+  hyper f24
 )
