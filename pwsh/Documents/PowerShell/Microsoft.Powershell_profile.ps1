@@ -29,17 +29,33 @@ Set-Alias fgw Change-Worktree
 Set-Alias op Open-Project
 Set-Alias os Open-Solution
 Set-Alias oc Open-Config
+Set-Alias lg lazygit
 
 $PsReadLineOptions = @{
-	PredictionSource    = "History"
+	PredictionSource    = "HistoryAndPlugin"
 	PredictionViewStyle = "ListView"
 	EditMode            = "vi"
+	HistoryNoDuplicates = $true
+	MaximumHistoryCount = 50000
+	ShowToolTips        = $true
 }
 Set-PSReadLineOption @PsReadLineOptions
+
+function OnViModeChange {
+    if ($args[0] -eq 'Command') {
+        # Set the cursor to a steady block.
+        Write-Host -NoNewline "`e[2 q"
+    } else {
+        # Set the cursor to a steady bar.
+        Write-Host -NoNewline "`e[6 q"
+    }
+}
+Set-PSReadLineOption -ViModeIndicator Script -ViModeChangeHandler $Function:OnViModeChange
 
 Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
 Set-PSReadLineKeyHandler -Chord Ctrl+p -Function HistorySearchBackward
 Set-PSReadLineKeyHandler -Chord Ctrl+n -Function HistorySearchForward
+Set-PSReadLineKeyHandler -Chord 'Ctrl+Spacebar' -Function MenuComplete
 
 Set-PSFzfOption -TabExpansion -GitKeyBindings
 # $env:_PSFZF_FZF_DEFAULT_OPTS = '--height 50%'
@@ -51,7 +67,7 @@ $env:GLAZEWM_CONFIG_PATH = "$HOME\.glzr\galzewm\config.yaml"
 # Required for glow to show properly in fzf preview
 $env:COLORTERM = 'truecolor'
 $env:CLICOLOR_FORCE = 1
-
+$env:LG_CONFIG_FILE = "$HOME\.config\lazygit\config.yml"
 # Overwrites the preview-window options using `bind='start:'`
 $env:_PSFZF_FZF_DEFAULT_OPTS = "$env:FZF_DEFAULT_OPTS --bind='start:change-preview-window(hidden)' --height 50%"
 
@@ -82,14 +98,14 @@ Function y
 
 Function Open-Solution
 {
-	$solutionFile = Get-ChildItem -Filter *.sln -File | Select-Object -First 1
+	$solutionFile = Get-ChildItem | Where-Object { $_.Extension -match '\.slnx?$' } | Select-Object -First 1
 	if ($solutionFile)
 	{
 		# Script from Jetbrains Toolbox
-		Rider $solutionFile.FullName
+		Rider1 $solutionFile.FullName
 	} else
 	{
-		Write-Warning "No solution file (.sln) found in current directory"
+		Write-Warning "No solution file (.sln[x]) found in current directory"
 	}
 }
 
