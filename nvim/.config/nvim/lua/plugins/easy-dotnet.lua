@@ -9,8 +9,8 @@ return {
 
       local cfg = {
         lsp = {
-          -- Use roslyn.nvim
-          enabled = false,
+          enabled = not vim.g.roslyn_plugin_enabled,
+          auto_refresh_codelens = false,
         },
         --INFO: Snacks is somehow ignoring shellslash option and passing forward slash path
         --while using it as picker to choose dll to debug
@@ -18,6 +18,7 @@ return {
         test_runner = {
           viewmode = "vsplit",
           vsplit_width = 70,
+          auto_start_testrunner = not vim.g.neotest_vstest_enabled,
         },
         debugger = {
           bin_path = netcoreDbgExec,

@@ -97,7 +97,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
-vim.lsp.config("roslyn", {
+local lsp_server_name = vim.g.roslyn_plugin_enabled and "roslyn" or "easy_dotnet"
+
+-- TODO: Move to lsp
+vim.lsp.config(lsp_server_name, {
   settings = {
     ["csharp|inlay_hints"] = {
       csharp_enable_inlay_hints_for_implicit_object_creation = true,
@@ -123,7 +126,7 @@ vim.lsp.config("roslyn", {
     },
     ["csharp|background_analysis"] = {
       dotnet_analyzer_diagnostics_scope = "openFiles",
-      dotnet_compiler_diagnostics_scope = "openFiles",
+      dotnet_compiler_diagnostics_scope = "fullSolution",
     },
     ["csharp|symbol_search"] = {
       dotnet_search_reference_assemblies = true,
