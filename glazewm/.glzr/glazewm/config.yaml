@@ -157,6 +157,9 @@ window_rules:
 
       - window_process: { equals: 'SnippingTool'}
       - window_process: { equals: 'DDPM.Subagent.User'}
+      # Excel find and replace popup
+      - window_process: { equals: 'EXCEL'}
+        window_class: { equals: 'bosa_sdm_XL9'}
 
   - commands: ['move --workspace 1']
     match: 
