@@ -1,5 +1,10 @@
 return {
   {
+    "nvim-mini/mini.keymap",
+    event = "VeryLazy",
+    opts = {},
+  },
+  {
     "mfussenegger/nvim-lint",
     opts = {
       linters_by_ft = {
