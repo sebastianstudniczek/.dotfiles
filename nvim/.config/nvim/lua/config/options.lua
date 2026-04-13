@@ -10,7 +10,9 @@ vim.g.ai_cmp = false
 
 vim.g.roslyn_plugin_enabled = true
 vim.g.neotest_vstest_enabled = false
+vim.lsp.on_type_formatting.enable()
 vim.o.winborder = "rounded"
+
 -- Setup pwsh for command line actions
 if vim.fn.has("win32") == 1 then
   vim.opt.shell = "pwsh"
