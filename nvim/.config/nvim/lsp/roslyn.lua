@@ -45,6 +45,15 @@ return {
       end,
     })
   end,
+  -- Currently there are issues with filewatching implementation on Linux
+  -- https://github.com/dotnet/roslyn/issues/82857
+  capabilities = {
+    workspace = {
+      didChangeWatchedFiles = {
+        dynamicRegistration = true,
+      },
+    },
+  },
   settings = {
     ["csharp|inlay_hints"] = {
       csharp_enable_inlay_hints_for_implicit_object_creation = true,
