@@ -161,6 +161,8 @@ window_rules:
       - window_process: { equals: 'EXCEL'}
         window_class: { equals: 'bosa_sdm_XL9'}
 
+      - window_process: { equals: 'Taskmgr'}
+
   - commands: ['move --workspace 1']
     match: 
       - window_process: { regex: 'msedge|chrome' }
