@@ -1,3 +1,37 @@
+local function expand_summary(client, bufnr, char)
+  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+  row, col = row - 1, col + 1
+  local uri = vim.uri_from_bufnr(bufnr)
+
+  local params = {
+    _vs_textDocument = { uri = uri },
+    _vs_position = { line = row, character = col },
+    _vs_ch = char,
+    _vs_options = {
+      tabSize = vim.bo[bufnr].tabstop,
+      insertSpaces = vim.bo[bufnr].expandtab,
+    },
+  }
+
+  -- NOTE: We should send textDocument/_vs_onAutoInsert request only after
+  -- buffer has changed.
+  vim.defer_fn(function()
+    client:request(
+      ---@diagnostic disable-next-line: param-type-mismatch
+      "textDocument/_vs_onAutoInsert",
+      params,
+      function(err, result, _)
+        if err or not result then
+          return
+        end
+
+        vim.snippet.expand(result._vs_textEdit.newText)
+      end,
+      bufnr
+    )
+  end, 1)
+end
+
 ---@type vim.lsp.Config
 return {
   on_attach = function(client, bufnr)
@@ -11,37 +45,7 @@ return {
           return
         end
 
-        local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-        row, col = row - 1, col + 1
-        local uri = vim.uri_from_bufnr(bufnr)
-
-        local params = {
-          _vs_textDocument = { uri = uri },
-          _vs_position = { line = row, character = col },
-          _vs_ch = char,
-          _vs_options = {
-            tabSize = vim.bo[bufnr].tabstop,
-            insertSpaces = vim.bo[bufnr].expandtab,
-          },
-        }
-
-        -- NOTE: We should send textDocument/_vs_onAutoInsert request only after
-        -- buffer has changed.
-        vim.defer_fn(function()
-          client:request(
-            ---@diagnostic disable-next-line: param-type-mismatch
-            "textDocument/_vs_onAutoInsert",
-            params,
-            function(err, result, _)
-              if err or not result then
-                return
-              end
-
-              vim.snippet.expand(result._vs_textEdit.newText)
-            end,
-            bufnr
-          )
-        end, 1)
+        expand_summary(client, bufnr, char)
       end,
     })
   end,
