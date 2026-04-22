@@ -33,8 +33,6 @@ vim.api.nvim_create_user_command("CSFixUsings", function()
   end)
 end, { desc = "Remove unnecessary using directives" })
 
-local lsp_server_name = vim.g.roslyn_plugin_enabled and "roslyn" or "easy_dotnet"
-
 -- Fidget integration for Roslyn initialization
 local init_handles = {}
 
@@ -66,22 +64,19 @@ vim.api.nvim_create_autocmd("User", {
 })
 
 ---@return string
-local function get_easy_dotnet_analyzer_folder()
-  local easy_dotnet_version = "2.3.59"
-  local easy_dotnet_path = string.format(
-    "~/.dotnet/tools/.store/easydotnet/%s/easydotnet/%s/tools/Roslyn/Analyzers/",
-    easy_dotnet_version,
-    easy_dotnet_version
-  )
-
-  return vim.fn.expand(easy_dotnet_path)
-end
-
 return {
   {
     "seblyng/roslyn.nvim",
+    enabled = vim.g.roslyn_nvim_enabled,
     ---@module 'roslyn.config'
     ---@type RoslynNvimConfig
-    opts = {},
+    opts = {
+      extensions = {
+        ---@diagnostic disable-next-line: missing-fields
+        razor = {
+          enabled = false,
+        },
+      },
+    },
   },
 }
