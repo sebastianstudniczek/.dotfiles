@@ -13,6 +13,9 @@ vim.g.neotest_vstest_enabled = false
 vim.lsp.on_type_formatting.enable()
 vim.o.winborder = "rounded"
 
+vim.cmd("packadd nvim.undotree")
+vim.keymap.set("n", "<leader>cu", require("undotree").open)
+
 -- Setup pwsh for command line actions
 if vim.fn.has("win32") == 1 then
   vim.opt.shell = "pwsh"
