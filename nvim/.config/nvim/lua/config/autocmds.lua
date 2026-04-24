@@ -18,3 +18,16 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     vim.bo.softtabstop = 4
   end,
 })
+
+-- Don't try to open source generate files on restart
+vim.api.nvim_create_autocmd("User", {
+  pattern = "PersistenceSavePre",
+  callback = function()
+    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+      local name = vim.api.nvim_buf_get_name(buf)
+      if name:match("roslyn%-source%-generated://") then
+        vim.api.nvim_buf_delete(buf, { force = true })
+      end
+    end
+  end,
+})
