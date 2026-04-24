@@ -4,9 +4,7 @@
 
 -- Disable ai completions in autosuggestions popup
 vim.g.ai_cmp = false
--- https://github.com/nvim-neotest/neotest/pull/521
--- Not playing well right now, check on nvim 12, mainly set cause of neotest floating window
--- vim.o.winborder = "rounded"
+vim.g.copilot_enabled = vim.env.COPILOT_ENABLED == 1
 
 vim.g.roslyn_plugin_enabled = true
 vim.g.neotest_vstest_enabled = false
