@@ -7,6 +7,25 @@ return {
       -- Useful for getting pretty icons, but requires a Nerd Font.
       { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
     },
+    opts = {
+      explorer = {
+        replace_netrw = true,
+      },
+      picker = {},
+      dashboard = {},
+    },
+    config = function(_, opts)
+      require('snacks').setup(opts)
+
+      -- vim.api.nvim_create_autocmd("VimEnter", {
+      --   callback = function()
+      --     -- Verify whether nvim was not invoked to edit concrete file
+      --     if vim.fn.argc() == 0 then
+      --       vim.schedule(function() Snacks.picker.smart() end)
+      --     end
+      --   end
+      -- })
+    end,
     -- stylua: ignore
     keys = {
       { "<leader>,",       function() Snacks.picker.buffers() end,                                   desc = "Buffers" },
@@ -17,11 +36,11 @@ return {
       -- find
       { "<leader>fb",      function() Snacks.picker.buffers() end,                                   desc = "Buffers" },
       { "<leader>fB",      function() Snacks.picker.buffers({ hidden = true, nofile = true }) end,   desc = "Buffers (all)" },
-      { "<leader>fc",      function() Snacks.picker.config_files() end,                              desc = "Find Config File" },
+      { "<leader>fc",      function() Snacks.picker.files({ cwd = vim.fn.stdpath("config")}) end,                              desc = "Find Config File" },
       { "<leader>ff",      function() Snacks.picker.files() end,                                     desc = "Find Files (Root Dir)" },
       { "<leader>fF",      function() Snacks.picker.files({ root = false }) end,                     desc = "Find Files (cwd)" },
       { "<leader>fg",      function() Snacks.picker.git_files() end,                                 desc = "Find Files (git-files)" },
-      { "<leader>fr",      function() Snacks.picker.oldfiles() end,                                  desc = "Recent" },
+      -- { "<leader>fr",      function() Snacks.picker.oldfiles() end,                                  desc = "Recent" },
       { "<leader>fR",      function() Snacks.picker.recent({ filter = { cwd = true } }) end,         desc = "Recent (cwd)" },
       { "<leader>fp",      function() Snacks.picker.projects() end,                                  desc = "Projects" },
       -- git
@@ -36,8 +55,9 @@ return {
       -- Grep
       { "<leader>sb",      function() Snacks.picker.lines() end,                                     desc = "Buffer Lines" },
       { "<leader>sB",      function() Snacks.picker.grep_buffers() end,                              desc = "Grep Open Buffers" },
-      { "<leader>sg",      function() Snacks.picker.live_grep() end,                                 desc = "Grep (Root Dir)" },
-      { "<leader>sG",      function() Snacks.picker.live_grep({ root = false }) end,                 desc = "Grep (cwd)" },
+      -- TODO: What is this live grep from LazyVim?
+      { "<leader>sg",      function() Snacks.picker.grep() end,                                 desc = "Grep (Root Dir)" },
+      { "<leader>sG",      function() Snacks.picker.grep({ root = false }) end,                 desc = "Grep (cwd)" },
       { "<leader>sp",      function() Snacks.picker.lazy() end,                                      desc = "Search for Plugin Spec" },
       { "<leader>sw",      function() Snacks.picker.grep_word() end,                                 desc = "Visual selection or word (Root Dir)", mode = { "n", "x" } },
       { "<leader>sW",      function() Snacks.picker.grep_word({ root = false }) end,                 desc = "Visual selection or word (cwd)",      mode = { "n", "x" } },
@@ -72,6 +92,17 @@ return {
     { "gao", function() Snacks.picker.lsp_outgoing_calls() end, desc = "C[a]lls Outgoing" },
     { "<leader>ss", function() Snacks.picker.lsp_symbols() end, desc = "LSP Symbols" },
     { "<leader>sS", function() Snacks.picker.lsp_workspace_symbols() end, desc = "LSP Workspace Symbols" },
+
+      -- Explorer
+      -- TODO: Make it work with root dir keymap
+       {
+      "<leader>fe",
+      function()
+        Snacks.explorer()
+      end,
+      desc = "Explorer Snacks (cwd)",
+    },
+    { "<leader>e", "<leader>fe", desc = "Explorer Snacks (root dir)", remap = true },
     }
 ,
   },
