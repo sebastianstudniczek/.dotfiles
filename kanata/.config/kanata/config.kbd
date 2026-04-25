@@ -1,4 +1,4 @@
-(defcfg
+(defcfg 
   process-unmapped-keys yes
   windows-altgr cancel-lctl-press
 )
@@ -15,6 +15,6 @@
 )
 
 (defalias
-  escctl (tap-hold-press 150 350 esc lctl)
+  escctl lctrl
   hyper f24
 )

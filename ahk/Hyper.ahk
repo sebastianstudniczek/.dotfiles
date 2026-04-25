@@ -1,38 +1,62 @@
 #Requires AutoHotkey v2.0
-; recommended for performance and compatibility with future autohotkey releases.
 #UseHook
 #SingleInstance force
 
 SendMode "Input"
 
-;; deactivate capslock completely
-SetCapslockState("AlwaysOff")
+; Global variables
+global Layer := ""
+global LAYER_TIMEOUT := 3000 ; 3 seconds
 
-;; Emulate hyper key
-CapsLock::
-{
-    Send("{Ctrl DownTemp}{Shift DownTemp}{Alt DownTemp}{LWin DownTemp}")
-    KeyWait("CapsLock")
-    Send("{Ctrl Up}{Shift Up}{Alt Up}{LWin Up}")
-    if (A_PriorKey = "CapsLock") {
-        Send "{Esc}"
+global AppLayer := Map(
+    "t", (*) => LaunchOrFocus("wt"),
+    "b", (*) => LaunchOrFocus("msedge"),
+    "s", (*) => LaunchOrFocus("Slack"),
+    "o", (*) => LaunchOrFocus("Obsidian"),
+    "e", (*) => LaunchOrFocus("explorer"),
+    "p", (*) => LaunchOrFocus("Postman"),
+    "i", (*) => LaunchOrFocus("rider64"),
+    "j", (*) => SwitchBrowserTab(1), ; Jira (Tab 1)
+    "g", (*) => SwitchBrowserTab(2), ; GitHub (Tab 2)
+)
+
+; ============================================================================
+; FUNCTION DEFINITIONS
+; ============================================================================
+
+EnterLayer(subLayer) {
+    global Layer
+    Layer := subLayer
+    SetTimer(() => ExitLayer(), -LAYER_TIMEOUT) ; Auto-exit after configured time
+}
+
+ExitLayer() {
+    global Layer
+    Layer := ""
+}
+
+SwitchBrowserTab(tabNumber) {
+    LaunchOrFocus("msedge")
+    Sleep(100)
+    Send("^" . tabNumber)
+    ; ExitLayer()
+}
+
+LaunchOrFocus(exe) {
+    ; Handle both exe names with and without .exe extension
+    exeName := InStr(exe, ".exe") ? exe : exe . ".exe"
+    
+    if WinExist("ahk_exe " . exeName)
+        WinActivate()
+    else 
+        Run(exeName)
+}
+
+InitializeHotkeys() {
+    global AppLayer
+    for key, action in AppLayer {
+        Hotkey("F24 & " . key, action) ; F24 as hyper key
     }
 }
 
-; Apps
-CapsLock & t::LaunchOrFocus("WindowsTerminal.exe")  ; Hyper + t -> Terminal
-CapsLock & b::LaunchOrFocus("msedge.exe")           ; Hyper + b -> Browser
-
-LaunchOrFocus(exe)
-{
-    if WinExist("ahk_exe " exe)
-        WinActivate()
-    else 
-        Run(exe)
-}
-
-#`:: Send("{Alt Down}{Tab Down}{Tab Up}{Alt Up}") ; Win + ` -> Previous window
-
-; Windows snapping
-CapsLock & h::Send("#{Left}")                       ; Hyper + h -> Snap Left
-CapsLock & l::Send("#{Right}")                      ; Hyper + l -> Snap right
+InitializeHotkeys()
