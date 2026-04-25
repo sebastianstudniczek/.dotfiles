@@ -36,6 +36,7 @@ require("lazy").setup({
     { import = "lazyvim.plugins.extras.ui.treesitter-context" },
     { import = "lazyvim.plugins.extras.lsp.none-ls" },
     { import = "lazyvim.plugins.extras.util.gh" },
+    { import = "lazyvim.plugins.extras.ai.sidekick" },
 
     -- import/override with your plugins
     { import = "plugins" },
