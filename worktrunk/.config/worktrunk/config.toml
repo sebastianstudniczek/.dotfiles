@@ -1,0 +1,14 @@
+worktree-path = "../{{ branch | sanitize }}"
+
+# .config/wt.toml
+[post-create]
+tmux = """
+S={{ branch | sanitize }}
+W={{ worktree_path }}
+tmux new-session -d -s "$S" -c "$W"
+
+echo "✓ Session '$S' — attach with: tmux attach -t $S"
+"""
+
+[pre-remove]
+tmux = "tmux kill-session -t {{ branch | sanitize }} 2>/dev/null || true"
