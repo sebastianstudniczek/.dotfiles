@@ -65,6 +65,7 @@ local PredefinedEntries = function()
 	return function()
 		return {
 			{ label = "Dotfiles", id = wezterm.home_dir .. "\\.dotfiles" },
+			{ label = "Repos", id = "D:\\" },
 		}
 	end
 end
@@ -99,11 +100,8 @@ local sessionizer_schema = {
 }
 
 config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 }
--- Workaround for blink completion, for some reason it does not work properly on windows
-table.insert(keys, { key = " ", mods = "CTRL", action = wezterm.action.SendKey({ key = " ", mods = "CTRL" }) })
 -- HACK: By default terminal is not recognizing this key combination, so we need to send it manually
 table.insert(keys, { key = ".", mods = "CTRL", action = wezterm.action.SendKey({ key = ".", mods = "CTRL" }) })
-
 table.insert(keys, { key = "k", mods = "LEADER", action = sessionizer.show(sessionizer_schema) })
 table.insert(keys, { key = "c", mods = "LEADER", action = act.SpawnTab("CurrentPaneDomain") })
 table.insert(keys, { key = "x", mods = "LEADER", action = act.CloseCurrentTab({ confirm = false }) })
