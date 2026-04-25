@@ -84,7 +84,7 @@ return {
     },
     ["csharp|background_analysis"] = {
       dotnet_analyzer_diagnostics_scope = "openFiles",
-      dotnet_compiler_diagnostics_scope = "fullSolution",
+      dotnet_compiler_diagnostics_scope = "openFiles",
     },
     ["csharp|symbol_search"] = {
       dotnet_search_reference_assemblies = true,
@@ -92,5 +92,6 @@ return {
     ["csharp|formatting"] = {
       dotnet_organize_imports_on_format = true,
     },
+    razor = { language_server = { cohosting_enabled = false } },
   },
 }

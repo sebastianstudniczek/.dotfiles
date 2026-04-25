@@ -71,6 +71,7 @@ return {
     ---@module 'roslyn.config'
     ---@type RoslynNvimConfig
     opts = {
+      silent = true,
       extensions = {
         ---@diagnostic disable-next-line: missing-fields
         razor = {
