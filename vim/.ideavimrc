@@ -9,14 +9,18 @@ let g:WhichKey_CommandColor = "C191FF"
 let g:WhichKey_SortOrder = "by_key_prefix_last"
 let g:WhichKey_ShowVimActions = "true"
 
+set highlightedyank
+
+"" Tests
+map <leader>ts <Action>(ActivateUnitTestsToolWindow)
+
 "" Flash
 nmap s <Action>(flash.search)
 xmap s <Action>(flash.search)
 
 "" AI
 let g:WhichKeyDesc_ai = "<leader>a +ai"
-let g:WhichKeyDesc_ai_open = "<leader>aa Chat"
-map <leader>aa <Action>(ActivateGitHubCopilotChatToolWindow)
+map <leadr>at <Action>(OpenCode.AddLines)
 
 "" Harpoon
 let g:WhichKeyDesc_harpoon_menu = "<leader>h Harpoon quick menu"
@@ -39,3 +43,12 @@ nmap <leader>4 <action>(HarpoonerOpenFile3)
 
 let g:WhichKeyDesc_harpoon_go4 = "<leader>5 Harpoon to file 5"
 nmap <leader>5 <action>(HarpoonerOpenFile4)
+
+"" OVERRIDES ""
+
+" Use csharpier for formatting
+nmap <leader>cf <Action>(com.intellij.csharpier.ReformatWithCSharpierAction)
+vmap <leader>cf <Action>(com.intellij.csharpier.ReformatWithCSharpierAction)
+
+" Use hover info
+nmap <S-K> <Action>(ShowHoverInfo)
