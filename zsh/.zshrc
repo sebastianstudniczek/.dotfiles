@@ -48,12 +48,10 @@ bindkey -M viins '\es' sesh-sessions
 bindkey '^H' backward-kill-word
 
 # zsh parameter completion for the dotnet CLI
-_dotnet_zsh_complete()
-{
+_dotnet_zsh_complete() {
   local completions=("$(dotnet complete "$words")")
   # If the completion list is empty, just continue with filename selection
-  if [ -z "$completions" ]
-  then
+  if [ -z "$completions" ]; then
     _arguments '*::arguments: _normal'
     return
   fi
@@ -64,7 +62,6 @@ _dotnet_zsh_complete()
 compdef _dotnet_zsh_complete dotnet
 
 # User configuration
-
 
 fuzzy_commits() {
   local target
@@ -111,7 +108,9 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
 
-if [ -z "$TMUX" ]; then
-    tmux attach || sesh connect Dotfiles
-fi
 if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
+
+if [ -z "$TMUX" ]; then
+  tmux attach || sesh connect Dotfiles
+fi
