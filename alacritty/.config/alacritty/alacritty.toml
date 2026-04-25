@@ -16,9 +16,7 @@ normal = { family = "JetBrainsMono Nerd Font", style = "Medium" }
 shell = { program = "ubuntu.exe" }
 
 [colors.primary]
-background = "#232326"
-# background = "#212121"
-# background = "#1a1a1a"
+background = "#191a1c"
 
 # \u001b - This is the ESC character (ASCII 27), written in Unicode escape notation. It starts most terminal escape sequences.
 # [ - This is the CSI (Control Sequence Introducer) that begins a control sequence.
