@@ -11,6 +11,10 @@
 [delta]
 	navigate = true # use n and N to move between diff sections
 	dark = true
+[diff]
+    tool = nvim_difftool
+[difftool "nvim_difftool"]
+    cmd = nvim -c \"packadd nvim.difftool\" -c \"DiffTool $LOCAL $REMOTE\"
 [merge]
 	conflictstyle = zdiff3
 [alias]
