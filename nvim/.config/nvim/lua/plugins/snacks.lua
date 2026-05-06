@@ -79,7 +79,7 @@ return {
                 -- :~ → replace the home directory with ~.
                 -- :. → make it relative to the current directory if possible.
                 local what = #paths == 1 and vim.fn.fnamemodify(paths[1], ":p:~:.") or #paths .. " files"
-                actions.confirm("Put to the trash " .. what .. "?", function()
+                Snacks.picker.util.confirm("Put to the trash " .. what .. "?", function()
                   for _, path in ipairs(paths) do
                     local cmd
                     local is_windows = vim.fn.has("win32") == 1
