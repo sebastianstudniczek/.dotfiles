@@ -34,6 +34,8 @@
 	rebase = true
 [rebase]
 	autosquash = true
+	autoStash = true
+	updateRefs = true
 [color]
 	ui = true
 [filter "lfs"]
