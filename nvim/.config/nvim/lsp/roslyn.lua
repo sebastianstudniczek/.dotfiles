@@ -49,8 +49,6 @@ return {
       end,
     })
   end,
-  -- Currently there are issues with filewatching implementation on Linux
-  -- https://github.com/dotnet/roslyn/issues/82857
   capabilities = {
     workspace = {
       didChangeWatchedFiles = {

@@ -14,7 +14,7 @@ return {
         filetypes = { "cs" },
         generator = {
           fn = function(params)
-            if not import_fix.has_missing_import_diagnostic(params.bufnr) then
+            if not import_fix.has_multiple_missing_import_diagnostic(params.bufnr) then
               return {}
             end
 

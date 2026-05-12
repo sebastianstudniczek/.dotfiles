@@ -140,12 +140,16 @@ local function request_actions_for_diag(bufnr, client, diag, cb)
   end, bufnr)
 end
 
-function M.has_missing_import_diagnostic(bufnr)
+function M.has_multiple_missing_import_diagnostic(bufnr)
+  local count = 0
   for _, d in ipairs(vim.diagnostic.get(bufnr)) do
     local code = tostring(d.code)
 
     if vim.tbl_contains(required_diagnostics, code) then
-      return true
+      count = count + 1
+      if count > 1 then
+        return true
+      end
     end
   end
 
