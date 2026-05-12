@@ -21,6 +21,7 @@ vim.api.nvim_create_autocmd("FileType", {
 return {
   {
     "nvim-neotest/neotest",
+    enabled = vim.g.neotest_enabled,
     opts = {
       consumers = {
         discovery_handler = function(client)
@@ -46,13 +47,13 @@ return {
         end,
       },
       adapters = {
-        ["neotest-vstest"] = {},
-        icons = {
-          running_animated = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" },
-        },
-        floating = {
-          border = "rounded",
-        },
+        require("easy-dotnet.neotest"),
+      },
+      icons = {
+        running_animated = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" },
+      },
+      floating = {
+        border = "rounded",
       },
     },
   },

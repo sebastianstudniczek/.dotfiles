@@ -1,3 +1,4 @@
+---@diagnostic disable: missing-fields
 return {
   {
     "GustavEikaas/easy-dotnet.nvim",
@@ -7,6 +8,7 @@ return {
 
       local netcoreDbgExec = vim.fn.has("win32") == 1 and "netcoredbg.cmd" or "netcoredbg"
 
+      ---@type easy-dotnet.Options
       local cfg = {
         lsp = {
           enabled = not vim.g.roslyn_plugin_enabled,
@@ -15,7 +17,11 @@ return {
         --INFO: Snacks is somehow ignoring shellslash option and passing forward slash path
         --while using it as picker to choose dll to debug
         picker = "snacks",
+        auto_bootstrap_namespace = {
+          type = "file_scoped",
+        },
         test_runner = {
+          neotest_integration = vim.g.neotest_enabled,
           viewmode = "vsplit",
           vsplit_width = 70,
           auto_start_testrunner = not vim.g.neotest_vstest_enabled,

@@ -7,7 +7,7 @@ vim.g.ai_cmp = false
 vim.g.copilot_enabled = vim.env.COPILOT_ENABLED == 1
 
 vim.g.roslyn_plugin_enabled = true
-vim.g.neotest_vstest_enabled = false
+vim.g.neotest_enabled = true
 vim.lsp.on_type_formatting.enable()
 vim.o.winborder = "rounded"
 
