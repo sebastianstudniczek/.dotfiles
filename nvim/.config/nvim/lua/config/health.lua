@@ -36,6 +36,13 @@ M.check = function()
   else
     vim.health.ok("Using `easy-dotnet.nvim` plugin for roslyn lsp")
   end
+
+  vim.health.start("Dotnet test runner")
+  if vim.g.neotest_enabled then
+    vim.health.ok("Using `easy-dotnet` neotest adapter")
+  else
+    vim.health.ok("Using `easy-dotnet` integrated test runner")
+  end
 end
 
 return M

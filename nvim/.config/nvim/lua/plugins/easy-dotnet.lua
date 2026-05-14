@@ -24,7 +24,7 @@ return {
           neotest_integration = vim.g.neotest_enabled,
           viewmode = "vsplit",
           vsplit_width = 70,
-          auto_start_testrunner = not vim.g.neotest_vstest_enabled,
+          auto_start_testrunner = true,
         },
         debugger = {
           bin_path = netcoreDbgExec,
@@ -59,7 +59,7 @@ return {
         },
       }
 
-      if not vim.g.neotest_vstest_enabled then
+      if not vim.g.neotest_enabled then
         vim.keymap.set("n", "<leader>ts", "<cmd>Dotnet testrunner<CR>", {
           desc = "open testrunner (easy-dotnet)",
         })
