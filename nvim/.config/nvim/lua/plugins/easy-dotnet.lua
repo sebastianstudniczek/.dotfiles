@@ -19,6 +19,8 @@ return {
         picker = "snacks",
         auto_bootstrap_namespace = {
           type = "file_scoped",
+          -- currently conflicting with extracting types from existing class via roslyn
+          enabled = false,
         },
         test_runner = {
           neotest_integration = vim.g.neotest_enabled,
