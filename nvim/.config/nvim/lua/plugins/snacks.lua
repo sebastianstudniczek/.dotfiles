@@ -44,6 +44,27 @@ return {
       },
       picker = {
         sources = {
+            transform = function(item, ctx)
+              if not item.file:match("^roslyn%-source%-generated://") or item.buf then
+                return item
+              end
+
+              -- TODO: Fix in snacks.picker
+              -- https://github.com/folke/snacks.nvim/commit/cd5eddb1dea0ab69a451702395104cf716678b36
+              -- Force loading buffer that will trigger BufReadCmd and load source gen content
+              local client = assert(vim.lsp.get_clients({ name = "roslyn" })[1])
+              client:request("workspace/textDocumentContent", { uri = item.file }, function(err, result)
+                assert(not err, vim.inspect(err))
+                local buf = vim.api.nvim_create_buf(false, true) -- scratch + unlisted
+                vim.bo[buf].filetype = "cs"
+                local lines = vim.split(result.text, "\n", { plain = true })
+                vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+                item.buf = buf
+              end)
+
+              return item
+            end,
+          },
           explorer = {
             win = {
               list = {
