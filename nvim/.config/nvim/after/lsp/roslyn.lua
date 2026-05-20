@@ -34,6 +34,19 @@ end
 
 ---@type vim.lsp.Config
 return {
+  cmd = function(dispatchers, config)
+    local resolved = require("roslyn.utils").get_roslyn_lsp_path()
+    local exe = resolved or "Microsoft.CodeAnalysis.LanguageServer"
+
+    local nvim_pid = vim.fn.getpid()
+    local cmd = { exe, "--stdio", "--autoLoadProjects", "--clientProcessId", nvim_pid }
+
+    return vim.lsp.rpc.start(cmd, dispatchers, {
+      cwd = config.cmd_cwd,
+      env = config.cmd_env,
+      detached = config.detached,
+    })
+  end,
   on_attach = function(client, bufnr)
     vim.api.nvim_create_autocmd("InsertCharPre", {
       desc = "Roslyn: Trigger an auto insert on '/'.",
@@ -90,6 +103,5 @@ return {
     ["csharp|formatting"] = {
       dotnet_organize_imports_on_format = true,
     },
-    razor = { language_server = { cohosting_enabled = false } },
   },
 }

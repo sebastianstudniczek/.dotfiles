@@ -66,18 +66,13 @@ vim.api.nvim_create_autocmd("User", {
 ---@return string
 return {
   {
-    "seblyng/roslyn.nvim",
+    "sebastianstudniczek/roslyn.nvim",
+    branch = "feat/standard-lsp-methods-for-source-generated-files",
     enabled = vim.g.roslyn_nvim_enabled,
     ---@module 'roslyn.config'
     ---@type RoslynNvimConfig
     opts = {
       silent = true,
-      extensions = {
-        ---@diagnostic disable-next-line: missing-fields
-        razor = {
-          enabled = false,
-        },
-      },
     },
   },
 }
