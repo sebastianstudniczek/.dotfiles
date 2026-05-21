@@ -33,41 +33,13 @@ vim.api.nvim_create_user_command("CSFixUsings", function()
   end)
 end, { desc = "Remove unnecessary using directives" })
 
--- Fidget integration for Roslyn initialization
-local init_handles = {}
-
-vim.api.nvim_create_autocmd("User", {
-  pattern = "RoslynOnInit",
-  callback = function(ev)
-    init_handles[ev.data.client_id] = require("fidget.progress").handle.create({
-      title = "Initializing Roslyn",
-      message = ev.data.type == "solution" and string.format("Initializing Roslyn for %s", ev.data.target)
-        or "Initializing Roslyn for project",
-      lsp_client = {
-        name = "roslyn",
-      },
-    })
-  end,
-})
-
-vim.api.nvim_create_autocmd("User", {
-  pattern = "RoslynInitialized",
-  callback = function(ev)
-    local handle = init_handles[ev.data.client_id]
-    init_handles[ev.data.client_id] = nil
-
-    if handle then
-      handle.message = "Roslyn initialized"
-      handle:finish()
-    end
-  end,
-})
-
 ---@return string
 return {
   {
     "sebastianstudniczek/roslyn.nvim",
     branch = "feat/standard-lsp-methods-for-source-generated-files",
+    -- dir = "~/repos/roslyn.nvim/",
+    -- dev = true,
     enabled = vim.g.roslyn_nvim_enabled,
     ---@module 'roslyn.config'
     ---@type RoslynNvimConfig
