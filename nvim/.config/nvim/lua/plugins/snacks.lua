@@ -28,6 +28,15 @@ local get_unix_del_cmd = function(path)
   end
 end
 
+---@param item snacks.picker.Item
+local get_roslyn_file_pretty_name = function(item)
+  if item.file:match("^roslyn%-source%-generated://") then
+    return item.file:match(".*/([^/?]+)")
+  end
+
+  return nil
+end
+
 return {
   {
     "folke/snacks.nvim",
@@ -45,27 +54,12 @@ return {
       picker = {
         sources = {
           lsp_references = {
+            format = function(item, picker)
+              item._path = get_roslyn_file_pretty_name(item)
+              return require("snacks.picker.format").file(item, picker)
+            end,
             transform = function(item, ctx)
-              if not item.file:match("^roslyn%-source%-generated://") or item.buf then
-                return item
-              end
-
-              -- TODO: Fix in snacks.picker
-              -- https://github.com/folke/snacks.nvim/commit/cd5eddb1dea0ab69a451702395104cf716678b36
-              -- Force loading buffer that will trigger BufReadCmd and load source gen content
-              -- TODO: How to change path in result window?
-              local client = assert(vim.lsp.get_clients({ name = "roslyn" })[1])
-              client:request("workspace/textDocumentContent", { uri = item.file }, function(err, result)
-                assert(not err, vim.inspect(err))
-                local buf = vim.api.nvim_create_buf(false, true) -- scratch + unlisted
-                vim.bo[buf].filetype = "cs"
-                local normalized = string.gsub(result.text, "\r\n", "\n")
-                local source_lines = vim.split(normalized, "\n", { plain = true })
-                vim.api.nvim_buf_set_lines(buf, 0, -1, false, source_lines)
-                item.buf = buf
-                item.preview_title = item.file:match(".*/([^/?]+)")
-              end)
-
+              item.preview_title = get_roslyn_file_pretty_name(item)
               return item
             end,
           },
