@@ -1,23 +1,35 @@
+local kind = require("blink.cmp.types").CompletionItemKind
+
 return {
   -- Use mini icons in completions
   {
     "saghen/blink.cmp",
     opts = {
-      sources = {
-        default = {
-          "lsp",
-          "easy-dotnet",
-          "path",
-        },
-        providers = {
-          ["easy-dotnet"] = {
-            name = "easy-dotnet",
+      fuzzy = {
+        implementation = "prefer_rust_with_warning",
+      },
+      keymap = {
+        preset = "enter",
 
-            enabled = true,
-            module = "easy-dotnet.completion.blink",
-            score_offset = 10000,
-            async = true,
-          },
+        -- Accept completion like Rider
+        ["<CR>"] = {
+          function(cmp)
+            if not cmp.is_visible() then
+              return
+            end
+            if cmp.accept() then
+              -- Insert space after a keyword
+              if cmp.get_selected_item().kind == kind.Keyword then
+                vim.schedule(function()
+                  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Space>", true, false, true), "n", false)
+                end)
+              end
+              return true
+            end
+
+            return false
+          end,
+          "fallback",
         },
       },
       completion = {
