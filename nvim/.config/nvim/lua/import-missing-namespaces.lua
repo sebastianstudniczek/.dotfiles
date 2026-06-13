@@ -1,15 +1,16 @@
 local M = {}
 
 local required_diagnostics = {
-  "CS0246",
-  "CS0234",
-  "CS0103",
-  "CS0161",
+  CS0246 = true,
+  CS0234 = true,
+  CS0103 = true,
+  CS0161 = true,
 }
 
 local function get_roslyn_client(bufnr)
   for _, client in ipairs(vim.lsp.get_clients({ bufnr = bufnr })) do
-    if client.name:lower():match("roslyn") then
+    local client_name = client.name:lower()
+    if client_name:match("roslyn") or client_name:match("easy_dotnet") then
       return client
     end
   end
@@ -21,7 +22,7 @@ local function get_target_diagnostics(bufnr)
   for _, d in ipairs(vim.diagnostic.get(bufnr)) do
     local code = tostring(d.code)
 
-    if vim.tbl_contains(required_diagnostics, code) then
+    if required_diagnostics[code] then
       table.insert(result, d)
     end
   end
@@ -78,9 +79,12 @@ local function apply_using_block(bufnr, new_usings)
   local existing, start_line, end_line = get_existing_using_block(lines)
   local merged = merge_usings(existing, new_usings)
 
+  local new_text = table.concat(merged, "\n") .. "\n"
+
   if not start_line then
     start_line = 0
     end_line = 0
+    new_text = new_text .. "\n"
   end
 
   local edit = {
@@ -91,7 +95,7 @@ local function apply_using_block(bufnr, new_usings)
             start = { line = start_line, character = 0 },
             ["end"] = { line = end_line, character = 0 },
           },
-          newText = table.concat(merged, "\n") .. "\n\n",
+          newText = new_text,
         },
       },
     },
@@ -139,18 +143,20 @@ local function request_actions_for_diag(bufnr, client, diag, cb)
     cb(result)
   end, bufnr)
 end
-
 function M.has_multiple_missing_import_diagnostic(bufnr)
   local count = 0
+  local seen = {}
+
   for _, d in ipairs(vim.diagnostic.get(bufnr)) do
     local code = tostring(d.code)
-
-    if vim.tbl_contains(required_diagnostics, code) then
+    local diag_key = string.format("%d:%d", d.lnum, d.col)
+    if required_diagnostics[code] and not seen[diag_key] then
       count = count + 1
       if count > 1 then
         return true
       end
     end
+    seen[diag_key] = true
   end
 
   return false
