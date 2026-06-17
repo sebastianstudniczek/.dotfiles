@@ -4,7 +4,7 @@ local required_diagnostics = {
   CS0246 = true,
   CS0234 = true,
   CS0103 = true,
-  CS0161 = true,
+  CS1061 = true,
 }
 
 local function get_roslyn_client(bufnr)
