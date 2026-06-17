@@ -145,18 +145,20 @@ local function request_actions_for_diag(bufnr, client, diag, cb)
 end
 function M.has_multiple_missing_import_diagnostic(bufnr)
   local count = 0
-  local seen = {}
+  local seen_location = {}
+  local seen_message = {}
 
   for _, d in ipairs(vim.diagnostic.get(bufnr)) do
     local code = tostring(d.code)
-    local diag_key = string.format("%d:%d", d.lnum, d.col)
-    if required_diagnostics[code] and not seen[diag_key] then
+    local diag_location = string.format("%d:%d", d.lnum, d.col)
+    if required_diagnostics[code] and not seen_location[diag_location] and not seen_message[d.message] then
       count = count + 1
       if count > 1 then
         return true
       end
     end
-    seen[diag_key] = true
+    seen_location[diag_location] = true
+    seen_message[d.message] = true
   end
 
   return false
