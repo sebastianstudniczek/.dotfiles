@@ -140,6 +140,11 @@ local function request_actions_for_diag(bufnr, client, diag, cb)
       end
     end
 
+    if #result > 1 then
+      cb({})
+      return
+    end
+
     cb(result)
   end, bufnr)
 end
