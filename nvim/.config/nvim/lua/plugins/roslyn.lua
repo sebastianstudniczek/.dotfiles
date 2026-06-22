@@ -40,7 +40,7 @@ return {
     branch = "feat/standard-lsp-methods-for-source-generated-files",
     -- dir = "~/repos/roslyn.nvim/",
     -- dev = true,
-    enabled = vim.g.roslyn_nvim_enabled,
+    enabled = vim.g.roslyn_plugin_enabled,
     ---@module 'roslyn.config'
     ---@type RoslynNvimConfig
     opts = {
