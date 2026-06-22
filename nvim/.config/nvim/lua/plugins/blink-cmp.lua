@@ -4,6 +4,7 @@ return {
   -- Use mini icons in completions
   {
     "saghen/blink.cmp",
+    ---@type blink.cmp.Config
     opts = {
       fuzzy = {
         implementation = "prefer_rust_with_warning",
@@ -33,6 +34,14 @@ return {
         },
       },
       completion = {
+        accept = {
+          auto_brackets = {
+            -- Currently there is an issue with adding unnecessary paranthesis
+            semantic_token_resolution = {
+              enabled = false,
+            },
+          },
+        },
         menu = {
           draw = {
             components = {
