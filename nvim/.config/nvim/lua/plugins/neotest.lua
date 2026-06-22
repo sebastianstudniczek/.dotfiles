@@ -21,7 +21,6 @@ vim.api.nvim_create_autocmd("FileType", {
 return {
   {
     "nvim-neotest/neotest",
-    enabled = vim.g.neotest_enabled,
     opts = {
       consumers = {
         discovery_handler = function(client)
