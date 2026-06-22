@@ -19,6 +19,17 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   end,
 })
 
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(ev)
+    local client_id = ev.data.client_id
+    local client = assert(vim.lsp.get_client_by_id(client_id))
+
+    -- Currently disabling for lua due to weird indenatation problems
+    if client.name ~= "lua_ls" then
+      vim.lsp.on_type_formatting.enable(true, { client_id = client_id })
+    end
+  end,
+})
 -- Don't try to open source generate files on restart
 vim.api.nvim_create_autocmd("User", {
   pattern = "PersistenceSavePre",

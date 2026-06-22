@@ -8,7 +8,6 @@ vim.g.copilot_enabled = vim.env.COPILOT_ENABLED == 1
 
 vim.g.roslyn_plugin_enabled = true
 vim.g.neotest_enabled = true
-vim.lsp.on_type_formatting.enable(true)
 vim.o.winborder = "rounded"
 
 vim.cmd("packadd nvim.undotree")
