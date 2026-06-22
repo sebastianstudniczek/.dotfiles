@@ -17,7 +17,7 @@ return {
     },
     ["csharp|code_lens"] = {
       dotnet_enable_references_code_lens = true,
-      dotnet_enable_tests_code_lens = true,
+      dotnet_enable_tests_code_lens = false,
     },
     ["csharp|completion"] = {
       dotnet_show_completion_items_from_unimported_namespaces = true,
