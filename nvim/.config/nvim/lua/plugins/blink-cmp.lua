@@ -1,5 +1,12 @@
 local kind = require("blink.cmp.types").CompletionItemKind
 
+local order = {
+  [kind.Field] = 1,
+  [kind.Property] = 2,
+  [kind.Method] = 3,
+  [kind.Operator] = 4,
+}
+
 return {
   -- Use mini icons in completions
   {
@@ -8,6 +15,49 @@ return {
     opts = {
       fuzzy = {
         implementation = "prefer_rust_with_warning",
+
+        sorts = function()
+          if vim.bo.filetype ~= "cs" then
+            return {
+              "exact",
+              "score",
+              "sort_text",
+              "kind",
+              "label",
+            }
+          end
+
+          return {
+            "exact",
+            "score",
+            function(a, b)
+              if a.client_name ~= "roslyn" and b.client_name ~= "roslyn" then
+                return
+              end
+
+              local a_order = order[a.kind]
+              local b_order = order[b.kind]
+
+              if a_order == nil and b_order == nil then
+                return
+              end
+
+              if a_order == nil and b_order ~= nil then
+                return false
+              end
+
+              if a_order ~= nil and b_order == nil then
+                return true
+              end
+
+              return a_order < b_order
+            end,
+
+            "sort_text",
+            "kind",
+            "label",
+          }
+        end,
       },
       keymap = {
         preset = "enter",
