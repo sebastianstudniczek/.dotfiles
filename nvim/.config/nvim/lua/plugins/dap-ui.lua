@@ -25,6 +25,11 @@ return {
     version = "1.*",
     opts = {
       auto_toggle = true,
+      virtual_text = {
+        -- Use nvim-dap-virtual-text plugin for now since this one lacks some features
+        -- evaluate later
+        enabled = false,
+      },
     },
   },
 }
