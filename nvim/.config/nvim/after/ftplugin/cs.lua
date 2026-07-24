@@ -20,7 +20,7 @@ if _G.MiniKeymap then
   -- Create a buffer-local mapping that doesn't remap (to be able to use `<CR>` in the output
   -- without infinite recursion
   local opts = { remap = false, buf = 0 }
-  MiniKeymap.map_multistep("i", "<CR>", { "pmenu_accept", allman_step, "minipairs_cr" }, opts)
+  MiniKeymap.map_multistep("i", "<CR>", { "blink_accept", "pmenu_accept", allman_step, "minipairs_cr" }, opts)
 end
 
 -- Delayed copilot attach for cs to prevent race condition with roslyn for extracting file into separate file

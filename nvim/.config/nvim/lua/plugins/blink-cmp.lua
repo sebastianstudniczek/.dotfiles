@@ -7,6 +7,11 @@ local order = {
   [kind.Operator] = 4,
 }
 
+local keyword_whitelist = {
+  nameof = true,
+  typeof = true,
+}
+
 return {
   -- Use mini icons in completions
   {
@@ -30,8 +35,10 @@ return {
           return {
             "exact",
             "score",
+            ---@param a blink.cmp.CompletionItem
+            ---@param b blink.cmp.CompletionItem
             function(a, b)
-              if a.client_name ~= "roslyn" and b.client_name ~= "roslyn" then
+              if a.client_name ~= "easy_dotnet" and b.client_name ~= "easy_dotnet" then
                 return
               end
 
@@ -48,6 +55,10 @@ return {
 
               if a_order ~= nil and b_order == nil then
                 return true
+              end
+
+              if a_order == b_order then
+                return a.label < b.label
               end
 
               return a_order < b_order
@@ -70,7 +81,12 @@ return {
             end
             if cmp.accept() then
               -- Insert space after a keyword
-              if cmp.get_selected_item().kind == kind.Keyword then
+              local selected_item = cmp.get_selected_item()
+              if
+                selected_item
+                and selected_item.kind == kind.Keyword
+                and not keyword_whitelist[selected_item.label]
+              then
                 vim.schedule(function()
                   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Space>", true, false, true), "n", false)
                 end)
