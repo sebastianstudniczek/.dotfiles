@@ -1,5 +1,11 @@
 return {
   "folke/sidekick.nvim",
+  cli = {
+    mux = {
+      backend = "tmux",
+      enabled = true,
+    },
+  },
   opts = {
     nes = {
       enabled = vim.g.copilot_enabled,
