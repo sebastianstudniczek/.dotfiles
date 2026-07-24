@@ -42,9 +42,9 @@ return {
     config = function()
       local dotnet = require("easy-dotnet")
 
-      ---@type easy-dotnet.Options
       local cfg = {
         lsp = {
+          enabled = true,
           easy_dotnet_extension_enabled = true,
           enhanced_rename = true,
           create_type_from_usage = true,
@@ -70,10 +70,18 @@ return {
             open_variable_viewer = { lhs = "<leader>df", desc = "open variable viewer" },
           },
         },
+        diagnostis = {
+          default_severity = "warning",
+          setqflist = true,
+        },
         ---@type easy-dotnet.Notifications
         notifications = {
           handler = function(start_event)
             local is_project_loading = start_event.job.name:find("^Loading") ~= nil
+            if is_project_loading then
+              return nil
+            end
+
             local title = is_project_loading and "Loading project..." or start_event.job.name
             local fidget_handler = require("fidget.progress").handle.create({
               title = title,
