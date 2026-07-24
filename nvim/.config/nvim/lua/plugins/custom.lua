@@ -5,6 +5,12 @@ return {
     opts = {},
   },
   {
+    "nmac427/guess-indent.nvim",
+    config = function()
+      require("guess-indent").setup({})
+    end,
+  },
+  {
     "folke/flash.nvim",
     opts = {
       modes = {
