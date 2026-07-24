@@ -1,3 +1,4 @@
+# shellcheck disable=SC2296
 export ZSH="$HOME/.oh-my-zsh"
 export MANPAGER="nvim -c Man!"
 
@@ -10,9 +11,12 @@ plugins=(
   docker
 )
 
-export PATH=$PATH:~/.local/bin:~/go/bin:~/.dotnet/tools:/snap/bin:/opt/nvim-linux-x86_64/bin:~/.local/share/JetBrains/Toolbox/apps/rider/bin
+export PATH=$PATH:~/.local/bin:~/go/bin:~/.dotnet/tools:/snap/bin:/home/linuxbrew/.linuxbrew/bin/nvim:~/.local/share/JetBrains/Toolbox/scripts:"/mnt/c/Program Files/Neovide/"
 export BROWSER="/mnt/c/Program\\ Files\\ (x86)/Microsoft/Edge/Application/msedge.exe"
 export MESA_D3D12_DEFAULT_ADAPTER_NAME="NVIDIA"
+export TESTINGPLATFORM_TELEMETRY_OPTOUT=1
+
+alias nvide="neovide.exe"
 
 fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
 autoload -U compinit && compinit
@@ -96,17 +100,23 @@ alias fgb=fuzzy_git_branches
 # Windows aliases
 alias e="/mnt/c/Windows/explorer.exe"
 
-source ~/fzf-git.sh
-source ~/.fzf.zsh
+export FZF_CTRL_R_OPTS="--reverse --preview 'echo {}' --preview-window down:3:hidden:wrap --bind 'ctrl-/:toggle-preview'"
+
+# The plugin will auto execute this zvm_after_init function
+# Needed for zsh-vi-mode plugin to work since it will override keybinds
+function zvm_after_init() {
+  [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+  [ -f ~/fzf-git.sh ] && source ~/fzf-git.sh
+}
 
 setopt appendhistory
-
-eval "$(zoxide init zsh)"
-eval "$(oh-my-posh init zsh --config ~/.config/oh-my-posh/montys_custom.omp.json)"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+
+# Added by get-aspire-cli.sh
+export PATH="$HOME/.aspire/bin:$PATH"
 
 if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
@@ -114,3 +124,8 @@ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
 if [ -z "$TMUX" ]; then
   tmux attach || sesh connect Dotfiles
 fi
+
+source ~/fzf-git.sh
+source <(fzf --zsh)
+eval "$(zoxide init zsh)"
+eval "$(oh-my-posh init zsh --config ~/.config/oh-my-posh/montys_custom.omp.json)"
