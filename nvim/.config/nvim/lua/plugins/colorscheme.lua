@@ -28,6 +28,7 @@ return {
         keywords = {
           italic = false,
         },
+        comments = { italic = false },
       },
     },
   },
