@@ -66,9 +66,7 @@ return {
           auto_start_testrunner = true,
         },
         debugger = {
-          mappings = {
-            open_variable_viewer = { lhs = "<leader>df", desc = "open variable viewer" },
-          },
+          engine = "sharpdbg",
         },
         diagnostis = {
           default_severity = "warning",
