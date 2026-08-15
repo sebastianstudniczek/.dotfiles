@@ -22,24 +22,41 @@ if vim.fn.has("win32") == 1 then
   vim.opt.shellxquote = ""
 end
 
+local server_group = vim.api.nvim_create_augroup("NvimServerManager", { clear = true })
+local server_file = ".nvim.server"
+
 -- Store server address in .nvim.server file in the root of the git repository
 -- This allows other tools to connect to the same Neovim instance using the server address.
 -- Need to do this here since `autocmd.lua` runs after VimEnter
-local function write_server_file()
-  local server = vim.v.servername
-
-  if server == "" then
-    return
-  end
-
-  local root = vim.fs.root(0, ".git")
-  if not root then
-    return
-  end
-
-  vim.fn.writefile({ server }, root .. "/.nvim.server")
-end
-
 vim.api.nvim_create_autocmd("VimEnter", {
-  callback = write_server_file,
+  group = server_group,
+  callback = function()
+    local server = vim.v.servername
+
+    if server == "" then
+      return
+    end
+
+    local root = vim.fs.root(0, ".git")
+    if not root then
+      return
+    end
+
+    vim.fn.writefile({ server }, root .. "/" .. server_file)
+  end,
+})
+
+-- Remove server file on exit
+vim.api.nvim_create_autocmd("VimLeavePre", {
+  group = server_group,
+  callback = function()
+    if vim.fn.filereadable(server_file) == 1 then
+      local lines = vim.fn.readfile(server_file)
+      local file_address = lines[1] and vim.trim(lines[1]) or ""
+
+      if file_address == vim.v.servername then
+        vim.fn.delete(server_file)
+      end
+    end
+  end,
 })
