@@ -11,7 +11,7 @@ plugins=(
   docker
 )
 
-export PATH=$PATH:~/.local/bin:~/go/bin:~/.dotnet/tools:/snap/bin:/home/linuxbrew/.linuxbrew/bin/nvim:~/.local/share/JetBrains/Toolbox/scripts:"/mnt/c/Program Files/Neovide/"
+export PATH=$PATH:~/.local/bin:~/go/bin:~/.dotnet/tools:/snap/bin:/home/linuxbrew/.linuxbrew/bin/nvim:~/.local/share/JetBrains/Toolbox/scripts:"/mnt/c/Program Files/Neovide/":~/scripts
 export BROWSER="/mnt/c/Program\\ Files\\ (x86)/Microsoft/Edge/Application/msedge.exe"
 export MESA_D3D12_DEFAULT_ADAPTER_NAME="NVIDIA"
 export TESTINGPLATFORM_TELEMETRY_OPTOUT=1
