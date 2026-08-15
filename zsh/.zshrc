@@ -128,4 +128,4 @@ fi
 source ~/fzf-git.sh
 source <(fzf --zsh)
 eval "$(zoxide init zsh)"
-eval "$(oh-my-posh init zsh --config ~/.config/oh-my-posh/montys_custom.omp.json)"
+eval "$(oh-my-posh init zsh --config ~/.config/oh-my-posh/montys_custom.omp.json --strict)"
