@@ -1,52 +1,15 @@
 using namespace System.Management.Automation.Language
 
 Import-Module PSFzf
-Import-Module posh-git
-
 Invoke-Expression (& { (zoxide init powershell | Out-String) })
 
 # Import local config
-# $localConfigPath = "$HOME\Documents\PowerShell\Microsoft.PowerShell_profile.local.ps1"
-# if (Test-Path $localConfigPath) {
-# 	. $localConfigPath
-# }
-#
-Set-Alias aws-sso "$HOME\.aws\aws-sso-scripts\.scripts\aws-sso-login.ps1"
-
-function prompt
-{
-	$lastError = !$?
-
-	$e = [char]27
-	$cPath   = "$e[38;2;129;161;193m" # #81A1C1
-	$cGit    = "$e[38;2;108;108;108m" # #6C6C6C
-	$cPure   = "$e[38;2;180;142;173m" # #B48EAD (Purple)
-	$cError  = "$e[38;2;191;97;106m"  # #BF616A (Red)
-	$cReset  = "$e[0m"
-
-	$git = Write-VCSStatus
-
-	$symbolColor = if ($lastError)
-	{ $cError 
-	} else
-	{ $cPure 
-	}
-
-	$part1 = "`n$cPath$($PWD.Path)$cReset"
-	$part2 = if ($git)
-	{ "$cGit$git$cReset" 
-	} else
-	{ "" 
-	}
-	$part3 = "`n$symbolColor❯$cReset "
-
-	return "$part1$part2$part3"
+$localConfigPath = "$HOME\Documents\PowerShell\Microsoft.PowerShell_profile.local.ps1"
+if (Test-Path $localConfigPath) {
+	. $localConfigPath
 }
 
-Function GetAwsCodeArtifactToken
-{
-	aws codeartifact get-authorization-token --domain northmill --domain-owner 263753562345 --region eu-west-1
-}
+oh-my-posh init pwsh --config "$HOME\.config\oh-my-posh\montys_custom.omp.json" | Invoke-Expression
 
 Set-Alias g git
 Set-Alias d dotnet
@@ -105,7 +68,6 @@ Set-PSFzfOption -TabExpansion -GitKeyBindings
 # TODO: Fuzzy finding files withing with with plugin does not work
 $env:SHELL = 'pwsh'
 $env:EDITOR = 'nvim'
-$env:NVIM_APPNAME = 'nvim-kickstart'
 $env:XDG_CONFIG_HOME = "$HOME\.config"
 $env:GLAZEWM_CONFIG_PATH = "$HOME\.glzr\galzewm\config.yaml"
 # Required for glow to show properly in fzf preview
