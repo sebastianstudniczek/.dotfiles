@@ -1,6 +1,7 @@
 # shellcheck disable=SC2296
 export ZSH="$HOME/.oh-my-zsh"
 export MANPAGER="nvim -c Man!"
+export EDITOR="nvim"
 
 plugins=(
   git
