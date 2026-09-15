@@ -11,9 +11,11 @@ hollow.config.set({
 		},
 	},
 	top_bar_mode = "tabs",
-	load_default_keymaps = false
+	load_default_keymaps = false,
 })
 
+hollow.keymap.default("<leader>p", "command_palette", { desc = "command palette" })
+
 hollow.ui.topbar.configure({
-	height = 0
+	height = 0,
 })
