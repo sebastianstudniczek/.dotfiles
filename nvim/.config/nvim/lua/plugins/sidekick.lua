@@ -8,11 +8,11 @@ return {
   },
   opts = {
     nes = {
-      enabled = vim.g.copilot_enabled,
+      enabled = false
     },
     copilot = {
       status = {
-        level = not vim.g.copilot_enabled and vim.log.levels.OFF or vim.log.levels.WARN,
+        enabled = false
       },
     },
   },
@@ -23,6 +23,13 @@ return {
         require("sidekick.cli").toggle({ name = "opencode", focus = true })
       end,
       desc = "Sidekick OpenCode",
+    },
+    {
+      "<leader>ao",
+      function()
+        require("sidekick.cli").toggle({ name = "claude", focus = true })
+      end,
+      desc = "Sidekick Claude Code",
     },
   },
 }

@@ -4,7 +4,6 @@
 
 -- Disable ai completions in autosuggestions popup
 vim.g.ai_cmp = false
-vim.g.copilot_enabled = vim.env.COPILOT_ENABLED == "1"
 vim.g.snacks_animate = false
 
 vim.o.winborder = "rounded"

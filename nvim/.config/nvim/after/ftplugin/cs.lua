@@ -22,11 +22,3 @@ if _G.MiniKeymap then
   local opts = { remap = false, buf = 0 }
   MiniKeymap.map_multistep("i", "<CR>", { "blink_accept", "pmenu_accept", allman_step, "minipairs_cr" }, opts)
 end
-
--- Delayed copilot attach for cs to prevent race condition with roslyn for extracting file into separate file
-vim.defer_fn(function()
-  if vim.api.nvim_buf_is_valid(0) then
-    local config = vim.lsp.config["copilot"]
-    vim.lsp.start(config, { bufnr = 0 })
-  end
-end, 1000)
