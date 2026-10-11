@@ -28,6 +28,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
     if client.name ~= "lua_ls" then
       vim.lsp.on_type_formatting.enable(true, { client_id = client_id })
     end
+
+    -- Currently formatting is too agressive from easy_dotnet
+    if client.name == "easy_dotnet_projx" then
+      client.server_capabilities.documentFormattingProvider = false
+      client.server_capabilities.documentRangeFormattingProvider = false
+    end
   end,
 })
 -- Don't try to open source generate files on restart

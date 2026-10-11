@@ -49,6 +49,7 @@ return {
           enhanced_rename = true,
           create_type_from_usage = true,
           restart_roslyn_on_branch_change = true,
+          bulk_filewatcher_registrations = false,
           razor = {
             enabled = false,
           },
