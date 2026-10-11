@@ -6,6 +6,9 @@
 vim.g.ai_cmp = false
 vim.g.snacks_animate = false
 
+vim.o.spell = true
+vim.o.spelllang = "en_us"
+
 vim.o.winborder = "rounded"
 
 vim.cmd("packadd nvim.undotree")
